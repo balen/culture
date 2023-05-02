@@ -1,0 +1,84 @@
+#
+# This is the dev version of the docker compose
+# this is overlaid on the docket compose for dev environments
+#
+# NOTE:
+# You will need to create volumes for the data to be persistent between runs
+#   docker volume create --name=culture-pgdata
+#
+# NOTE:
+# start the docker containers:
+#   docker-compose -p culture-dev -f docker-compose-dev.yml up
+# build and start the docker containers:
+#   docker-compose -p culture-dev -f docker-compose-dev.yml up --build
+# build and start the docker containers and detach the processes:
+#   docker-compose -p culture-dev -f docker-compose-dev.yml up --build -d
+#
+version: "3.7"
+
+volumes:
+  culture-pgdata:
+    external: true
+  box: {} # used for the bundler, persistent store between runs
+
+services:
+  # The database server - only needed for dev and test
+  # The Postgre DB
+  postgres:
+    image: postgres:12-alpine
+    restart: always
+    env_file:
+      - .envrc
+    volumes:
+      - culture-pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Used for a dummy local mail server to test mails without going to internet
+  mailcatcher:
+    image: schickling/mailcatcher
+    entrypoint: "mailcatcher -f --ip 0.0.0.0"
+    restart: always
+    ports:
+      - 10025:1025
+      - 1080:1080
+
+  # redis:
+  #   image: redis:alpine
+  #   restart: always
+  #   volumes:
+  #     - zoom-redis-data:/data
+  #   ports:
+  #     - "6379:6379"
+
+  # consensus:
+  #   command: /opt/planorama/script/planorama_start.sh
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-dev
+  #   env_file:
+  #     - .envrc
+  #   environment:
+  #     - DB_HOST=postgres
+  #     - RAILS_ENV=development
+  #     - NODE_ENV=development
+  #     - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+  #     - SIDEKIQ_REDIS_URL=redis://redis:6379/0
+  #     - SMTP_SERVER=mailcatcher
+  #     - SMTP_PORT=1025
+  #   volumes:
+  #     - node_modules:/opt/planorama/node_modules
+  #     - .:/opt/planorama
+  #     - box:/var/bundler
+  #     - type: tmpfs
+  #       target: /opt/planorama/tmp
+  #   ports:
+  #     - "3000:3000"
+  #     - "3035:3035"
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   links:
+  #     - redis
+  #     - postgres
+  #     - mailcatcher
