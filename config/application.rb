@@ -36,5 +36,8 @@ module Culture
 
     # Save db schema as SQL
     config.active_record.schema_format = :sql
+
+    # 
+    config.i18n.available_locales = [:en, :fr]
   end
 end

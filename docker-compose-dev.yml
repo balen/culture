@@ -51,7 +51,7 @@ services:
   #   ports:
   #     - "6379:6379"
 
-  # consensus:
+  # culture:
   #   command: /opt/planorama/script/planorama_start.sh
   #   build:
   #     context: .

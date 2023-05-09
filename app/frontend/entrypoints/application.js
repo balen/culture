@@ -1,28 +1,29 @@
-// To see this message, add the following to the `<head>` section in your
-// views/layouts/application.html.erb
-//
-//    <%= vite_client_tag %>
-//    <%= vite_javascript_tag 'application' %>
-console.log('Vite ⚡️ Rails')
+// 
+// console.log('Vite ⚡️ Rails')
+// console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-// If using a TypeScript entrypoint file:
-//     <%= vite_typescript_tag 'application' %>
-//
-// If you want to use .jsx or .tsx, add the extension:
-//     <%= vite_javascript_tag 'application.jsx' %>
+import { router } from '@/router/app.router';
+import { store } from '@/store/model.store';
 
-console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify.app/guide/rails')
+import Vue from 'vue';
+import { createApp } from 'vue';
 
-// Example: Load Rails libraries in Vite.
-//
-// import * as Turbo from '@hotwired/turbo'
-// Turbo.start()
-//
-// import ActiveStorage from '@rails/activestorage'
-// ActiveStorage.start()
-//
-// // Import all channels.
-// const channels = import.meta.globEager('./**/*_channel.js')
+import VueCookies from 'vue-cookies'
 
-// Example: Import a stylesheet in app/frontend/index.css
-// import '~/index.css'
+import CultureApp from './app.vue';
+
+Vue.use(BootstrapVue, {
+  BSkeleton: { animation: 'fade' }
+});
+
+Vue.use(VueCookies, {});
+Vue.use(IconsPlugin)
+Vue.use(BootstrapVueIcons)
+
+const app = createApp(CultureApp);
+app.use(router) // Set up the router
+app.use(store) // Set up the store
+app.mount('#app') // Display app using element with id 'app'

@@ -1,14 +1,31 @@
 {
-  "name": "app",
+  "name": "culture",
   "private": "true",
   "dependencies": {
     "@popperjs/core": "^2.11.7",
-    "bootstrap": "^5.2.3",
-    "bootstrap-icons": "^1.10.5",
-    "sass": "^1.62.1"
+    "@vitejs/plugin-vue": "^4.2.1",
+    "@vue/compat": "^3.2.47",
+    "axios": "^1.4.0",
+    "bootstrap-vue": "^2.23.1",
+    "jquery": "^3.6.4",
+    "jsonapi-vuex": "^5.12.0",
+    "lodash": "^4.17.21",
+    "luxon": "^3.3.0",
+    "sass": "^1.62.1",
+    "vue": "^3.2.47",
+    "vue-cookies": "^1.8.3",
+    "vue-i18n": "9",
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@vue/compiler-sfc": "^3.2.45",
+    "@vue/runtime-dom": "^3.2.47",
     "vite": "^4.2.0",
+    "vite-plugin-full-reload": "^1.0.5",
     "vite-plugin-ruby": "^3.2.0"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
   }
 }
