@@ -8,13 +8,16 @@ class OrganizationsController < ResourceController
 
   def serializer_includes
     [
-      # :organization_surveys
+      :organization_surveys,
+      :'organization_surveys.survey'
     ]
   end
 
   def includes
     [
-      :organization_surveys
+      organization_surveys: [
+        :survey
+      ]
     ]
   end
 

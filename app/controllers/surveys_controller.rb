@@ -7,10 +7,11 @@ class SurveysController < ResourceController
 
   def serializer_includes
     [
-      :groups
-      # :'groups.questions',
-      # :'groups.questions.answers',
-      # :'groups.questions.likert_setting'
+      :groups,
+      :'groups.questions',
+      :'groups.questions.answers',
+      :'groups.questions.likert_setting',
+      :'groups.questions.likert_setting.likert_categories'
     ]
   end
 

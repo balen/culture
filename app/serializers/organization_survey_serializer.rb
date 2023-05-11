@@ -3,7 +3,12 @@ class OrganizationSurveySerializer
 
   attributes :id, :lock_version, :access_code
 
+  attribute :number_submissions do |organization_survey|
+    organization_survey.submissions.count
+  end
+
   has_one :organization, lazy_load_data: true,
+          lazy_load_data: true,
           if: Proc.new { |record| record.organization },
           links: {
             self: -> (object, params) {
@@ -14,7 +19,7 @@ class OrganizationSurveySerializer
             }
           }
 
-  has_one :survey, lazy_load_data: true,
+  has_one :survey, #lazy_load_data: true,
           if: Proc.new { |record| record.survey },
           links: {
             self: -> (object, params) {

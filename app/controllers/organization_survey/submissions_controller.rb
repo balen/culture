@@ -155,11 +155,11 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     [:index, :flat]
   end
 
-  # def serializer_includes
-  #   [
-  #     :responses
-  #   ]
-  # end
+  def serializer_includes
+    [
+      :responses
+    ]
+  end
 
   def includes
     [

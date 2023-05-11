@@ -7,11 +7,13 @@ class Organization::OrganizationSurveysController < ResourceController
 
   def serializer_includes
     [
+      :survey
     ]
   end
 
   def includes
     [
+      :survey
     ]
   end
 

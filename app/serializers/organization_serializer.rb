@@ -5,7 +5,7 @@ class OrganizationSerializer
              :name
 
   has_many :organization_surveys,
-           lazy_load_data: true,
+           serializer: OrganizationSurveySerializer,
            links: {
              self: -> (object, params) {
                "#{params[:domain]}/organization/#{object.id}"

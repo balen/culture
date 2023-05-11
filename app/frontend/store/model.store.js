@@ -1,11 +1,12 @@
-// import Vue from 'vue'
-// import Vuex from 'vuex'
 import { jsonapiModule, utils } from 'jsonapi-vuex'
 import { http } from '@/utils/http';
 
 import { getId } from '@/utils/utils';
 
 import { userSessionStore } from './user_session.store';
+import { organizationStore, organizationEndpoints } from './organization.store';
+import { organizationSurveyStore, organizationSurveyEndpoints } from './organization_survey.store';
+
 
 // Store for global app states
 import { appStore } from './app.store';
@@ -27,9 +28,10 @@ export const CLEAR = 'CLEAR';
 export const PATCH_FIELDS = 'PATCH FIELDS';
 
 const endpoints = {
+  ...organizationEndpoints,
+  ...organizationSurveyEndpoints
 }
 
-// Vue.use(Vuex)
 export const store = createStore({
   modules: {
     jv: jsonapiModule(
@@ -42,7 +44,8 @@ export const store = createStore({
   },
   state: {
     selected: {
-      // ...meetingStore.selected,
+      ...organizationStore.selected,
+      ...organizationSurveyStore.selected
     },
     ...userSessionStore.state,
     ...appStore.state
@@ -55,7 +58,9 @@ export const store = createStore({
         return utils.deepCopy(res)
       }
     },
-    ...userSessionStore.getters
+    ...userSessionStore.getters,
+    ...organizationStore.getters,
+    ...organizationSurveyStore.getters
   },
   mutations: {
     [SELECT](state, { model, itemOrId }) {
@@ -68,6 +73,7 @@ export const store = createStore({
       this.commit('jv/clearRecords', { _jv: { type: model } })
     },
     ...userSessionStore.mutations,
+    // ...organizationStore.mutations,
     ...appStore.mutations
   },
   actions: {
@@ -163,5 +169,7 @@ export const store = createStore({
       });
     },
     ...userSessionStore.actions,
+    ...organizationStore.actions,
+    ...organizationSurveyStore.actions
   }
 });

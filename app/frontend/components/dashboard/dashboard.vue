@@ -1,18 +1,22 @@
 <!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
-  <div class="row scrollable">
-    <div class="col-12">
-      <p>Welcome {{ currentUser.name }}!</p>
+  <div class="row">
+    <div class="col" v-if="loggedIn">
+      <organization-manage></organization-manage>
     </div>
-    <!-- TODO: put in instructions etc. -->
   </div>
 </template>
 
 <script>
 import { userSessionMixin } from '@/mixins/user_session.mixin';
+import OrganizationManage from '@/components/organizations/organization_manage.vue';
+
 
 export default {
   name: "Dashboard",
-  mixins: [userSessionMixin]
+  mixins: [userSessionMixin],
+  components: {
+    OrganizationManage
+  }
 }
 </script>

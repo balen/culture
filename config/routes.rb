@@ -25,12 +25,25 @@ Rails.application.routes.draw do
     # get 'submissions/flat', to: 'organization_survey/submissions#flat'
   end
 
-  resources :surveys, path: 'survey'
-
   resources :submissions, path: 'submission', controller: 'organization_survey/submissions', except: [:index] do
     get 'responses', to: 'submission/responses#index'
   end
   resources :responses, path: 'response', controller: 'submission/responses', except: [:index]
+
+  resources :surveys, path: 'survey' do
+    resources :groups, controller: 'survey/groups', only: [:index]
+  end
+
+  resources :groups, path: 'group', controller: 'survey/groups', except: [:index] do
+    get 'questions', to: 'survey/group/questions#index'
+  end
+
+  resources :questions, controller: 'survey/group/questions', path: 'question', except: [:index] do
+    get 'answers', to: 'survey/group/question/answers#index'
+    get 'likert_setting', to: 'survey/group/question/likert_settings#index'
+  end
+  resources :answers, controller: 'survey/group/question/answers', path: 'answer', except: [:index]
+  resources :likert_settings, controller: 'survey/group/question/likert_settings', path: 'likert_setting', except: [:index]
 
   # Catch all for vue router
   get '*path', to: 'home#index', constraints: -> (request) do
