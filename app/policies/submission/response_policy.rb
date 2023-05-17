@@ -1,4 +1,4 @@
-class Survey::GroupPolicy < ApplicationPolicy
+class Submission::ResponsePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.all

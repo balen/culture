@@ -1,3 +1,5 @@
+# Copyright (c) 2023 Henry Balen. All Rights Reserved.
+# frozen_string_literal: true
 class Survey::Response < ApplicationRecord
   belongs_to :question,
              class_name: 'Survey::Question',

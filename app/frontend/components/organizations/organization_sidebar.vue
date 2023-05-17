@@ -19,7 +19,10 @@
         </div>
         <div class="row mb-5" v-for="(survey_info) in this.selected.organization_surveys" :key="survey_info.id" :id="survey_info.id">
           <div class="col-6"><b>{{ survey_info.survey.name }}</b></div>
-          <div class="col-3">{{ survey_info.access_code }}</div>
+          <div class="col-3">
+            <b-link :to="'/survey/submit/' + survey_info.access_code">{{ survey_info.access_code }}</b-link>
+          </div>
+          <!-- TODO: link to download the responses -->
           <div class="col-3">{{ survey_info.number_submissions }}</div>
         </div>
       </template>
@@ -28,28 +31,41 @@
       <b-form-group label="Access Code">
         <b-form-input id="survey-access-code" type="text" v-model="newAccessCode"></b-form-input>
       </b-form-group>
+      <b-form-group label="Survey">
+        <model-select
+          v-model="survey_id"
+          model="survey"
+          field="name"
+        ></model-select>
+      </b-form-group>
     </modal>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import SidebarVue from '@/components/sidebar_vue.vue';
+import SidebarVue from '@/components/shared/sidebar_vue.vue';
 import modelMixin from '@/mixins/model.mixin';
-import Modal from '@/components/modal.vue';
+import modelUtilsMixin from '@/mixins/model_utils.mixin'
+import Modal from '@/components/shared/modal.vue';
+import ModelSelect from '@/components/shared/model_select.vue';
+
 import { NEW_ORGANIZATION_SURVEY } from '@/store/organization_survey.store'
 
 export default {
   name: 'OrganizationSidebar',
   components: {
     SidebarVue,
-    Modal
+    Modal,
+    ModelSelect
   },
   mixins: [
     modelMixin,
+    modelUtilsMixin
   ],
   data: () => ({
-    newAccessCode: null
+    newAccessCode: null,
+    survey_id: null
   }),
   computed: {
     surveyInfos() {
@@ -68,13 +84,12 @@ export default {
       this.newOrganizationSurvey(
         { 
           access_code: this.newAccessCode,
-          survey_id: 1, // TODO: we need the survey id
+          survey_id: this.survey_id,
           organization_id: this.selected.id
         }
       ).then((data) => {
         console.debug("done");
-        // TODO: we need to refresh the selected?
-        // this.$refs['organizations-table'].fetchPaged()
+        this.fetch_model_by_id('organization', this.selected.id);
       })
     }
   }

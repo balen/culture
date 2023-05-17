@@ -1,9 +1,10 @@
+# Copyright (c) 2023 Henry Balen. All Rights Reserved.
+# frozen_string_literal: true
 class Organization::OrganizationSurveysController < ResourceController
   MODEL_CLASS = 'OrganizationSurvey'.freeze
   SERIALIZER_CLASS = 'OrganizationSurveySerializer'.freeze
   POLICY_CLASS = 'OrganizationSurveyPolicy'.freeze
   POLICY_SCOPE_CLASS = 'OrganizationSurveyPolicy::Scope'.freeze
-  # DEFAULT_SORTBY = 'sort_order'
 
   def serializer_includes
     [
@@ -35,10 +36,7 @@ class Organization::OrganizationSurveysController < ResourceController
       survey_id
       organization_id
       id
+      access_code
     ]
   end
-
-  # def after_save
-  #   @object.update(sort_order_position: _permitted_params(model: object_name)['sort_order_position']) if _permitted_params(model: object_name)['sort_order_position'].present?
-  # end
 end

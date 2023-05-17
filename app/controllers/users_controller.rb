@@ -13,12 +13,7 @@ class UsersController < ResourceController
     me = current_user
     authorize me, policy_class: policy_class
 
-    render_object(me,
-      serializer: UserSessionSerializer,
-      # jsonapi_included: [
-      #   :email_addresses
-      # ]
-    )
+    render_object(me, serializer: UserSessionSerializer)
   end
 
   def allowed_params

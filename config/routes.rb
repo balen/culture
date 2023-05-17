@@ -16,13 +16,13 @@ Rails.application.routes.draw do
   resources :users, path: 'user'
   get 'user/session/me', to: 'users#me'
 
-  resources :organizations, path: 'organization' do
-    get 'organization_surveys', to: 'organization/organization_surveys#index'
-  end
-
-  resources :organization_surveys, path: 'organization_survey', controller: 'organization/organization_surveys', except: [:index] do
+  resources :organization_surveys, path: 'organization_survey', controller: 'organization/organization_surveys' do
     get 'submissions', to: 'organization_survey/submissions#index'
     # get 'submissions/flat', to: 'organization_survey/submissions#flat'
+  end
+
+  resources :organizations, path: 'organization' do
+    get 'organization_surveys', to: 'organization/organization_surveys#index'
   end
 
   resources :submissions, path: 'submission', controller: 'organization_survey/submissions', except: [:index] do
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   resources :surveys, path: 'survey' do
     resources :groups, controller: 'survey/groups', only: [:index]
   end
+
+  get 'survey/start/:access_code', to: 'surveys#start'
 
   resources :groups, path: 'group', controller: 'survey/groups', except: [:index] do
     get 'questions', to: 'survey/group/questions#index'

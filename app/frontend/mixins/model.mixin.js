@@ -35,6 +35,7 @@ export const modelMixinNoProp = {
     },
     // TODO: model needs to be passed in
     search(params) {
+      console.debug("SEARCH, ", { model: this.model, params })
       return this.$store.dispatch(SEARCH, { model: this.model, params });
     },
     clear() {

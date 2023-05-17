@@ -1,9 +1,31 @@
+# Copyright (c) 2023 Henry Balen. All Rights Reserved.
+# frozen_string_literal: true
 class SurveysController < ResourceController
   SERIALIZER_CLASS = 'SurveySerializer'.freeze
   POLICY_CLASS = 'SurveyPolicy'.freeze
   POLICY_SCOPE_CLASS = 'SurveyPolicy::Scope'.freeze
   DEFAULT_SORTBY = 'surveys.updated_at'.freeze
   DEFAULT_ORDER = 'desc'.freeze
+
+  def start
+    org = OrganizationSurvey.find_by access_code: params[:access_code]
+    svc = SurveyService.getService(survey: org.survey)
+    questions = svc.randomQuestions
+
+    options = {
+        include: [
+          :'answers',
+          :'likert_setting',
+          :'likert_setting.likert_categories'
+        ],
+        params: {
+          domain: "#{request.base_url}"
+        }
+      }
+    render json: Survey::QuestionSerializer.new(questions, options).serializable_hash(),
+
+        content_type: 'application/json'
+  end
 
   def serializer_includes
     [

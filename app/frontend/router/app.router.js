@@ -11,6 +11,9 @@ import ForgotPassword from '@/components/login/forgot_password.vue'
 import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 
+import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
+import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
+
 const loginRoutes = [
   { path: 'forgot', component: ForgotPassword },
   { path: 'password-reset', component: NewPassword },
@@ -37,6 +40,18 @@ export const router = createRouter({
       meta: {
         // requiresAuth: true
       }
+    },
+    { 
+      path: '/surveys/:access_code/thankyou',
+      component: SurveyThankYou,
+      props: true,
+      meta: { guest: true }
+    },
+    {
+      path: '/survey/submit/:access_code',
+      component: SurveySubmissionScreen,
+      props: true,
+      meta: { guest: true }
     },
     {
       path: '',

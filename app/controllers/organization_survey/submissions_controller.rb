@@ -1,3 +1,5 @@
+# Copyright (c) 2023 Henry Balen. All Rights Reserved.
+# frozen_string_literal: true
 class OrganizationSurvey::SubmissionsController < ResourceController
   SERIALIZER_CLASS = 'Survey::SubmissionSerializer'.freeze
   MODEL_CLASS = 'Survey::Submission'.freeze
@@ -6,6 +8,7 @@ class OrganizationSurvey::SubmissionsController < ResourceController
   XLS_SERIALIZER_CLASS = 'Survey::SubmissionXlsSerializer'.freeze
   DEFAULT_SORTBY = 'survey_submissions.updated_at'
 
+  
   def can_access_question?(question, person)
     if question.private
       AccessControlService.allowed_sensitive_access?(person: person)
@@ -198,6 +201,9 @@ class OrganizationSurvey::SubmissionsController < ResourceController
       organization_survey_id
       responses
       organization_survey
+      survey_id
+      survey
+      submission_state
     ]
   end
 end

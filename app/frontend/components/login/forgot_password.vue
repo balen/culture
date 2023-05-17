@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import EmailField from "@/shared/email_field.vue";
+import EmailField from "@/components/shared/email_field.vue";
 import { http } from "@/utils/http";
 import { validateFields } from "@/utils/utils.js";
 import {

@@ -1,3 +1,5 @@
+# Copyright (c) 2023 Henry Balen. All Rights Reserved.
+# frozen_string_literal: true
 class Submission::ResponsesController < ResourceController
   MODEL_CLASS = 'Survey::Response'.freeze
   DEFAULT_SORTBY = 'id'

@@ -89,7 +89,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_in) do |user|
       user.permit(
         :username,
-        :password, # password_confirmation
+        :password,
         :remember_me,
         email_addresses_attributes: [:email]
       )

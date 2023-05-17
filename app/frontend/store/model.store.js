@@ -7,6 +7,8 @@ import { userSessionStore } from './user_session.store';
 import { organizationStore, organizationEndpoints } from './organization.store';
 import { organizationSurveyStore, organizationSurveyEndpoints } from './organization_survey.store';
 
+import { surveyModel } from './survey/survey.model';
+import { surveyStore, surveyEndpoints } from './survey/survey.store';
 
 // Store for global app states
 import { appStore } from './app.store';
@@ -25,11 +27,13 @@ export const SAVE = 'SAVE';
 export const DELETE = 'DELETE';
 export const SEARCH = 'SEARCH';
 export const CLEAR = 'CLEAR';
+export const PATCH_RELATED = 'PATCH RELATED';
 export const PATCH_FIELDS = 'PATCH FIELDS';
 
 const endpoints = {
   ...organizationEndpoints,
-  ...organizationSurveyEndpoints
+  ...organizationSurveyEndpoints,
+  ...surveyEndpoints
 }
 
 export const store = createStore({
@@ -45,9 +49,11 @@ export const store = createStore({
   state: {
     selected: {
       ...organizationStore.selected,
-      ...organizationSurveyStore.selected
+      ...organizationSurveyStore.selected,
+      ...surveyStore.selected
     },
     ...userSessionStore.state,
+    ...surveyStore.state,
     ...appStore.state
   },
   getters: {
@@ -55,13 +61,20 @@ export const store = createStore({
       return ({ model }) => {
         if (!state.selected[model]) return undefined;
         let res = getters['jv/get']({ _jv: { id: state.selected[model], type: model } })
-        return utils.deepCopy(res)
+        if (model === surveyModel) {
+          return res
+        } else {
+          return utils.deepCopy(res)
+        }
       }
     },
     ...userSessionStore.getters,
     ...organizationStore.getters,
     ...organizationSurveyStore.getters
   },
+  plugins: [
+    ...surveyStore.plugins
+  ],
   mutations: {
     [SELECT](state, { model, itemOrId }) {
       state.selected[model] = getId(itemOrId);
@@ -73,10 +86,23 @@ export const store = createStore({
       this.commit('jv/clearRecords', { _jv: { type: model } })
     },
     ...userSessionStore.mutations,
-    // ...organizationStore.mutations,
+    ...surveyStore.mutations,
     ...appStore.mutations
   },
   actions: {
+    [PATCH_RELATED]({ dispatch }, { item, parentRelName, childIdName }) {
+      let relId = item?._jv?.id
+      let rels = item?._jv?.relationships?.[parentRelName]?.data
+      if (!rels || !rels.length) {
+        // no relationships found, what to do here? returning true for now
+        return Promise.resolve(true)
+      }
+      let itemsToSend = rels.map(r => ({
+        [childIdName]: relId,
+        _jv: r
+      }));
+      return Promise.all(itemsToSend.map(i => dispatch('jv/patch', i)))
+    },
     [NEW]({ commit, dispatch }, { model, selected = false, relationships = {}, ...attrs }) {
       let newModel = {
         ...attrs,
@@ -87,7 +113,7 @@ export const store = createStore({
       }
 
       return new Promise((res, rej) => {
-        dispatch('jv/post', newModel).then((savedModel) => {
+        dispatch('jv/post', [newModel, { url: endpoints[model] }]).then((savedModel) => {
           if (selected) {
             commit(SELECT, { model, itemOrId: savedModel });
           }
@@ -106,7 +132,7 @@ export const store = createStore({
       }
 
       return new Promise((res, rej) => {
-        dispatch('jv/patch', [item, { params }]).then((savedModel) => {
+        dispatch('jv/patch', [item, { params, url: endpoints[model] }]).then((savedModel) => {
           // to get around the fact that the getter returns a copy,
           // re-select the saved model so that the getter updates.
           if (selected) {
@@ -160,7 +186,7 @@ export const store = createStore({
         }
       }
       return new Promise((res, rej) => {
-        dispatch('jv/patch', smallItem).then((savedModel) => {
+        dispatch('jv/patch', [smallItem, { url: `${endpoints[model]}/${item.id}` }]).then((savedModel) => {
           if (selected) {
             commit(SELECT, { model, itemOrId: savedModel });
           }
@@ -170,6 +196,7 @@ export const store = createStore({
     },
     ...userSessionStore.actions,
     ...organizationStore.actions,
+    ...surveyStore.actions,
     ...organizationSurveyStore.actions
   }
 });

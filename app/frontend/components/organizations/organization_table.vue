@@ -22,8 +22,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import Modal from '@/components/modal.vue';
-import TableVue from '@/components/table_vue.vue';
+import Modal from '@/components/shared/modal.vue';
+import TableVue from '@/components/shared/table_vue.vue';
 import { organization_columns as columns } from './organization';
 import { NEW_ORGANIZATION, organizationModel as model } from '@/store/organization.store'
 

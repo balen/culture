@@ -1,5 +1,5 @@
 class Survey::Group::QuestionPolicy < PlannerPolicy
-  class Scope < PlannerPolicy::Scope
+  class Scope < ApplicationPolicy::Scope
     def resolve
       scope.all
     end

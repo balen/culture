@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import EmailField from "@/shared/email_field.vue";
+import EmailField from "@/components/shared/email_field.vue";
 import LoginPasswordField from "@/components/login/login_password_field.vue";
 import axios from 'axios';
 import { userSessionMixin } from '@/mixins/user_session.mixin';

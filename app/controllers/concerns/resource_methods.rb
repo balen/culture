@@ -2,9 +2,8 @@
 # frozen_string_literal: true
 require "securerandom"
 
-# TODO: add include parameter as option
-# If an endpoint does not support the include parameter,
-# it MUST respond with 400 Bad Request to any requests that include it.
+# NOTE: If an endpoint does not support the include parameter,
+# it MUST respond with 400 Bad Request to any requests that include it. (JSON API spec)
 #
 module ResourceMethods
   extend ActiveSupport::Concern
@@ -232,7 +231,6 @@ module ResourceMethods
     # Rails.logger.debug "****************************"
     # Rails.logger.debug "****************************"
 
-    # TODO we need the size without the query
     if paginated
       @full_collection_total = policy_scope(base, policy_scope_class: policy_scope_class)
                             .where(exclude_deleted_clause)
@@ -415,7 +413,7 @@ module ResourceMethods
           table[column.to_sym].send(op, nil)
         )
       elsif operation == 'is not' # not_eq
-        # is not, need to ignore the others (TODO, how???)
+        # is not, need to ignore the others
         part = table[column.to_sym].send(op, val).or(
           # 'is not' needs to retutn the nulls as well
           table[column.to_sym].send(:eq, nil)
@@ -549,9 +547,6 @@ module ResourceMethods
     # return an overide for policy class if there is one
     return self.class::POLICY_CLASS.constantize if defined? self.class::POLICY_CLASS
 
-    # else use the 'global' policy
-    # TODO: global policy class
-
     # if we return none then Pundit's policy finder will be used ...
     return ApplicationPolicy
   end
@@ -651,7 +646,7 @@ module ResourceMethods
     nil
   end
 
-  # TODO: optimize
+  #
   def fields
     _fields = params.permit(fields: {})[:fields].to_h
     _fields.each do |k,v|
@@ -668,9 +663,7 @@ module ResourceMethods
   def filtered_serializer_includes(fields: , json_includes: nil)
     includes = json_includes if json_includes
     includes ||= serializer_includes
-    # p = params[:include].split(",")
     includes.concat(params[:include].split(",")) if params[:include]
-    # Rails.logger.debug("******* INCLUDES #{includes} #{p}")
     return includes if fields.empty?
 
     keys = fields.flatten(2)
@@ -736,11 +729,10 @@ module ResourceMethods
     # NOTE: if params[:data] to determine if this is JSON-API packet
     # that is received, if so we need to deserialize it
     _allowed_params = if model && !allowed_params.blank?
-                        # need to subtract the params that are not allowed because of permissions
-                        allowed_params #- AccessControlService.banned_attributes(model: model.capitalize, instance: instance, user: current_user)
+                        allowed_params
                       end
     if params[:data]
-      Rails.logger.debug "**** WE HAVE PARAMS #{params[:data]}"
+      # Rails.logger.debug "**** WE HAVE PARAMS #{params[:data]}"
       # NOTE: JSPON API does not save nested data structures ....
       jsonapi_deserialize(
         params,
@@ -751,7 +743,7 @@ module ResourceMethods
         }
       )
     else
-      Rails.logger.debug "**** WE HAVE D PARAMS #{params} #{model}"
+      # Rails.logger.debug "**** WE HAVE D PARAMS #{params} #{model}"
       # We treat this as a regular rails request
       return params.require(model).permit! unless _allowed_params || params[:action] == 'new'
 

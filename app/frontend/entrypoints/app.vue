@@ -16,19 +16,7 @@ export default {
   },
   mixins: [
     userSessionMixin
-  ],
-  data() {
-    return {
-      showOverlay: false
-    }
-  },
-  computed: {
-  },
-  methods: {
-  },
-  mounted() {
-    // console.debug("***** APP MOUNTED *****")
-  }
+  ]
 }
 </script>
 

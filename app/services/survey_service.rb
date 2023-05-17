@@ -2,7 +2,7 @@ class SurveyService
   attr_accessor :survey
 
   # Return unique number questions in a random order
-  def randomQuestions(number: 15)
+  def randomQuestions(number: 3)
     pool = @survey.questions.to_a
     results = []
 

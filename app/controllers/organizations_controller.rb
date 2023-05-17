@@ -1,4 +1,5 @@
-#
+# Copyright (c) 2023 Henry Balen. All Rights Reserved.
+# frozen_string_literal: true
 class OrganizationsController < ResourceController
   SERIALIZER_CLASS = 'OrganizationSerializer'.freeze
   POLICY_CLASS = 'OrganizationPolicy'.freeze
