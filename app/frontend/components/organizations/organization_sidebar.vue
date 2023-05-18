@@ -20,10 +20,12 @@
         <div class="row mb-5" v-for="(survey_info) in this.selected.organization_surveys" :key="survey_info.id" :id="survey_info.id">
           <div class="col-6"><b>{{ survey_info.survey.name }}</b></div>
           <div class="col-3">
-            <b-link :to="'/survey/submit/' + survey_info.access_code">{{ survey_info.access_code }}</b-link>
+            <b-link :to="'/survey/submit/' + survey_info.access_code" target="_blank">{{ survey_info.access_code }}</b-link>
           </div>
-          <!-- TODO: link to download the responses -->
-          <div class="col-3">{{ survey_info.number_submissions }}</div>
+          <div class="col-3">
+            {{ survey_info.number_submissions }}
+            <b-button variant="link" @click="downloadWithAxios(downloadLink(survey_info.id), filename(survey_info.id))">{{ filename(survey_info.id) }}</b-button>
+          </div>
         </div>
       </template>
     </sidebar-vue>
@@ -49,6 +51,8 @@ import modelMixin from '@/mixins/model.mixin';
 import modelUtilsMixin from '@/mixins/model_utils.mixin'
 import Modal from '@/components/shared/modal.vue';
 import ModelSelect from '@/components/shared/model_select.vue';
+import { spinnerMixin } from '@/mixins/spinner.mixin';
+import { http as axios } from '@/utils/http';
 
 import { NEW_ORGANIZATION_SURVEY } from '@/store/organization_survey.store'
 
@@ -61,7 +65,8 @@ export default {
   },
   mixins: [
     modelMixin,
-    modelUtilsMixin
+    modelUtilsMixin,
+    spinnerMixin
   ],
   data: () => ({
     newAccessCode: null,
@@ -76,6 +81,38 @@ export default {
     ...mapActions({
       newOrganizationSurvey: NEW_ORGANIZATION_SURVEY
     }),
+    forceFileDownload(response, title) {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', title)
+      document.body.appendChild(link)
+      link.click()
+    },
+
+    downloadWithAxios(url, title) {
+      this.showSpinner();
+      axios({
+        method: 'get',
+        url,
+        responseType: 'arraybuffer',
+      })
+        .then((response) => {
+          this.forceFileDownload(response, title)
+          this.hideSpinner();
+        })
+        .catch(
+          () => {
+            this.hideSpinner();
+          }
+        )
+    },
+    downloadLink(organization_survey_id) {
+      return `/organization_survey/${organization_survey_id}/submissions.xlsx`
+    },
+    filename(organization_survey_id) {
+      return `survey_${organization_survey_id}_responses.xlsx`
+    },
     openNewModal() {
       this.newAccessCode = null;
       this.$bvModal.show('add-access-code');

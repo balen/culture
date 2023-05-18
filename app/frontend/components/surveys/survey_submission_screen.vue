@@ -16,7 +16,7 @@
         <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">Submit</b-button>
       </div>
     </div>
-    <div>VALL: {{ responses }} {{ responses[questions[current_question].id] }}</div>
+    <!-- <div>VALL: {{ responses }} {{ responses[questions[current_question].id] }}</div> -->
   </div>
 </template>
 
@@ -77,7 +77,19 @@ export default {
     saveResponse(question) {
       var submission = this.selected_model(submissionModel);
       this.responses[this.questions[question].id].submission_id = submission.id;
-      return this.new_model(responseModel, this.responses[this.questions[question].id]);
+      if (this.responses[this.questions[question].id].id) {
+        return this.save_model(responseModel, this.responses[this.questions[question].id]).then(
+          (obj) => {
+            this.responses[this.questions[question].id] = obj;
+          }
+        )
+      } else {
+        return this.new_model(responseModel, this.responses[this.questions[question].id]).then(
+          (obj) => {
+            this.responses[this.questions[question].id] = obj;
+          }
+        )
+      }
     },
     // Create a submisison and make it the selected one
     createSubmission() {
@@ -92,8 +104,7 @@ export default {
     */
     submitResponses() {
       let current = this.current_question;
-      var submission = this.selected_model(submissionModel);
-      console.debug("SELECTED SUB IS", submission);
+      // var submission = this.selected_model(submissionModel);
       this.saveResponse(current).then(
         () => {
           this.submitSelectedSubmission().then(

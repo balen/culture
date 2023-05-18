@@ -7,7 +7,6 @@ class OrganizationSurvey::SubmissionsController < ResourceController
   POLICY_SCOPE_CLASS = 'Survey::SubmissionPolicy::Scope'.freeze
   XLS_SERIALIZER_CLASS = 'Survey::SubmissionXlsSerializer'.freeze
   DEFAULT_SORTBY = 'survey_submissions.updated_at'
-
   
   def can_access_question?(question, person)
     if question.private
@@ -98,14 +97,14 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     # Get the survey questions
     submission = @collection.first
 
-    survey = Survey.find params[:survey_id] if params[:survey_id]
+    organization_survey = OrganizationSurvey.find params[:organization_survey_id] if params[:organization_survey_id]
+    survey = organization_survey.survey
     survey ||= submission.survey
-    header = ['Created At', 'Updated At', 'Email']
+    header = ['Created At', 'Updated At']
     response_columns = {}
     posn = 3
     survey.questions.each do |question|
       next if [:hr, :textonly].include? question.question_type
-      next unless can_access_question?(question, current_person)
 
       header << question.question
 
@@ -115,10 +114,10 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     worksheet.append_row(header)
 
     @collection.each do |submission|
-      row = [submission.created_at, submission.updated_at, submission.person.email]
+      row = [submission.created_at, submission.updated_at]
       row.concat Array.new(response_columns.size)
       submission.responses.each do |response|
-        if response_columns[response.question_id] && can_access_response?(response, current_person)
+        if response_columns[response.question_id]
           row[response_columns[response.question_id]] = response.response_as_text
         end
       end
@@ -129,30 +128,6 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     end
     workbook.read_string
   end
-
-  # def flat
-  #   authorize model_class, policy_class: policy_class
-  #   load_resource
-
-  #   meta = {}
-  #   meta[:total] = @collection_total if paginate
-  #   meta[:full_total] = @full_collection_total ? @full_collection_total : @collection_total if paginated
-  #   meta[:current_page] = @current_page if @current_page.present? && paginate
-  #   meta[:perPage] = @per_page if @per_page.present? && paginate
-
-  #   # This is only loading responses that matc, shoudl be all response in the submission
-  #   options = {
-  #     meta: meta,
-  #     params: {
-  #       domain: "#{request.base_url}",
-  #       current_person: current_person
-  #     }
-  #   }
-  #   options[:fields] = fields
-
-  #   render json: Survey::SubmissionFlatSerializer.new(@collection,options).serializable_hash(),
-  #          content_type: 'application/json'
-  # end
 
   def collection_actions
     [:index, :flat]

@@ -15,6 +15,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 # 
 gem 'devise'
+gem 'fast_excel'
 gem 'kaminari'
 gem 'nilify_blanks'
 gem 'rails-i18n', '~> 7.0.0'

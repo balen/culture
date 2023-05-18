@@ -132,7 +132,7 @@ export const store = createStore({
       }
 
       return new Promise((res, rej) => {
-        dispatch('jv/patch', [item, { params, url: endpoints[model] }]).then((savedModel) => {
+        dispatch('jv/patch', [item, { params, url: `${endpoints[model]}/${getId(item)}` }]).then((savedModel) => {
           // to get around the fact that the getter returns a copy,
           // re-select the saved model so that the getter updates.
           if (selected) {
