@@ -129,7 +129,7 @@ jobs:
         run: |
           docker run -e RAILS_ENV=test $CONTAINER_TEST_REPOSITORY bundle update brakeman --quiet
           docker run -e RAILS_ENV=test $CONTAINER_TEST_REPOSITORY bundle exec brakeman --run-all-checks --no-pager
-          docker run -e RAILS_ENV=production -e NODE_ENV=production $CONTAINER_TEST_REPOSITORY /bin/sh -c "bin/yarn install --frozen-lockfile; yarn check --integrity"
+          docker run -e RAILS_ENV=production -e NODE_ENV=production $CONTAINER_TEST_REPOSITORY /bin/sh -c "bin/vite install"
 
       - name: Publish the deployable image
         run: |

@@ -41,7 +41,7 @@ WORKDIR /opt/culture
 # Just not use dev here
 # TODO: we need to check this
 RUN bin/bundle install --without development
-RUN bin/yarn install --frozen-lockfile
+RUN bin/vite install
 # RUN bin/vite install
 
 # The pre-compile will be done as part of the deploy of the image
