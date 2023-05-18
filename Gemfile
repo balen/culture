@@ -28,7 +28,7 @@ gem 'ransack'
 gem 'routing-filter'
 gem "vite_rails", "~> 3.0"
 
-group :development, :test do
+group :staging, :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "brakeman"                                      # vulnerability and static analysis
@@ -37,6 +37,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'seedbank'
+  gem 'factory_bot_rails'
 end
 
 group :development do

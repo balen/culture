@@ -5,6 +5,7 @@
 # NOTE:
 # You will need to create volumes for the data to be persistent between runs
 #   docker volume create --name=culture-pgdata
+#   docker volume create --name=culture-node-modules
 #
 # NOTE:
 # start the docker containers:
@@ -18,6 +19,8 @@ version: "3.7"
 
 volumes:
   culture-pgdata:
+    external: true
+  culture-node-modules:
     external: true
   box: {} # used for the bundler, persistent store between runs
 
@@ -43,42 +46,30 @@ services:
       - 10025:1025
       - 1080:1080
 
-  # redis:
-  #   image: redis:alpine
-  #   restart: always
-  #   volumes:
-  #     - zoom-redis-data:/data
-  #   ports:
-  #     - "6379:6379"
-
-  # culture:
-  #   command: /opt/planorama/script/planorama_start.sh
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile-dev
-  #   env_file:
-  #     - .envrc
-  #   environment:
-  #     - DB_HOST=postgres
-  #     - RAILS_ENV=development
-  #     - NODE_ENV=development
-  #     - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-  #     - SIDEKIQ_REDIS_URL=redis://redis:6379/0
-  #     - SMTP_SERVER=mailcatcher
-  #     - SMTP_PORT=1025
-  #   volumes:
-  #     - node_modules:/opt/planorama/node_modules
-  #     - .:/opt/planorama
-  #     - box:/var/bundler
-  #     - type: tmpfs
-  #       target: /opt/planorama/tmp
-  #   ports:
-  #     - "3000:3000"
-  #     - "3035:3035"
-  #   depends_on:
-  #     - postgres
-  #     - redis
-  #   links:
-  #     - redis
-  #     - postgres
-  #     - mailcatcher
+  culture:
+    command: /opt/culture/script/start.sh
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    env_file:
+      - .envrc
+    environment:
+      - DB_HOST=postgres
+      - RAILS_ENV=development
+      - NODE_ENV=development
+      - SMTP_SERVER=mailcatcher
+      - SMTP_PORT=1025
+    volumes:
+      - culture-node-modules:/opt/culture/node_modules
+      - .:/opt/culture
+      - box:/var/bundler
+      - type: tmpfs
+        target: /opt/culture/tmp
+    ports:
+      - "5100:5100"
+      - "3036:3036"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+      - mailcatcher
