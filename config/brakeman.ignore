@@ -1,0 +1,98 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "27cf158d320a0b1d34554139bf05b2c3f2960a77247cd2a4d8e330b5e1863410",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/organization_survey/submissions_controller.rb",
+      "line": 63,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:data).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OrganizationSurvey::SubmissionsController",
+        "method": "process_responses"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "31f00ed66b544ec8816593967889d052d589f57e926d910a624f70ec5b49a090",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `OrganizationSurvey#find`",
+      "file": "app/controllers/organization_survey/submissions_controller.rb",
+      "line": 100,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "OrganizationSurvey.find(params[:organization_survey_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OrganizationSurvey::SubmissionsController",
+        "method": "collection_to_xls"
+      },
+      "user_input": "params[:organization_survey_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "5aab4faf0ef95479f4e9850c880bb2fabf7d45f27763ad2e99fd28fe22d72a31",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/concerns/resource_methods.rb",
+      "line": 748,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(model).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ResourceMethods",
+        "method": "_permitted_params"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
+      "fingerprint": "dfafe6c83794b6cc55a3eb651cf1f40e7ec9ce9bd24a0750009c2f4547445911",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `OrganizationSurvey#find_by`",
+      "file": "app/controllers/organization_survey/submissions_controller.rb",
+      "line": 162,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "OrganizationSurvey.find_by(:id => params[:organization_survey_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OrganizationSurvey::SubmissionsController",
+        "method": "delete_all"
+      },
+      "user_input": "params[:organization_survey_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    }
+  ],
+  "updated": "2023-05-18 13:53:26 -0400",
+  "brakeman_version": "5.4.1"
+}
