@@ -11,7 +11,7 @@ if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   bin/vite install
 
   # Create DB if it is not already there
-  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:structure:load)
+  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
   # bin/rake views:recreate
   bin/rake db:migrate
@@ -20,7 +20,7 @@ if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   # bin/rails db:create
   bin/rails db:seed
 elif [[ $RAILS_ENV = "staging" ]]; then
-  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:structure:load)
+  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
   # bin/rake views:recreate
   bin/rake db:migrate
@@ -32,7 +32,7 @@ else
     echo "waiting for postgres..."
     sleep 5
   done
-  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:structure:load)
+  bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
   # bin/rake views:recreate
   bin/rake db:migrate
