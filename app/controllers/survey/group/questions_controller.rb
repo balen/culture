@@ -6,8 +6,8 @@ class Survey::Group::QuestionsController < ResourceController
 
   def includes
     [
-      :answers
-      {likert_setting: :likert_categories}
+      :answers,
+      { likert_setting: :likert_categories }
     ]
   end
 
