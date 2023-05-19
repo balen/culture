@@ -2,7 +2,7 @@
 
 ## Development
 
-First create a local envirnment file n the project directory call `.env`. It should look similar to this
+First create a local envirnment file n the project directory call `.envrc`. It should look similar to this
 
     export DB_PORT=5432
     export POSTGRES_USER=culture
