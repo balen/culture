@@ -8,7 +8,7 @@ gem "pg", "~> 1.1" # Use postgresql as the database for Active Record
 gem "puma", "~> 5.0" # Use the Puma web server [https://github.com/puma/puma]
 
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
-gem "cssbundling-rails" # TODO: check is needed with vite
+# gem "cssbundling-rails" # TODO: check is needed with vite
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]

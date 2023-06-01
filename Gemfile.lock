@@ -75,8 +75,6 @@ GEM
       thor (~> 1.0)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
-    cssbundling-rails (1.1.2)
-      railties (>= 6.0.0)
     date (3.3.3)
     debug (1.8.0)
       irb (>= 1.5.0)
@@ -289,7 +287,6 @@ PLATFORMS
 
 DEPENDENCIES
   brakeman
-  cssbundling-rails
   debug
   devise
   factory_bot_rails

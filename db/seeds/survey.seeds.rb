@@ -158,13 +158,6 @@ unless Survey.count > 0
     question_type: :likert
   )
   add_likert(question)
-  question = Survey::Question.create!(
-    question_en: "I continue to work at my current job because without this job, I would be worried I couldn’t meet my financial objectives",
-    question_fr: "Je continue à travailler ici car sans ce travail, je serais inquiet pour mes objectifs financiers",
-    group: survey_group,
-    question_type: :likert
-  )
-  add_likert(question)
 
   # Growth Mindset
   survey_group = Survey::Group.create!(
