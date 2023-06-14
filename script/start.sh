@@ -20,6 +20,7 @@ if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   # bin/rails db:create
   bin/rails db:seed
 elif [[ $RAILS_ENV = "staging" ]]; then
+  export RAILS_SERVE_STATIC_FILES=true
   bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
   # bin/rake views:recreate
@@ -28,6 +29,7 @@ elif [[ $RAILS_ENV = "staging" ]]; then
 
   bin/rake assets:precompile
 else
+  export RAILS_SERVE_STATIC_FILES=true
   until psql -Atx "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$DB_HOST" -c 'select current_date'; do
     echo "waiting for postgres..."
     sleep 5

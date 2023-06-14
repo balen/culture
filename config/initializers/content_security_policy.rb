@@ -1,5 +1,5 @@
 # Be sure to restart your server when you modify this file.
-Rails.application.config.assets.version = "1.0"
+# Rails.application.config.assets.version = "1.0"
 
 # Define an application-wide content security policy.
 # See the Securing Rails Applications Guide for more information:

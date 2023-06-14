@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.2" # Ruby > 3
 gem "rails", "~> 7.0.4", ">= 7.0.4.3" # Rails version
-gem "sprockets-rails" # Do we need this - TODO: check
+# gem "sprockets-rails" # Do we need this - TODO: check
 gem "pg", "~> 1.1" # Use postgresql as the database for Active Record
 gem "puma", "~> 5.0" # Use the Puma web server [https://github.com/puma/puma]
 
@@ -27,6 +27,7 @@ gem 'pundit'
 gem 'ransack'
 gem 'routing-filter'
 gem "vite_rails", "~> 3.0"
+gem 'vite_plugin_legacy'
 
 group :staging, :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
