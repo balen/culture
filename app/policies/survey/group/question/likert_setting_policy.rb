@@ -1,4 +1,4 @@
-class Survey::Group::Question::LikertSettingPolicy < PlannerPolicy
+class Survey::Group::Question::LikertSettingPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.all

@@ -1,4 +1,4 @@
-class Survey::Group::Question::AnswerPolicy < PlannerPolicy
+class Survey::Group::Question::AnswerPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
       scope.all

@@ -8,7 +8,6 @@ class OrganizationSurveySerializer
   end
 
   has_one :organization, lazy_load_data: true,
-          lazy_load_data: true,
           if: Proc.new { |record| record.organization },
           links: {
             self: -> (object, params) {

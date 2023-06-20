@@ -2,7 +2,7 @@
 
 ## Development
 
-First create a local envirnment file n the project directory call `.envrc`. It should look similar to this
+First create a local environment file in the project directory call `.envrc`. It should look similar to this
 
     export DB_PORT=5432
     export POSTGRES_USER=culture
@@ -18,10 +18,10 @@ NOTE: there is a mailcatcher instance in the docker compose so any emails sent b
 
 Using docker compose:
 
-Create volumes for the Postfres data and the node modules using the **docker volume create** command:
+Create volumes for the Postgres data and the node modules using the **docker volume create** command:
 
-docker volume create --name=culture-pgdata
-docker volume create --name=culture-node-modules
+    docker volume create --name=culture-pgdata
+    docker volume create --name=culture-node-modules
 
 You can then build and start the docker containers using
 
