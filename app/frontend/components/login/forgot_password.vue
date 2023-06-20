@@ -30,6 +30,8 @@ import {
   LOGIN_INVALID_FIELDS,
   SOMETHING_WENT_WRONG,
 } from "@/constants/strings";
+import Tr from "@/i18n/translation"
+
 // import settingsMixin from "@/store/settings.mixin";
 
 export default {
@@ -73,7 +75,7 @@ export default {
           .then((data) => {
             this.successfullySent = data.status === 201;
             if (this.successfullySent) {
-              this.$router.push("/?alert=reset_sent");
+              this.$router.push(`/${Trans.getPersistedLocale()}/?alert=reset_sent`);
             } else {
               this.alert.text = SOMETHING_WENT_WRONG(this.configByName('email_reply_to_address'));
               this.alert.visible = true;
@@ -83,7 +85,7 @@ export default {
             // this.alert.text = SOMETHING_WENT_WRONG(this.configByName('email_reply_to_address'));
             // this.alert.visible = true;
             // Even if we have a problem we need to pretend that we do not
-            this.$router.push("/?alert=reset_sent");
+            this.$router.push(`/${Tr.getPersistedLocale()}/?alert=reset_sent`);
           });
       }
     },

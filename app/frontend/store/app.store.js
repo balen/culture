@@ -1,10 +1,13 @@
 export const SET_PER_PAGE = 'SET PER PAGE';
 export const SET_SPINNER = 'SET SPINNER';
+export const SET_LOCALE = 'SET LOCALE';
+
 
 export const appStore = {
   state: {
     wholePageSpinner: false,
-    perPage: 20
+    perPage: 20,
+    locale: 'en'
   },
   mutations: {
     [SET_PER_PAGE](state, amt) {
@@ -12,6 +15,9 @@ export const appStore = {
     },
     [SET_SPINNER](state, spinner) {
       state.wholePageSpinner = spinner;
+    },
+    [SET_LOCALE](state, locale) {
+      state.locale = locale;
     }
   }
 }

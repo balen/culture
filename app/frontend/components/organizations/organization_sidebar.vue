@@ -20,7 +20,7 @@
         <div class="row mb-5" v-for="(survey_info) in this.selected.organization_surveys" :key="survey_info.id" :id="survey_info.id">
           <div class="col-6"><b>{{ survey_info.survey.name }}</b></div>
           <div class="col-3">
-            <b-link :to="'/survey/submit/' + survey_info.access_code" target="_blank">{{ survey_info.access_code }}</b-link>
+            <b-link :to="surveyUrl(survey_info.access_code)" target="_blank">{{ survey_info.access_code }}</b-link>
           </div>
           <div class="col-3">
             {{ survey_info.number_submissions }}
@@ -53,6 +53,7 @@ import Modal from '@/components/shared/modal.vue';
 import ModelSelect from '@/components/shared/model_select.vue';
 import { spinnerMixin } from '@/mixins/spinner.mixin';
 import { http as axios } from '@/utils/http';
+import Tr from "@/i18n/translation"
 
 import { NEW_ORGANIZATION_SURVEY } from '@/store/organization_survey.store'
 
@@ -81,6 +82,9 @@ export default {
     ...mapActions({
       newOrganizationSurvey: NEW_ORGANIZATION_SURVEY
     }),
+    surveyUrl(access_code) {
+      return `/${Tr.getPersistedLocale()}/survey/submit/${access_code}`
+    },
     forceFileDownload(response, title) {
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')

@@ -16,7 +16,6 @@
         <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">Submit</b-button>
       </div>
     </div>
-    <!-- <div>VALL: {{ responses }} {{ responses[questions[current_question].id] }}</div> -->
   </div>
 </template>
 
@@ -32,6 +31,7 @@ import {
   submissionModel,
   responseModel
 } from '@/store/survey/survey.model';
+import Tr from "@/i18n/translation"
 
 export default {
   name: "SurveySubmissionScreen",
@@ -108,13 +108,14 @@ export default {
       this.saveResponse(current).then(
         () => {
           this.submitSelectedSubmission().then(
-            () => { this.$router.push(`/surveys/${this.access_code}/thankyou`); }
+            () => { this.$router.push(`/${Tr.getPersistedLocale()}/surveys/${this.access_code}/thankyou`); }
           )
         }
       )
     }
   },
   mounted() {
+    console.debug("********* MOUNT SURVET");
     this.$nextTick(() => {
       if (this.access_code) {
         // fetch the survey based in access code

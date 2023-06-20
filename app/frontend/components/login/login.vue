@@ -31,7 +31,7 @@ import LoginPasswordField from "@/components/login/login_password_field.vue";
 import axios from 'axios';
 import { userSessionMixin } from '@/mixins/user_session.mixin';
 import { authMixin } from '@/mixins/auth.mixin';
-
+import Tr from "@/i18n/translation"
 
 import { validateFields } from "@/utils/utils.js";
 
@@ -121,7 +121,7 @@ export default {
                     if (this.prevRoute) {
                       this.$router.push(this.prevRoute)
                     } else {
-                      this.$router.push('/dashboard')
+                      this.$router.push(`/${Tr.getPersistedLocale()}/dashboard`)
                     }
                   }
                 )

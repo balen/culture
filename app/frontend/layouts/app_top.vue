@@ -22,6 +22,7 @@
 <script>
 import userSessionMixin from "@/mixins/user_session.mixin"
 import { authMixin } from '@/mixins/auth.mixin';
+import Tr from "@/i18n/translation"
 
 /*
  */
@@ -39,13 +40,13 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push('/login')
+      this.$router.push(`/${Tr.getPersistedLocale()}/login`)
     },
     logout() {
       this.signOut().then(() => {
         this.fetchSession({ force: true }).then(
           () => {
-            this.$router.push('/')
+            this.$router.push(`/${Tr.getPersistedLocale()}/`)
           }
         )
       })

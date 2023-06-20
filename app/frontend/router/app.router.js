@@ -2,7 +2,7 @@
  */
 import { store } from '@/store/model.store';
 
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory, RouterView } from 'vue-router'
 import { GET_SESSION_USER } from '@/store/user_session.store';
 
 // Login
@@ -13,6 +13,7 @@ import NewPassword from '@/components/login/new_password.vue';
 
 import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
 import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
+import Tr from "@/i18n/translation"
 
 const loginRoutes = [
   { path: 'forgot', component: ForgotPassword },
@@ -28,34 +29,42 @@ export const router = createRouter({
   history: createWebHistory(), //(process.env.BASE_URL),
   routes: [
     {
-      path: '/login',
-      component: LoginScreen,
-      children: loginRoutes,
-      meta: { guest: true },
-      props: true
-    },
-    {
-      path: '/dashboard',
-      component: Dashboard,
-      meta: {
-        // requiresAuth: true
-      }
-    },
-    { 
-      path: '/surveys/:access_code/thankyou',
-      component: SurveyThankYou,
-      props: true,
-      meta: { guest: true }
-    },
-    {
-      path: '/survey/submit/:access_code',
-      component: SurveySubmissionScreen,
-      props: true,
-      meta: { guest: true }
-    },
-    {
-      path: '',
-      redirect: '/dashboard'
+      path: "/:locale?",
+      component: RouterView,
+      beforeEnter: Tr.routeMiddleware,
+      children: [
+        {
+          path: 'login',
+          component: LoginScreen,
+          children: loginRoutes,
+          meta: { guest: true },
+          props: true
+        },
+        {
+          path: 'dashboard',
+          component: Dashboard,
+          meta: {
+            // requiresAuth: true
+          }
+        },
+        {
+          path: 'surveys/:access_code/thankyou',
+          component: SurveyThankYou,
+          props: true,
+          meta: { guest: true }
+        },
+        {
+          path: 'survey/submit/:access_code',
+          component: SurveySubmissionScreen,
+          props: true,
+          meta: { guest: true }
+        },
+        {
+          path: '',
+          component: Dashboard
+          // redirect: '/dashboard'
+        }
+      ]
     }
   ]
 })

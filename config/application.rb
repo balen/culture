@@ -38,6 +38,6 @@ module Culture
     config.active_record.schema_format = :sql
 
     # 
-    config.i18n.available_locales = [:en, :fr]
+    config.i18n.available_locales = [:en, :fr, :pt, :pt_BR]
   end
 end

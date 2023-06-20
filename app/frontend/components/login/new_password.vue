@@ -42,6 +42,8 @@ import {
 } from "@/constants/strings";
 import LoginPasswordField from "@/components/login/login_password_field.vue";
 import { validateFields } from "@/utils/utils.js";
+import Tr from "@/i18n/translation"
+
 // import settingsMixin from "@/store/settings.mixin";
 
 export default {
@@ -98,7 +100,7 @@ export default {
           .put("/auth/password.json", { person: this.person })
           .then((data) => {
             if (data.status === 204) {
-              this.$router.push("/?alert=password_changed");
+              this.$router.push(`/${Tr.getPersistedLocale()}/?alert=password_changed`);
             } else {
               this.error.text = SOMETHING_WENT_WRONG(this.configByName('email_reply_to_address'));
               this.error.visible = true;
