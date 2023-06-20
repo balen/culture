@@ -1,5 +1,12 @@
 #
 class OrganizationSurveyPolicy < ApplicationPolicy
-  # class Scope < ApplicationPolicy::Scope
-  # end
+  def show?
+    true
+  end
+
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      scope
+    end
+  end
 end

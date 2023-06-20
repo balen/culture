@@ -30,7 +30,6 @@ class ApplicationPolicy < BasePolicy
 
   class Scope < ApplicationPolicy::Scope
     def resolve
-      Rails.logger.debug "****** SCOPE #{scope}"
       # if allowed?(action: :index)
       #   scope.all
       # else
