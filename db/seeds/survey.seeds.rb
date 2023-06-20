@@ -176,15 +176,15 @@ unless Survey.count > 0
   add_likert(question)
   question = Survey::Question.create!(
     question_en: "I continue to work at my current job because without this job, I would be worried I couldn’t meet my financial objectives",
-    question_fr: "Je continue de travailler ici car si je le quittais, je me décevrais ou je décevrais des personnes qui me sont chères",
+    question_fr: "Je continue à travailler ici car sans ce travail, je serais inquiet pour mes objectifs financiers",
     question_pt_br: "Eu continuo a trabalhar aqui pois sem este trabalho, eu não atenderia meus objetivos financeiros",
     group: survey_group,
     question_type: :likert
   )
   add_likert(question)
   question = Survey::Question.create!(
-    question_en: "I continue to work at my current job because without this job, I would be worried I couldn’t meet my financial objectives",
-    question_fr: "Je continue à travailler ici car sans ce travail, je serais inquiet pour mes objectifs financiers",
+    question_en: "There is no good reason why I continue working at my current job",
+    question_fr: "Il n'existe aucune bonne raison pour laquelle je continue à travailler ici",
     question_pt_br: "Não há boa razão para continuar no meu trabalho atual",
     group: survey_group,
     question_type: :likert
@@ -199,8 +199,8 @@ unless Survey.count > 0
     survey: survey
   )
   question = Survey::Question.create!(
-    question_en: "There is no good reason why I continue working at my current job",
-    question_fr: "Il n'existe aucune bonne raison pour laquelle je continue à travailler ici",
+    question_en: "I don’t think I personally can do much to increase my intelligence.",
+    question_fr: "Personnellement, je ne pense pas que je peux faire grand chose pour augmenter mon intelligence.",
     question_pt_br: "Eu pessoalmente não acredito que possa fazer muito para aumentar minha inteligência",
     group: survey_group,
     question_type: :likert
