@@ -12,9 +12,7 @@ class BasePolicy
       return true if @record.user_id == @user.id
     end
 
-
     # false # defeult is not to allow anything
-    Rails.logger.debug "***** ALLOWED #{@user}"
     @user.present?
   end
 
