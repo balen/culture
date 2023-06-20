@@ -207,14 +207,6 @@ unless Survey.count > 0
   )
   add_likert(question)
   question = Survey::Question.create!(
-    question_en: "I don’t think I personally can do much to increase my intelligence.",
-    question_fr: "Personnellement, je ne pense pas que je peux faire grand chose pour augmenter mon intelligence.",
-    question_pt_br: "Eu pessoalmente não acredito que possa fazer muito para aumentar minha inteligência",
-    group: survey_group,
-    question_type: :likert
-  )
-  add_likert(question)
-  question = Survey::Question.create!(
     question_en: "I can learn new things, but I don’t have the ability to change my basic intelligence",
     question_fr: "Je peux acquérir de nouvelles connaissances, mais je n'ai pas la capacité de changer mon intelligence de départ",
     question_pt_br: "Eu posso aprender novas coisas, mas acredito não ter habilidade de mudar minha inteligência básica",
