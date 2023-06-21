@@ -5,7 +5,8 @@ class OrganizationSurvey::SubmissionsController < ResourceController
   MODEL_CLASS = 'Survey::Submission'.freeze
   POLICY_CLASS = 'Survey::SubmissionPolicy'.freeze
   POLICY_SCOPE_CLASS = 'Survey::SubmissionPolicy::Scope'.freeze
-  XLS_SERIALIZER_CLASS = 'Survey::SubmissionXlsSerializer'.freeze
+  # TODO: where is this?
+  # XLS_SERIALIZER_CLASS = 'Survey::SubmissionXlsSerializer'.freeze
   DEFAULT_SORTBY = 'survey_submissions.updated_at'
   
   def can_access_question?(question, person)
@@ -102,7 +103,7 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     survey ||= submission.survey
     header = ['Created At', 'Updated At']
     response_columns = {}
-    posn = 3
+    posn = 2
     survey.questions.each do |question|
       next if [:hr, :textonly].include? question.question_type
 
