@@ -43,6 +43,7 @@ class Survey::Question < ApplicationRecord
           class_name: 'Survey::LikertSetting',
           inverse_of: :survey_question,
           dependent: :destroy
+  accepts_nested_attributes_for :likert_setting, update_only: true
 
   translates :question
 

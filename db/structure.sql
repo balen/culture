@@ -108,7 +108,8 @@ CREATE TABLE public.survey_groups (
     survey_id uuid NOT NULL,
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    short_code character varying(40)
 );
 
 
@@ -169,7 +170,8 @@ CREATE TABLE public.survey_questions (
     deleted_at timestamp(6) without time zone,
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    short_code character varying(40)
 );
 
 
@@ -185,7 +187,8 @@ CREATE TABLE public.survey_responses (
     response_as_text text,
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    short_code character varying(40)
 );
 
 
@@ -501,6 +504,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230502213850'),
 ('20230503142530'),
 ('20230503143620'),
-('20230508141540');
+('20230508141540'),
+('20230622195007');
 
 

@@ -42,6 +42,8 @@ else
   bin/rake assets:precompile
 fi
 
+rake survey:init_or_update
+
 # TODO: check as dev server is bin/dev
 if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   bin/dev
