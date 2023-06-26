@@ -13,7 +13,6 @@ if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   # Create DB if it is not already there
   bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
-  # bin/rake views:recreate
   bin/rake db:migrate
 
   # Run migrations and start the server, anything that comes in on 3000 is accepted
@@ -23,7 +22,6 @@ elif [[ $RAILS_ENV = "staging" ]]; then
   export RAILS_SERVE_STATIC_FILES=true
   bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
-  # bin/rake views:recreate
   bin/rake db:migrate
   bin/rails db:seed
 
@@ -42,6 +40,7 @@ else
   bin/rake assets:precompile
 fi
 
+rake views:recreate
 rake survey:init_or_update
 
 # TODO: check as dev server is bin/dev
