@@ -33,7 +33,7 @@ module MigrationHelpers
           join survey_questions sq  on sq.id = sr.question_id
           join survey_groups sg  on sg.id = sq.group_id
           join survey_submissions ss on ss.id = sr.submission_id 
-          join organization_surveys os on os.survey_id = ss.survey_id
+          join organization_surveys os on os.id = ss.organization_survey_id
           join organizations o on o.id = os.organization_id;
       SQL
       ActiveRecord::Base.connection.execute(query)

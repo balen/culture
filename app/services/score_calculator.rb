@@ -36,7 +36,7 @@ class ScoreCalculator
 
   # we get the avareage for each question - based on the number of responses
   def total(scores:)
-    scores.map{|s, v| v }.reduce(:+).to_f
+    scores.map{|s, v| v }.reduce(:+).to_f.round(2)
   end
 
   def psychological_safety(organization_id:, access_code:)
@@ -96,6 +96,6 @@ class ScoreCalculator
     end
 
     # Provide average for each question answered
-    scores.map{|code, value| [code, value / counts[code]] }.to_h
+    scores.map{|code, value| [code, (value / counts[code]).to_f.round(2) ] }.to_h
   end
 end

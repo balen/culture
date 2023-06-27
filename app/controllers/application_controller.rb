@@ -74,9 +74,9 @@ class ApplicationController < ActionController::Base
     render json: [error], adapter: :json, status: :unprocessable_entity, content_type: 'application/json'
   end
 
-  def authenticate_participant!
-    user_signed_in?
-  end
+  # def authenticate_user!
+  #   user_signed_in?
+  # end
 
   protected
 

@@ -13,17 +13,21 @@
       </template>
       <template #content v-if="selected">
         <div class="row mb-5">
-          <div class="col-6"><b>Survey</b></div>
-          <div class="col-3"><b>Code</b></div>
+          <div class="col-4"><b>Survey</b></div>
+          <div class="col-2"><b>Code</b></div>
+          <div class="col-3"><b># Submissions</b></div>
           <div class="col-3"><b># Submissions</b></div>
         </div>
         <div class="row mb-5" v-for="(survey_info) in this.selected.organization_surveys" :key="survey_info.id" :id="survey_info.id">
-          <div class="col-6"><b>{{ survey_info.survey.name }}</b></div>
-          <div class="col-3">
+          <div class="col-4"><b>{{ survey_info.survey.name }}</b></div>
+          <div class="col-2">
             <b-link :to="surveyUrl(survey_info.access_code)" target="_blank">{{ survey_info.access_code }}</b-link>
           </div>
           <div class="col-3">
             {{ survey_info.number_submissions }}
+            <icon-button title="View Results" :href="resultsLink(survey_info.id)" icon="eye-fill"></icon-button>
+          </div>
+          <div class="col-3">
             <b-button variant="link" @click="downloadWithAxios(downloadLink(survey_info.id), filename(survey_info.id))">{{ filename(survey_info.id) }}</b-button>
           </div>
         </div>
@@ -54,6 +58,8 @@ import ModelSelect from '@/components/shared/model_select.vue';
 import { spinnerMixin } from '@/mixins/spinner.mixin';
 import { http as axios } from '@/utils/http';
 import Tr from "@/i18n/translation"
+import IconButton from '@/components/shared/icon_button.vue';
+
 
 import { NEW_ORGANIZATION_SURVEY } from '@/store/organization_survey.store'
 
@@ -62,7 +68,8 @@ export default {
   components: {
     SidebarVue,
     Modal,
-    ModelSelect
+    ModelSelect,
+    IconButton
   },
   mixins: [
     modelMixin,
@@ -82,6 +89,9 @@ export default {
     ...mapActions({
       newOrganizationSurvey: NEW_ORGANIZATION_SURVEY
     }),
+    resultsLink(id) {
+      return `/results/${id}/`
+    },
     surveyUrl(access_code) {
       return `/${Tr.getPersistedLocale()}/survey/submit/${access_code}`
     },

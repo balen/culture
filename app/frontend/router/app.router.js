@@ -11,6 +11,8 @@ import ForgotPassword from '@/components/login/forgot_password.vue'
 import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 
+import ResuitsScreen from '@/components/results/results_screen.vue';
+
 import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
 import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
 import Tr from "@/i18n/translation"
@@ -38,6 +40,11 @@ export const router = createRouter({
           component: LoginScreen,
           children: loginRoutes,
           meta: { guest: true },
+          props: true
+        },
+        {
+          path: 'results/:id',
+          component: ResuitsScreen,
           props: true
         },
         {

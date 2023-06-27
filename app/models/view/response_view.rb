@@ -10,7 +10,7 @@ class View::ResponseView < ApplicationRecord
     q = where(organization_id: organization_id, access_code: access_code)
     q = q.where(group_short_code: group_short_code) if group_short_code
 
-    if group_id
+    if group_short_code
       q.group(:short_code).count
     else
       q.group(:group_short_code, :short_code).count
