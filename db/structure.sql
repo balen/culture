@@ -76,29 +76,6 @@ CREATE TABLE public.organizations (
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.schema_migrations (
-    version character varying NOT NULL
-);
-
-
---
--- Name: survey_answers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_answers (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    answer jsonb DEFAULT '{}'::jsonb,
-    question_id uuid NOT NULL,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
 -- Name: survey_groups; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -110,51 +87,6 @@ CREATE TABLE public.survey_groups (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     short_code character varying(40)
-);
-
-
---
--- Name: survey_likert_categories; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_likert_categories (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    label jsonb DEFAULT '{}'::jsonb,
-    value integer,
-    "order" integer,
-    likert_setting_id uuid NOT NULL,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: survey_likert_settings; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_likert_settings (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    left_label jsonb DEFAULT '{}'::jsonb,
-    right_label jsonb DEFAULT '{}'::jsonb,
-    question_id uuid NOT NULL,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: survey_question_variants; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_question_variants (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    question jsonb DEFAULT '{}'::jsonb,
-    question_id uuid NOT NULL,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -205,6 +137,98 @@ CREATE TABLE public.survey_submissions (
     updated_at timestamp(6) without time zone NOT NULL,
     submission_state public.submission_state_enum DEFAULT 'draft'::public.submission_state_enum,
     organization_survey_id uuid NOT NULL
+);
+
+
+--
+-- Name: responses_view; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.responses_view AS
+ SELECT sr.id AS response_id,
+    sr.question_id,
+    sr.response,
+    sr.response_as_text,
+    sq.short_code,
+    o.name AS organization_name,
+    os.organization_id,
+    os.access_code,
+    sq.group_id,
+    sg.short_code AS group_short_code,
+    ss.id AS submission_id
+   FROM (((((public.survey_responses sr
+     JOIN public.survey_questions sq ON ((sq.id = sr.question_id)))
+     JOIN public.survey_groups sg ON ((sg.id = sq.group_id)))
+     JOIN public.survey_submissions ss ON ((ss.id = sr.submission_id)))
+     JOIN public.organization_surveys os ON ((os.id = ss.organization_survey_id)))
+     JOIN public.organizations o ON ((o.id = os.organization_id)));
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+--
+-- Name: survey_answers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_answers (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    answer jsonb DEFAULT '{}'::jsonb,
+    question_id uuid NOT NULL,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: survey_likert_categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_likert_categories (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    label jsonb DEFAULT '{}'::jsonb,
+    value integer,
+    "order" integer,
+    likert_setting_id uuid NOT NULL,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: survey_likert_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_likert_settings (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    left_label jsonb DEFAULT '{}'::jsonb,
+    right_label jsonb DEFAULT '{}'::jsonb,
+    question_id uuid NOT NULL,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: survey_question_variants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_question_variants (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    question jsonb DEFAULT '{}'::jsonb,
+    question_id uuid NOT NULL,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
