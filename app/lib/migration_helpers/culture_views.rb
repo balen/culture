@@ -34,7 +34,8 @@ module MigrationHelpers
           join survey_groups sg  on sg.id = sq.group_id
           join survey_submissions ss on ss.id = sr.submission_id 
           join organization_surveys os on os.id = ss.organization_survey_id
-          join organizations o on o.id = os.organization_id;
+          join organizations o on o.id = os.organization_id
+          where response_as_text != '';
       SQL
       ActiveRecord::Base.connection.execute(query)
     end
