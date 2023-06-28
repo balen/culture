@@ -7,7 +7,7 @@
       "check_name": "MassAssignment",
       "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
       "file": "app/controllers/organization_survey/submissions_controller.rb",
-      "line": 63,
+      "line": 64,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:data).permit!",
       "render_path": null,
@@ -30,7 +30,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `OrganizationSurvey#find`",
       "file": "app/controllers/organization_survey/submissions_controller.rb",
-      "line": 100,
+      "line": 101,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "OrganizationSurvey.find(params[:organization_survey_id])",
       "render_path": null,
@@ -72,11 +72,34 @@
     {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
+      "fingerprint": "d9d14e2f3abc036d3bac372171cf8bc45a480706b8f703585c796853a6a7e799",
+      "check_name": "UnscopedFind",
+      "message": "Unscoped call to `OrganizationSurvey#find`",
+      "file": "app/controllers/organization_survey/results_controller.rb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
+      "code": "OrganizationSurvey.find(params[:organization_survey_id])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OrganizationSurvey::ResultsController",
+        "method": "index"
+      },
+      "user_input": "params[:organization_survey_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        285
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unscoped Find",
+      "warning_code": 82,
       "fingerprint": "dfafe6c83794b6cc55a3eb651cf1f40e7ec9ce9bd24a0750009c2f4547445911",
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `OrganizationSurvey#find_by`",
       "file": "app/controllers/organization_survey/submissions_controller.rb",
-      "line": 162,
+      "line": 163,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "OrganizationSurvey.find_by(:id => params[:organization_survey_id])",
       "render_path": null,
@@ -93,6 +116,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-05-18 13:53:26 -0400",
-  "brakeman_version": "5.4.1"
+  "updated": "2023-06-27 20:28:10 -0400",
+  "brakeman_version": "6.0.0"
 }
