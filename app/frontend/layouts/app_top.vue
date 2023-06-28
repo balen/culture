@@ -16,19 +16,22 @@
         </b-navbar>
       </div>
     </div>
+    <app-top-nav></app-top-nav>
   </div>
 </template>
 
 <script>
 import userSessionMixin from "@/mixins/user_session.mixin"
 import { authMixin } from '@/mixins/auth.mixin';
-import Tr from "@/i18n/translation"
+import AppTopNav from './app_top_nav.vue';
+import Tr from "@/i18n/translation";
 
 /*
  */
 export default {
   name: "AppTop",
   components: {
+    AppTopNav
   },
   mixins: [
     authMixin,

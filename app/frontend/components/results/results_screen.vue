@@ -57,12 +57,13 @@ import {
   Legend,
   BarElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  PointElement
 } from 'chart.js';
 import { http } from "@/utils/http";
 import { Bar } from 'vue-chartjs'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, 
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement,
                  Title, Tooltip, Legend, Colors)
 
 export default {
@@ -73,9 +74,15 @@ export default {
     options: {
       responsive: false,
       scales: {
-        y: {
+        countScale: {
+          position: 'left',
           suggestedMin: 0,
           suggestedMax: 15
+        },
+        scoreScale: {
+          position: 'right',
+          suggestedMin: 0,
+          suggestedMax: 100
         }
       }
     }
@@ -94,28 +101,60 @@ export default {
     psData() {
       return {
         labels: this.labels('ps'),
-        datasets: [{
-          label: 'Number of Responses',
-          data: this.dataFor('ps')
-        }]
+        datasets: [
+          {
+            yAxisID: 'countScale',
+            label: 'Number of Responses',
+            data: this.dataFor('ps')
+          },
+          {
+            yAxisID: 'scoreScale',
+            type: 'scatter',
+            label: 'Score',
+            data: this.scoresFor('ps'),
+            order: 2
+          }
+        ]
       }      
     },
     tmData() {
       return {
         labels: this.labels('tm'),
-        datasets: [{
-          label: 'Number of Responses',
-          data: this.dataFor('tm')
-        }]
+        datasets: [
+          {
+            yAxisID: 'countScale',
+            type: 'bar',
+            label: 'Number of Responses',
+            data: this.dataFor('tm'),
+            order: 1
+          },
+          {
+            yAxisID: 'scoreScale',
+            type: 'scatter',
+            label: 'Score',
+            data: this.scoresFor('tm'),
+            order: 2
+          }
+        ]
       }
     },
     gmData() {
       return {
         labels: this.labels('gm'),
-        datasets: [{
-          label: 'Number of Responses',
-          data: this.dataFor('gm')
-        }]
+        datasets: [
+          {
+            yAxisID: 'countScale',
+            label: 'Number of Responses',
+            data: this.dataFor('gm')
+          },
+          {
+            yAxisID: 'scoreScale',
+            type: 'scatter',
+            label: 'Score',
+            data: this.scoresFor('gm'),
+            order: 2
+          }
+        ]
       }
     }
   },
@@ -129,6 +168,19 @@ export default {
         (idx) => {
           if (this.results[group].summary[idx]) {
             dataset = dataset.concat(this.results[group].summary[idx])
+          } else {
+            dataset = dataset.concat(0)
+          }
+        }
+      )
+      return dataset;
+    },
+    scoresFor(group) {
+      let dataset = []
+      this.results[group].questions.forEach(
+        (idx) => {
+          if (this.results[group].scores[idx]) {
+            dataset = dataset.concat(this.results[group].scores[idx])
           } else {
             dataset = dataset.concat(0)
           }
