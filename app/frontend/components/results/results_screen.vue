@@ -58,12 +58,13 @@ import {
   BarElement,
   CategoryScale,
   LinearScale,
-  PointElement
+  PointElement,
+  ScatterController
 } from 'chart.js';
 import { http } from "@/utils/http";
 import { Bar } from 'vue-chartjs'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement,
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, ScatterController,
                  Title, Tooltip, Legend, Colors)
 
 export default {
