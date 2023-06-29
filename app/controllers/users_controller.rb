@@ -7,6 +7,7 @@ class UsersController < ResourceController
 
   # need to add includes etc to speed up query
   skip_before_action :load_resource, only: [:me]
+  skip_before_action :authenticate_user!, only: [:me]
 
   # no before action
   def me

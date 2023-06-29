@@ -8,6 +8,8 @@ class OrganizationSurvey::SubmissionsController < ResourceController
   # TODO: where is this?
   # XLS_SERIALIZER_CLASS = 'Survey::SubmissionXlsSerializer'.freeze
   DEFAULT_SORTBY = 'survey_submissions.updated_at'
+
+  skip_before_action :authenticate_user!, only: [:create, :update]
   
   def can_access_question?(question, person)
     if question.private

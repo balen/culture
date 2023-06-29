@@ -7,6 +7,8 @@ class SurveysController < ResourceController
   DEFAULT_SORTBY = 'surveys.updated_at'.freeze
   DEFAULT_ORDER = 'desc'.freeze
 
+  skip_before_action :authenticate_user!, only: [:start]
+
   def start
     org = OrganizationSurvey.find_by access_code: params[:access_code]
     svc = SurveyService.getService(survey: org.survey)

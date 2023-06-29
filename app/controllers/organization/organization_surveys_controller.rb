@@ -6,6 +6,8 @@ class Organization::OrganizationSurveysController < ResourceController
   POLICY_CLASS = 'OrganizationSurveyPolicy'.freeze
   POLICY_SCOPE_CLASS = 'OrganizationSurveyPolicy::Scope'.freeze
 
+  skip_before_action :authenticate_user!, only: [:index]
+
   def serializer_includes
     [
       :survey

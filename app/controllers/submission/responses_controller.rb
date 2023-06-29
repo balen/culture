@@ -8,6 +8,8 @@ class Submission::ResponsesController < ResourceController
   POLICY_CLASS = 'Submission::ResponsePolicy'.freeze
   POLICY_SCOPE_CLASS = 'Submission::ResponsePolicy::Scope'.freeze
 
+  skip_before_action :authenticate_user!, except: [:index]
+
   def belong_to_class
     Survey::Submission
   end
