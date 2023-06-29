@@ -37,7 +37,6 @@ group :staging, :development, :test do
   gem 'faker'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'seedbank'
   gem 'factory_bot_rails'
 end
 

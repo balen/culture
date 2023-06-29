@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ScoresCalculator, type: :service do
+RSpec.describe ScoreCalculator, type: :service do
   describe '.calculate_scores' do
     let(:survey) { create(:survey) }
     let(:question_1) { create(:question, short_code: "PS02", question: 'Members of this team are able to bring up problems and tough issues') }
