@@ -11,6 +11,3 @@ FactoryBot.define do
     }
   end
 end
-
-# https://thoughtbot.github.io/factory_bot/cookbook/interconnected-associations.html
-# https://semaphoreci.com/community/tutorials/working-effectively-with-data-factories-using-factorygirl
