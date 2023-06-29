@@ -75,15 +75,32 @@ export default {
     options: {
       responsive: false,
       scales: {
+        x: {
+          border: {
+            display: true
+          },
+          grid: {
+            drawOnChartArea: false,
+            drawTicks: true,
+          }
+        },
         countScale: {
           position: 'left',
           suggestedMin: 0,
-          suggestedMax: 15
+          suggestedMax: 15,
+          grid: {
+            drawTicks: true,
+            drawOnChartArea: false,
+          }
         },
         scoreScale: {
           position: 'right',
           suggestedMin: 0,
-          suggestedMax: 100
+          suggestedMax: 100,
+          grid: {
+            drawTicks: true,
+            drawOnChartArea: false,
+          }
         }
       }
     }
@@ -183,7 +200,7 @@ export default {
           if (this.results[group].scores[idx]) {
             dataset = dataset.concat(this.results[group].scores[idx])
           } else {
-            dataset = dataset.concat(0)
+            dataset = dataset.concat(null)
           }
         }
       )
