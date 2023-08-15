@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     get 'questions', to: 'survey/group/questions#index'
   end
 
+  resources :respondents, path: 'respondent', controller: 'survey/respondents', only: [:show, :create]
+
   resources :questions, controller: 'survey/group/questions', path: 'question', except: [:index] do
     get 'answers', to: 'survey/group/question/answers#index'
     get 'likert_setting', to: 'survey/group/question/likert_settings#index'

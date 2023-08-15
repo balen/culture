@@ -136,7 +136,9 @@ CREATE TABLE public.survey_submissions (
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     submission_state public.submission_state_enum DEFAULT 'draft'::public.submission_state_enum,
-    organization_survey_id uuid NOT NULL
+    organization_survey_id uuid NOT NULL,
+    survey_respondent_id uuid,
+    questions uuid[] DEFAULT '{}'::uuid[]
 );
 
 
@@ -161,7 +163,8 @@ CREATE VIEW public.responses_view AS
      JOIN public.survey_groups sg ON ((sg.id = sq.group_id)))
      JOIN public.survey_submissions ss ON ((ss.id = sr.submission_id)))
      JOIN public.organization_surveys os ON ((os.id = ss.organization_survey_id)))
-     JOIN public.organizations o ON ((o.id = os.organization_id)));
+     JOIN public.organizations o ON ((o.id = os.organization_id)))
+  WHERE (sr.response_as_text <> ''::text);
 
 
 --
@@ -226,6 +229,19 @@ CREATE TABLE public.survey_question_variants (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     question jsonb DEFAULT '{}'::jsonb,
     question_id uuid NOT NULL,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: survey_respondents; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_respondents (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    respondent_id character varying,
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
@@ -351,6 +367,14 @@ ALTER TABLE ONLY public.survey_questions
 
 
 --
+-- Name: survey_respondents survey_respondents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.survey_respondents
+    ADD CONSTRAINT survey_respondents_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: survey_responses survey_responses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -380,6 +404,13 @@ ALTER TABLE ONLY public.surveys
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_survey_respondents_on_respondent_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_survey_respondents_on_respondent_id ON public.survey_respondents USING btree (respondent_id);
 
 
 --
@@ -491,6 +522,14 @@ ALTER TABLE ONLY public.survey_likert_settings
 
 
 --
+-- Name: survey_submissions fk_rails_cff71fb30d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.survey_submissions
+    ADD CONSTRAINT fk_rails_cff71fb30d FOREIGN KEY (survey_respondent_id) REFERENCES public.survey_respondents(id);
+
+
+--
 -- Name: organization_surveys fk_rails_d535acbb1f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -529,6 +568,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230503142530'),
 ('20230503143620'),
 ('20230508141540'),
-('20230622195007');
+('20230622195007'),
+('20230804173221'),
+('20230807144758');
 
 

@@ -23,7 +23,7 @@
 <script>
 import userSessionMixin from "@/mixins/user_session.mixin"
 import { authMixin } from '@/mixins/auth.mixin';
-import AppTopNav from './app_top_nav.vue';
+import AppTopNav from '@/layouts/app_top_nav.vue';
 import Tr from "@/i18n/translation";
 
 /*
@@ -39,6 +39,14 @@ export default {
   ],
   data() {
     return {
+    }
+  },
+  computed: {
+    def_locale() {
+      return import.meta.env.VITE_DEFAULT_LOCALE
+    },
+    my_locale() {
+      return Tr.getPersistedLocale();
     }
   },
   methods: {

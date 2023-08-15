@@ -9,9 +9,16 @@ class SurveysController < ResourceController
 
   skip_before_action :authenticate_user!, only: [:start]
 
+  # To start a survey
+  # Create a survey respondent with a access code
+  # 
+
   def start
+    # verify the access code
     org = OrganizationSurvey.find_by access_code: params[:access_code]
+    raise "No such Organization" unless org
     svc = SurveyService.getService(survey: org.survey)
+
     questions = svc.randomQuestions
 
     options = {
@@ -25,8 +32,28 @@ class SurveysController < ResourceController
         }
       }
     render json: Survey::QuestionSerializer.new(questions, options).serializable_hash(),
+      content_type: 'application/json'
+  end
 
-        content_type: 'application/json'
+  def take_survey
+    org = OrganizationSurvey.find_by access_code: params[:access_code]
+    svc = SurveyService.getService(survey: org.survey)
+    # find or create the respondent based on the id passed in
+    # if not found then create a new responent with a random id
+    questions = svc.randomQuestions
+
+    options = {
+        include: [
+          :'answers',
+          :'likert_setting',
+          :'likert_setting.likert_categories'
+        ],
+        params: {
+          domain: "#{request.base_url}"
+        }
+      }
+    render json: Survey::QuestionSerializer.new(questions, options).serializable_hash(),
+      content_type: 'application/json'
   end
 
   def serializer_includes

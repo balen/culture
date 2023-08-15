@@ -7,6 +7,8 @@ import { userSessionStore } from './user_session.store';
 import { organizationStore, organizationEndpoints } from './organization.store';
 import { organizationSurveyStore, organizationSurveyEndpoints } from './organization_survey.store';
 
+import { respondentStore, respondentEndpoints } from './respondent.store';
+
 import { surveyModel } from './survey/survey.model';
 import { surveyStore, surveyEndpoints } from './survey/survey.store';
 
@@ -33,7 +35,8 @@ export const PATCH_FIELDS = 'PATCH FIELDS';
 const endpoints = {
   ...organizationEndpoints,
   ...organizationSurveyEndpoints,
-  ...surveyEndpoints
+  ...surveyEndpoints,
+  ...respondentEndpoints
 }
 
 export const store = createStore({
@@ -50,7 +53,8 @@ export const store = createStore({
     selected: {
       ...organizationStore.selected,
       ...organizationSurveyStore.selected,
-      ...surveyStore.selected
+      ...surveyStore.selected,
+      ...respondentStore.selected
     },
     ...userSessionStore.state,
     ...surveyStore.state,
@@ -70,7 +74,8 @@ export const store = createStore({
     },
     ...userSessionStore.getters,
     ...organizationStore.getters,
-    ...organizationSurveyStore.getters
+    ...organizationSurveyStore.getters,
+    ...respondentStore.getters
   },
   plugins: [
     ...surveyStore.plugins
@@ -197,6 +202,7 @@ export const store = createStore({
     ...userSessionStore.actions,
     ...organizationStore.actions,
     ...surveyStore.actions,
-    ...organizationSurveyStore.actions
+    ...organizationSurveyStore.actions,
+    ...respondentStore.actions
   }
 });
