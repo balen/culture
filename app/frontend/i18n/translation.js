@@ -1,4 +1,3 @@
-// import i18n from "@/i18n"
 import i18n from "@/i18n/index.js"
 
 const Trans = {
@@ -18,7 +17,6 @@ const Trans = {
   },
 
   get defaultLocale() {
-    // return 'en' //
     return import.meta.env.VITE_DEFAULT_LOCALE
   },
 
@@ -48,10 +46,11 @@ const Trans = {
 
   async routeMiddleware(to, _from, next) {
     let paramLocale = to.params.locale
+    paramLocale ||= Trans.getPersistedLocale()
     paramLocale ||= import.meta.env.VITE_DEFAULT_LOCALE //'en'
 
     if (!Trans.isLocaleSupported(paramLocale)) {
-      console.debug("*********** FORCE")
+      // console.debug("*********** FORCE")
       return next('en')
     }
 

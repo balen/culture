@@ -1,7 +1,8 @@
 {
   "locale": {
-    "en": "English",
-    "fr": "French"
+    "en": "Anglais",
+    "fr": "Francais",
+    "pt_BR": "Portugaise"
   },
   "message": {
     "hello": "{msg} tout le monde"
