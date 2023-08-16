@@ -93,7 +93,7 @@ export default {
       return `/results/${id}/`
     },
     surveyUrl(access_code) {
-      return `/${Tr.getPersistedLocale()}/survey/submit/${access_code}`
+      return `/${Tr.getPersistedLocale()}/intro/${access_code}`
     },
     forceFileDownload(response, title) {
       const url = window.URL.createObjectURL(new Blob([response.data]))

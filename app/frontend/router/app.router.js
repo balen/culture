@@ -15,6 +15,9 @@ import ResuitsScreen from '@/components/results/results_screen.vue';
 
 import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
 import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
+import IntroScreen from '@/components/surveys/intro_screen.vue';
+import RespondentScreen from '@/components/surveys/respondent_screen.vue';
+// individual result screen
 import Tr from "@/i18n/translation"
 
 const loginRoutes = [
@@ -57,6 +60,18 @@ export const router = createRouter({
         {
           path: 'surveys/:access_code/thankyou',
           component: SurveyThankYou,
+          props: true,
+          meta: { guest: true }
+        },
+        {
+          path: 'intro/:access_code',
+          component: IntroScreen,
+          props: true,
+          meta: { guest: true }
+        },
+        {
+          path: 'new_respondent/:access_code',
+          component: RespondentScreen,
           props: true,
           meta: { guest: true }
         },
