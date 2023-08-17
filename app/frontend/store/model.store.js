@@ -118,7 +118,7 @@ export const store = createStore({
       }
 
       return new Promise((res, rej) => {
-        dispatch('jv/post', [newModel, { url: endpoints[model] }]).then((savedModel) => {
+        dispatch('jv/post', [newModel, { url: `/${state.locale}${endpoints[model]}` }]).then((savedModel) => {
           if (selected) {
             commit(SELECT, { model, itemOrId: savedModel });
           }
@@ -137,7 +137,7 @@ export const store = createStore({
       }
 
       return new Promise((res, rej) => {
-        dispatch('jv/patch', [item, { params, url: `${endpoints[model]}/${getId(item)}` }]).then((savedModel) => {
+        dispatch('jv/patch', [item, { params, url: `/${state.locale}${endpoints[model]}/${getId(item)}` }]).then((savedModel) => {
           // to get around the fact that the getter returns a copy,
           // re-select the saved model so that the getter updates.
           if (selected) {
@@ -149,7 +149,7 @@ export const store = createStore({
     },
     [DELETE]({ dispatch, commit, state }, { model, itemOrId, unselect = true }) {
       return new Promise((res, rej) => {
-        dispatch('jv/delete', `${endpoints[model]}/${getId(itemOrId)}`).then((data) => {
+        dispatch('jv/delete', `/${state.locale}${endpoints[model]}/${getId(itemOrId)}`).then((data) => {
           if (unselect && state.selected[model]) {
             commit(UNSELECT, { model })
           }
@@ -157,15 +157,15 @@ export const store = createStore({
         }).catch(rej)
       })
     },
-    [SEARCH]({ dispatch }, { model, params }) {
-      return dispatch('jv/search', [endpoints[model], { params }])
+    [SEARCH]({ dispatch, state }, { model, params }) {
+      return dispatch('jv/search', [`/${state.locale}${endpoints[model]}`, { params }])
     },
     // need a way to override the default URL
-    [FETCH]({ dispatch }, { model, url = null, params }) {
+    [FETCH]({ dispatch, state }, { model, url = null, params }) {
       if (url) {
         return dispatch('jv/get', [url, { params }])
       } else {
-        return dispatch('jv/get', [endpoints[model], { params }])
+        return dispatch('jv/get', [`/${state.locale}${endpoints[model]}`, { params }])
       }
     },
     [FETCH_SELECTED]({ state, dispatch }, { model }) {
@@ -176,7 +176,7 @@ export const store = createStore({
     },
     [FETCH_BY_ID]({ dispatch }, { model, id }) {
       // We do need this - not all fetch by id will be selected models
-      return dispatch('jv/get', `${endpoints[model]}/${id}`)
+      return dispatch('jv/get', `/${state.locale}${endpoints[model]}/${id}`)
     },
     [PATCH_FIELDS]({ dispatch, commit }, { model, item, fields = [], selected = true }) {
       // limited field selection
@@ -191,7 +191,7 @@ export const store = createStore({
         }
       }
       return new Promise((res, rej) => {
-        dispatch('jv/patch', [smallItem, { url: `${endpoints[model]}/${item.id}` }]).then((savedModel) => {
+        dispatch('jv/patch', [smallItem, { url: `/${state.locale}${endpoints[model]}/${item.id}` }]).then((savedModel) => {
           if (selected) {
             commit(SELECT, { model, itemOrId: savedModel });
           }

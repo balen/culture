@@ -82,6 +82,8 @@ export default {
   }),
   computed: {
     surveyInfos() {
+      // TODO: change this to get the related surveys
+      // /organization/47b8292c-3266-483a-b5fb-bb21d239d6c4/organization_surveys
       return Object.values(this.selected.organization_surveys);
     }
   },

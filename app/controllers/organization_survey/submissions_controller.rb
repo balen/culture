@@ -50,7 +50,7 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     # Make sure the submission is assigned to the current person
     # if there is one ... and survey is not unassigned
     # @object.person_id = current_person.id if current_person
-    Rails.logger.debug "****** RESPONDENT IS #{get_current_respondent_id}"
+    # Rails.logger.debug "****** RESPONDENT IS #{get_current_respondent_id}"
     @object.survey_respondent_id = get_current_respondent_id unless @object.survey_respondent_id
   end
 
