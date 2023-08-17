@@ -37,6 +37,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/* TODO - make the radio buttons larger for tablet use
+ input[type='radio'] { 
+  transform: scale(4); 
+ }
+ */
 .likert {
   list-style:none;
   width:100%;
