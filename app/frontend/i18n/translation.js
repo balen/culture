@@ -2,6 +2,7 @@ import i18n from "@/i18n/index.js"
 
 import { SET_LOCALE } from '@/store/app.store';
 import { store } from '@/store/model.store';
+import { router } from "@/router/app.router"
 
 const Trans = {
   isLocaleSupported(locale) {
@@ -41,28 +42,35 @@ const Trans = {
 
     if (Trans.isLocaleSupported(persistedLocale)) {
       return persistedLocale
+    } else if (currentLocale) {
+      return currentLocale
     } else if (Trans.isLocaleSupported(userLocale)) {
       return userLocale
     } else {
-      return import.meta.env.VITE_DEFAULT_LOCALE
+      return defaultLocale
     }
   },
 
   async switchLanguage(newLocale) {
-    Trans.currentLocale = newLocale
-    document.querySelector("html").setAttribute("lang", newLocale)
     store.commit(SET_LOCALE, newLocale)
-    console.debug("** STORE", store.state.locale)
+    if (i18n.global.locale.value != newLocale) {
+      Trans.currentLocale = newLocale
+      document.querySelector("html").setAttribute("lang", newLocale)
+
+      try {
+        await router.replace({ params: { locale: newLocale } })
+      } catch (e) {
+        console.log(e)
+        router.push("/")
+      }
+    }
   },
 
   async routeMiddleware(to, _from, next) {
-    console.debug("ROUTE MIDDLE")
     let paramLocale = to.params.locale
-    paramLocale ||= Trans.getPersistedLocale()
-    paramLocale ||= import.meta.env.VITE_DEFAULT_LOCALE
 
     if (!Trans.isLocaleSupported(paramLocale)) {
-      return next('en')
+      return next(defaultLocale)
     }
 
     await Trans.switchLanguage(paramLocale)

@@ -92,7 +92,7 @@ export default {
       newOrganizationSurvey: NEW_ORGANIZATION_SURVEY
     }),
     resultsLink(id) {
-      return `/results/${id}/`
+      return `/${Tr.getPersistedLocale()}/results/${id}/`
     },
     surveyUrl(access_code) {
       return `/${Tr.getPersistedLocale()}/intro/${access_code}`
@@ -141,7 +141,7 @@ export default {
           organization_id: this.selected.id
         }
       ).then((data) => {
-        console.debug("done");
+        // console.debug("done");
         this.fetch_model_by_id('organization', this.selected.id);
       })
     }

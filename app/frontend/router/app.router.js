@@ -2,7 +2,7 @@
  */
 import { store } from '@/store/model.store';
 
-import { createRouter, createWebHistory, createWebHashHistory, RouterView } from 'vue-router'
+import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import { GET_SESSION_USER } from '@/store/user_session.store';
 
 // Login
@@ -103,7 +103,7 @@ router.beforeEach((to, from, next) => {
           query: { redirect: to.fullPath }
         })
       } else {
-        console.debug("sending to /dashboard");
+        // console.debug("sending to /dashboard");
         next({
           path: '/dashboard',
           query: { redirect: to.fullPath }
