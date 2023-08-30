@@ -51,14 +51,16 @@ const Trans = {
     }
   },
 
-  async switchLanguage(newLocale) {
+  async switchLanguage(newLocale, fromRouter = false) {
     store.commit(SET_LOCALE, newLocale)
     if (i18n.global.locale.value != newLocale) {
       Trans.currentLocale = newLocale
       document.querySelector("html").setAttribute("lang", newLocale)
 
       try {
-        await router.replace({ params: { locale: newLocale } })
+        if (!fromRouter) {
+          await router.replace({ params: { locale: newLocale } })
+        }
       } catch (e) {
         console.log(e)
         router.push("/")
@@ -70,10 +72,10 @@ const Trans = {
     let paramLocale = to.params.locale
 
     if (!Trans.isLocaleSupported(paramLocale)) {
-      return next(defaultLocale)
+      return next(Trans.defaultLocale)
     }
 
-    await Trans.switchLanguage(paramLocale)
+    await Trans.switchLanguage(paramLocale, true)
 
     return next()
   }

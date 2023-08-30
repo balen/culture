@@ -57,12 +57,12 @@ export const router = createRouter({
             // requiresAuth: true
           }
         },
-        {
-          path: 'surveys/:access_code/thankyou',
-          component: SurveyThankYou,
-          props: true,
-          meta: { guest: true }
-        },
+        // {
+        //   path: 'surveys/:access_code/thankyou',
+        //   component: SurveyThankYou,
+        //   props: true,
+        //   meta: { guest: true }
+        // },
         {
           path: 'intro/:access_code',
           component: IntroScreen,
@@ -70,7 +70,7 @@ export const router = createRouter({
           meta: { guest: true }
         },
         {
-          path: 'new_respondent/:access_code',
+          path: 'thankyou/:access_code',
           component: RespondentScreen,
           props: true,
           meta: { guest: true }

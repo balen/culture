@@ -82,19 +82,25 @@ export default {
           (obj) => {
             this.responses[this.questions[question].id] = obj;
           }
-        )
+        ).catch( () => {})
       } else {
         return this.new_model(responseModel, this.responses[this.questions[question].id]).then(
           (obj) => {
             this.responses[this.questions[question].id] = obj;
           }
-        )
+        ).catch(() => { })
       }
     },
     // Create a submisison and make it the selected one
     createSubmission() {
       var org_survey = this.selected_model(organizationSurveyModel);
-      return this.newSubmission({ surveyId: org_survey.survey.id, organizationSurveyId: org_survey.id });
+      return this.newSubmission(
+        { 
+          surveyId: org_survey.survey.id, 
+          organizationSurveyId: org_survey.id,
+          questions: this.questions.map(o => o.id)
+        }
+      );
     },
     /*
     1. On first next page create a submission (make it selected) and add a response
@@ -105,17 +111,18 @@ export default {
     submitResponses() {
       let current = this.current_question;
       // var submission = this.selected_model(submissionModel);
-      this.saveResponse(current).then(
+      this.saveResponse(current).finally(
         () => {
           this.submitSelectedSubmission().then(
-            () => { this.$router.push(`/${Tr.getPersistedLocale()}/surveys/${this.access_code}/thankyou`); }
+            () => { 
+              this.$router.push(`/${Tr.getPersistedLocale()}/thankyou/${this.access_code}`);
+            }
           )
         }
       )
     }
   },
   mounted() {
-    console.debug("********* MOUNT SURVET");
     this.$nextTick(() => {
       if (this.access_code) {
         // fetch the survey based in access code

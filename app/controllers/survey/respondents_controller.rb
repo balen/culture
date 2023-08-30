@@ -30,6 +30,13 @@ class Survey::RespondentsController < ResourceController
     render_object(@respondent, includes: false)
   end
 
+  def current
+    respondent_id = get_current_respondent_id
+    # Rails.logger.debug "******** We have a re id iof #{respondent_id}"
+    @respondent = Survey::Respondent.find_by(id: respondent_id)
+    render_object(@respondent, includes: false)
+  end
+
   def allowed_params
     %i[
       id

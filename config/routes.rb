@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     get 'questions', to: 'survey/group/questions#index'
   end
 
+  get 'respondent/current', to: 'survey/respondents#current'
   resources :respondents, path: 'respondent', controller: 'survey/respondents', only: [:show, :create]
 
   resources :questions, controller: 'survey/group/questions', path: 'question', except: [:index] do
