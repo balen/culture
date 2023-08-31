@@ -192,7 +192,7 @@ export const surveyStore = {
     [START_SUBMISSION]({ dispatch }, { model, access_code }) {
       return dispatch('jv/get', `${surveyEndpoints[surveyModel]}/start/${access_code}`)
     },
-    [NEW_SUBMISSION]({ dispatch, state }, { surveyId, organizationSurveyId }) {
+    [NEW_SUBMISSION]({ dispatch, state }, { surveyId, organizationSurveyId, questions }) {
       let relationships = {
         survey: {
           data: {
@@ -207,7 +207,7 @@ export const surveyStore = {
           }
         }
       };
-      return dispatch(NEW, { model: submissionModel, relationships, selected: true })
+      return dispatch(NEW, { model: submissionModel, relationships, selected: true, questions })
     },
     [CLEAR_SURVEY_SUBMISSIONS]({ dispatch }, { itemOrId }) {
       let id = getId(itemOrId)

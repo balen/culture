@@ -44,14 +44,6 @@ export default {
     return {
     }
   },
-  computed: {
-    def_locale() {
-      return import.meta.env.VITE_DEFAULT_LOCALE
-    },
-    my_locale() {
-      return Tr.getPersistedLocale();
-    }
-  },
   methods: {
     login() {
       this.$router.push(`/${Tr.getPersistedLocale()}/login`)

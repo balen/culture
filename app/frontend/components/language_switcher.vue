@@ -1,5 +1,5 @@
 <template>
-  <select @change="switchLanguage" v-model="locale" v-if="locale">
+  <select @change="switchLanguage" v-model="locale">
     <option
       v-for="sLocale in supportedLocales"
       :key="`locale-${sLocale}`"
@@ -13,6 +13,7 @@
 
 <script>
 import Tr from "@/i18n/translation";
+import i18n from "@/i18n/index.js"
 
 export default {
   name: 'LanguageSwitcher',
@@ -24,15 +25,25 @@ export default {
   computed: {
     supportedLocales() {
       return Tr.supportedLocales
+    },
+    currentLocale() {
+      return i18n.global.locale.value
+    }
+  },
+  watch: {
+    currentLocale(n,o) {
+      this.locale = n
     }
   },
   methods: {
-    switchLanguage() {
-      Tr.switchLanguage(this.locale)
+    async switchLanguage() {
+      const newLocale = this.locale
+
+      await Tr.switchLanguage(newLocale)
     }
   },
   mounted() {
-    this.locale = Tr.getPersistedLocale()
+    this.locale = i18n.global.locale.value
   },
 }
 
