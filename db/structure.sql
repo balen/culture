@@ -157,6 +157,7 @@ CREATE VIEW public.responses_view AS
     os.access_code,
     sq.group_id,
     sg.short_code AS group_short_code,
+    ss.survey_respondent_id,
     ss.id AS submission_id
    FROM (((((public.survey_responses sr
      JOIN public.survey_questions sq ON ((sq.id = sr.question_id)))

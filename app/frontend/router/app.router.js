@@ -2,7 +2,7 @@
  */
 import { store } from '@/store/model.store';
 
-import { createRouter, createWebHistory, createWebHashHistory, RouterView } from 'vue-router'
+import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import { GET_SESSION_USER } from '@/store/user_session.store';
 
 // Login
@@ -12,6 +12,7 @@ import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 
 import ResuitsScreen from '@/components/results/results_screen.vue';
+import MyResuitsScreen from '@/components/results/my_results_screen.vue';
 
 import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
 import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
@@ -51,18 +52,23 @@ export const router = createRouter({
           props: true
         },
         {
+          path: 'myresults/:id',
+          component: MyResuitsScreen,
+          props: true
+        },
+        {
           path: 'dashboard',
           component: Dashboard,
           meta: {
             // requiresAuth: true
           }
         },
-        {
-          path: 'surveys/:access_code/thankyou',
-          component: SurveyThankYou,
-          props: true,
-          meta: { guest: true }
-        },
+        // {
+        //   path: 'surveys/:access_code/thankyou',
+        //   component: SurveyThankYou,
+        //   props: true,
+        //   meta: { guest: true }
+        // },
         {
           path: 'intro/:access_code',
           component: IntroScreen,
@@ -70,7 +76,7 @@ export const router = createRouter({
           meta: { guest: true }
         },
         {
-          path: 'new_respondent/:access_code',
+          path: 'thankyou/:access_code',
           component: RespondentScreen,
           props: true,
           meta: { guest: true }
@@ -103,7 +109,7 @@ router.beforeEach((to, from, next) => {
           query: { redirect: to.fullPath }
         })
       } else {
-        console.debug("sending to /dashboard");
+        // console.debug("sending to /dashboard");
         next({
           path: '/dashboard',
           query: { redirect: to.fullPath }

@@ -108,7 +108,7 @@ export const store = createStore({
       }));
       return Promise.all(itemsToSend.map(i => dispatch('jv/patch', i)))
     },
-    [NEW]({ commit, dispatch }, { model, selected = false, relationships = {}, ...attrs }) {
+    [NEW]({ commit, dispatch, state }, { model, selected = false, relationships = {}, ...attrs }) {
       let newModel = {
         ...attrs,
         _jv: {
@@ -126,7 +126,7 @@ export const store = createStore({
         }).catch(rej);
       });
     },
-    [SAVE]({ commit, dispatch }, { model, selected = true, item, params }) {
+    [SAVE]({ commit, dispatch, state }, { model, selected = true, item, params }) {
       if (item._jv) {
         if (!item._jv.type) {
           _jv.type = model
@@ -174,11 +174,11 @@ export const store = createStore({
       }
       return dispatch(FETCH_BY_ID, { model, id: state.selected[model] })
     },
-    [FETCH_BY_ID]({ dispatch }, { model, id }) {
+    [FETCH_BY_ID]({ dispatch, state }, { model, id }) {
       // We do need this - not all fetch by id will be selected models
       return dispatch('jv/get', `/${state.locale}${endpoints[model]}/${id}`)
     },
-    [PATCH_FIELDS]({ dispatch, commit }, { model, item, fields = [], selected = true }) {
+    [PATCH_FIELDS]({ dispatch, commit, state }, { model, item, fields = [], selected = true }) {
       // limited field selection
       let smallItem = {
         // always include lock version so that we have optimistic locking

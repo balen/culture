@@ -10,7 +10,7 @@
       This will allow you to understand what can be done to improve aspects of your workplace culture that have scores.
       </p>
       <p>
-      This survey is anonymous. Noone can know who answers, not even the developers of this application.
+      This survey is anonymous. No-one can know who answers, not even the developers of this application.
       </p>
       <p>
       Note: in the following questions, where a "team" is mentioned, 
@@ -90,7 +90,6 @@ export default {
       if (this.respondent_id) {
         this.fetch_model_by_id('respondent', this.respondent_id).then(
           respondent => {
-            console.debug("WE HAVE THE RESPONDENT", respondent.id)
             if (respondent.id) {
               // got to the survey
               // survey/submit/:access_code
@@ -106,7 +105,8 @@ export default {
         )
       } else {
         // Go to the new respondent screen
-        this.$router.push(`/${Tr.getPersistedLocale()}/new_respondent/${this.access_code}`);
+        this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
+        // this.$router.push(`/${Tr.getPersistedLocale()}/new_respondent/${this.access_code}`);
       }
     }    
   }
