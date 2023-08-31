@@ -1,5 +1,8 @@
-// import i18n from "@/i18n"
 import i18n from "@/i18n/index.js"
+
+import { SET_LOCALE } from '@/store/app.store';
+import { store } from '@/store/model.store';
+import { router } from "@/router/app.router"
 
 const Trans = {
   isLocaleSupported(locale) {
@@ -11,14 +14,18 @@ const Trans = {
       window.navigator.userLanguage ||
       Trans.defaultLocale
 
-    return {
-      locale: locale,
-      localeNoRegion: locale.split('-')[0]
-    }
+    // return {
+    //   locale: locale,
+    //   localeNoRegion: locale.split('-')[0]
+    // }
+    // return loclocale.split('-')[0]le
+
+    // Return just the langiage part from the browser
+    return locale.split('-')[0]
   },
 
   get defaultLocale() {
-    return 'en' //import.meta.env.VITE_DEFAULT_LOCALE
+    return import.meta.env.VITE_DEFAULT_LOCALE
   },
 
   get supportedLocales() {
@@ -30,30 +37,45 @@ const Trans = {
   },
 
   getPersistedLocale() {
-    const persistedLocale = localStorage.getItem("user-locale")
+    const persistedLocale = store.state.locale
+    const userLocale = Trans.getUserLocale()
 
     if (Trans.isLocaleSupported(persistedLocale)) {
       return persistedLocale
+    } else if (currentLocale) {
+      return currentLocale
+    } else if (Trans.isLocaleSupported(userLocale)) {
+      return userLocale
     } else {
-      return 'en'
+      return defaultLocale
     }
   },
 
-  async switchLanguage(newLocale) {
-    Trans.currentLocale = newLocale
-    document.querySelector("html").setAttribute("lang", newLocale)
-    localStorage.setItem("user-locale", newLocale)
+  async switchLanguage(newLocale, fromRouter = false) {
+    store.commit(SET_LOCALE, newLocale)
+    if (i18n.global.locale.value != newLocale) {
+      Trans.currentLocale = newLocale
+      document.querySelector("html").setAttribute("lang", newLocale)
+
+      try {
+        if (!fromRouter) {
+          await router.replace({ params: { locale: newLocale } })
+        }
+      } catch (e) {
+        console.log(e)
+        router.push("/")
+      }
+    }
   },
 
   async routeMiddleware(to, _from, next) {
     let paramLocale = to.params.locale
-    paramLocale ||= 'en'
 
     if (!Trans.isLocaleSupported(paramLocale)) {
-      return next('en')
+      return next(Trans.defaultLocale)
     }
 
-    await Trans.switchLanguage(paramLocale)
+    await Trans.switchLanguage(paramLocale, true)
 
     return next()
   }

@@ -14,6 +14,8 @@ import VuePluralize from 'vue-pluralize';
 
 import CultureApp from './app.vue';
 
+import i18n from "@/i18n/index.js";
+
 Vue.use(BootstrapVue, {
   BSkeleton: { animation: 'fade' }
 });
@@ -24,6 +26,7 @@ Vue.use(BootstrapVueIcons)
 
 // Create the Vue app
 const app = createApp(CultureApp);
+app.use(i18n)
 app.use(router) // Set up the router
 app.use(store) // Set up the store
 app.mount('#app') // Display app using element with id 'app'

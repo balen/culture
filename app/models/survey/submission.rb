@@ -11,4 +11,8 @@ class Survey::Submission < ApplicationRecord
            dependent: :destroy
 
   enum submission_state: { draft: 'draft', submitted: 'submitted' }
+
+  belongs_to :survey_respondent, class_name: 'Survey::Respondent'
+
+  # TODO: list the "asked questions" so we can use these to deprioritze on subsequent surveys
 end

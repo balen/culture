@@ -82,6 +82,8 @@ export default {
   }),
   computed: {
     surveyInfos() {
+      // TODO: change this to get the related surveys
+      // /organization/47b8292c-3266-483a-b5fb-bb21d239d6c4/organization_surveys
       return Object.values(this.selected.organization_surveys);
     }
   },
@@ -90,10 +92,10 @@ export default {
       newOrganizationSurvey: NEW_ORGANIZATION_SURVEY
     }),
     resultsLink(id) {
-      return `/results/${id}/`
+      return `/${Tr.getPersistedLocale()}/results/${id}/`
     },
     surveyUrl(access_code) {
-      return `/${Tr.getPersistedLocale()}/survey/submit/${access_code}`
+      return `/${Tr.getPersistedLocale()}/intro/${access_code}`
     },
     forceFileDownload(response, title) {
       const url = window.URL.createObjectURL(new Blob([response.data]))
@@ -139,7 +141,7 @@ export default {
           organization_id: this.selected.id
         }
       ).then((data) => {
-        console.debug("done");
+        // console.debug("done");
         this.fetch_model_by_id('organization', this.selected.id);
       })
     }

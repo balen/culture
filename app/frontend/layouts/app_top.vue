@@ -5,6 +5,7 @@
         <b-navbar toggleable="lg" type="dark" variant="secondary">
           <b-navbar-brand href="#">Culture</b-navbar-brand>
           <b-navbar-nav class="ml-auto">
+            <LanguageSwitcher class="mr-3" />
             <b-nav-text class="mr-3" v-if="loggedIn">Logged in as: {{ currentUser.email ? currentUser.email : '' }}</b-nav-text>
             <b-nav-form v-if="!loggedIn">
               <b-button size="sm" @click="login" variant="primary">login</b-button>
@@ -23,15 +24,17 @@
 <script>
 import userSessionMixin from "@/mixins/user_session.mixin"
 import { authMixin } from '@/mixins/auth.mixin';
-import AppTopNav from './app_top_nav.vue';
+import AppTopNav from '@/layouts/app_top_nav.vue';
 import Tr from "@/i18n/translation";
+import LanguageSwitcher from "@/components/language_switcher.vue";
 
 /*
  */
 export default {
   name: "AppTop",
   components: {
-    AppTopNav
+    AppTopNav,
+    LanguageSwitcher
   },
   mixins: [
     authMixin,

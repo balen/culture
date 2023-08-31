@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get 'submissions', to: 'organization_survey/submissions#index'
     # get 'submissions/flat', to: 'organization_survey/submissions#flat'
     get 'results', to: 'organization_survey/results#index'
+    get 'my_results', to: 'organization_survey/results#my_results'
   end
 
   resources :organizations, path: 'organization' do
@@ -40,6 +41,9 @@ Rails.application.routes.draw do
   resources :groups, path: 'group', controller: 'survey/groups', except: [:index] do
     get 'questions', to: 'survey/group/questions#index'
   end
+
+  get 'respondent/current', to: 'survey/respondents#current'
+  resources :respondents, path: 'respondent', controller: 'survey/respondents', only: [:show, :create]
 
   resources :questions, controller: 'survey/group/questions', path: 'question', except: [:index] do
     get 'answers', to: 'survey/group/question/answers#index'

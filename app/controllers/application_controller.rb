@@ -31,6 +31,20 @@ class ApplicationController < ActionController::Base
     session[:locale] = I18n.locale
   end
 
+  def get_current_respondent_id
+    session[:respondent_id]
+  end
+
+  def set_current_respondent_id(respondent_id:)
+    session[:respondent_id] = respondent_id
+  end
+
+  def current_respondent
+    current_respondent_id = get_current_respondent_id
+    return nil if current_respondent_id.nil?
+
+    Survey::Respondent.find_by(id: current_respondent_id)
+  end
 
   # before_action :authenticate_user!
   # skip_before_action :verify_authenticity_token

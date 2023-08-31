@@ -1,22 +1,22 @@
 <!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
-  <div v-if="number_questions > 0" class="mt-5">
-    <h5>{{ questions[current_question].question }}</h5>
-    <likert
-      :settings="questions[current_question].likert_setting"
-      v-model="responses[questions[current_question].id].response.value"
-      class="mt-5"
-    ></likert>
-    <div class="mt-2 d-flex justify-content-between">
-      <div class="d-flex justify-content-start">
-        <b-button v-if="current_question > 0" class="ml-5" variant="secondary" @click="prevQuestion">Previous</b-button>
-      </div>
-      <div class="d-flex justify-content-end">
-        <b-button v-if="current_question < (number_questions - 1)" class="mr-5" variant="primary" @click="nextQuestion">Next</b-button>
-        <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">Submit</b-button>
-      </div>
+<div v-if="number_questions > 0" class="mt-5">
+  <h5>{{ questions[current_question].question }}</h5>
+  <likert
+    :settings="questions[current_question].likert_setting"
+    v-model="responses[questions[current_question].id].response.value"
+    class="mt-5"
+  ></likert>
+  <div class="mt-2 d-flex justify-content-between">
+    <div class="d-flex justify-content-start">
+      <b-button v-if="current_question > 0" class="ml-5" variant="secondary" @click="prevQuestion">Previous</b-button>
+    </div>
+    <div class="d-flex justify-content-end">
+      <b-button v-if="current_question < (number_questions - 1)" class="mr-5" variant="primary" @click="nextQuestion">Next</b-button>
+      <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">Submit</b-button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -82,19 +82,25 @@ export default {
           (obj) => {
             this.responses[this.questions[question].id] = obj;
           }
-        )
+        ).catch( () => {})
       } else {
         return this.new_model(responseModel, this.responses[this.questions[question].id]).then(
           (obj) => {
             this.responses[this.questions[question].id] = obj;
           }
-        )
+        ).catch(() => { })
       }
     },
     // Create a submisison and make it the selected one
     createSubmission() {
       var org_survey = this.selected_model(organizationSurveyModel);
-      return this.newSubmission({ surveyId: org_survey.survey.id, organizationSurveyId: org_survey.id });
+      return this.newSubmission(
+        { 
+          surveyId: org_survey.survey.id, 
+          organizationSurveyId: org_survey.id,
+          questions: this.questions.map(o => o.id)
+        }
+      );
     },
     /*
     1. On first next page create a submission (make it selected) and add a response
@@ -105,17 +111,18 @@ export default {
     submitResponses() {
       let current = this.current_question;
       // var submission = this.selected_model(submissionModel);
-      this.saveResponse(current).then(
+      this.saveResponse(current).finally(
         () => {
           this.submitSelectedSubmission().then(
-            () => { this.$router.push(`/${Tr.getPersistedLocale()}/surveys/${this.access_code}/thankyou`); }
+            () => { 
+              this.$router.push(`/${Tr.getPersistedLocale()}/thankyou/${this.access_code}`);
+            }
           )
         }
       )
     }
   },
   mounted() {
-    console.debug("********* MOUNT SURVET");
     this.$nextTick(() => {
       if (this.access_code) {
         // fetch the survey based in access code

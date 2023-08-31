@@ -12,6 +12,7 @@ First create a local environment file in the project directory call `.envrc`. It
     export SMTP_PORT=10025
     export SMTP_SERVER=127.0.0.1
     export VITE_SUPPORTED_LOCALES=en,fr,pt_BR
+    export VITE_DEFAULT_LOCALE=fr
 
 Set your DB password and long random strings for the DEVISE_SECRET and SECRET_KEY_BASE.
 

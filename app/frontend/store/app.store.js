@@ -7,7 +7,7 @@ export const appStore = {
   state: {
     wholePageSpinner: false,
     perPage: 20,
-    locale: 'en'
+    locale: null
   },
   mutations: {
     [SET_PER_PAGE](state, amt) {

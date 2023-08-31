@@ -722,7 +722,7 @@ module ResourceMethods
   end
 
   def permitted_params()
-    _permitted_params(model: nil)
+    _permitted_params(model: object_name)
   end
 
   def _permitted_params(model: , instance: nil)

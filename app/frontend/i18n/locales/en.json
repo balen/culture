@@ -1,6 +1,10 @@
 {
   "locale": {
     "en": "English",
-    "fr": "French"
+    "fr": "French",
+    "pt_BR": "Portuguese"
+  },
+  "message": {
+    "hello": "{msg} world"
   }
 }
