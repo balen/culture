@@ -12,6 +12,7 @@ import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 
 import ResuitsScreen from '@/components/results/results_screen.vue';
+import MyResuitsScreen from '@/components/results/my_results_screen.vue';
 
 import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
 import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
@@ -48,6 +49,11 @@ export const router = createRouter({
         {
           path: 'results/:id',
           component: ResuitsScreen,
+          props: true
+        },
+        {
+          path: 'myresults/:id',
+          component: MyResuitsScreen,
           props: true
         },
         {

@@ -53,6 +53,7 @@ export default {
     onNext: function () {
       // TODO: we show the results screen
       // this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
+      this.$router.push(`/${Tr.getPersistedLocale()}/myresults/${this.access_code}`);
     },
     copy() {
       const blobInput = new Blob([this.$refs.copybox.innerHTML], { type: 'text/html' })
