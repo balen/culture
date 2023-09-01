@@ -29,7 +29,6 @@ services:
   # The Postgre DB
   postgres:
     image: postgres:12-alpine
-    restart: always
     env_file:
       - .envrc
     volumes:
@@ -41,7 +40,6 @@ services:
   mailcatcher:
     image: schickling/mailcatcher
     entrypoint: "mailcatcher -f --ip 0.0.0.0"
-    restart: always
     ports:
       - 10025:1025
       - 1080:1080
