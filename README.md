@@ -18,7 +18,7 @@ Set your DB password and long random strings for the DEVISE_SECRET and SECRET_KE
 
 NOTE: there is a mailcatcher instance in the docker compose so any emails sent by the app can be read via `http://localhost:1080/`
 
-Using docker compose:
+## Using Docker Compose
 
 Create volumes for the Postgres data and the node modules using the **docker volume create** command:
 
@@ -35,3 +35,18 @@ Or
 
 The Rails container will use the local directory and is running vite in dev mode for HMR. You can access the application
 using `http://localhost:5100`
+
+## Native Rails
+
+Required: `direnv` or something that loads `.envrc`
+
+1. (psql) `create user culture with password '********' createdb;`
+2. `RAILS_ENV=test bundle exec rake db:create`
+3. `RAILS_ENV=test bundle exec rake db:schema:load`
+4. `RAILS_ENV=test bundle exec rake survey:init_or_update` # load survey data
+5. `RAILS_ENV=test bundle exec rake views:recreate` # (re)create the views
+6. `RAILS_ENV=test bundle exec rake db:seed` # create seeed data
+7. `RAILS_ENV=test bundle exec rake spec` # run spec
+
+
+
