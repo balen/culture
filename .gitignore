@@ -42,6 +42,9 @@ node_modules
 *.local
 
 .DS_Store
+.yarn
+
+spec/example.txt
 
 /app/assets/builds/*
 !/app/assets/builds/.keep

@@ -14,7 +14,9 @@ if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
   bin/rake db:migrate
-
+  bin/rake views:recreate
+  bin/rake survey:init_or_update
+  
   # Run migrations and start the server, anything that comes in on 3000 is accepted
   # bin/rails db:create
   bin/rails db:seed
@@ -23,6 +25,8 @@ elif [[ $RAILS_ENV = "staging" ]]; then
   bin/rake db:db_missing || (bin/rails db:create; bin/rails db:schema:load)
 
   bin/rake db:migrate
+  bin/rake views:recreate
+  bin/rake survey:init_or_update
   bin/rails db:seed
 
   bin/rake assets:precompile
@@ -36,12 +40,11 @@ else
 
   # bin/rake views:recreate
   bin/rake db:migrate
+  bin/rake views:recreate
+  bin/rake survey:init_or_update
 
   bin/rake assets:precompile
 fi
-
-rake views:recreate
-rake survey:init_or_update
 
 # TODO: check as dev server is bin/dev
 if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
