@@ -5,7 +5,7 @@ class Survey::RespondentsController < ResourceController
   POLICY_CLASS = 'Survey::RespondentPolicy'.freeze
   POLICY_SCOPE_CLASS = 'Survey::RespondentPolicy::Scope'.freeze
 
-  skip_before_action :authenticate_user!, only: [:create, :show]
+  skip_before_action :authenticate_user!, only: [:create, :show, :current]
   skip_before_action :load_resource, only: [:create, :show]
   after_action :set_respondent, only: [:show, :create]
   def set_respondent
