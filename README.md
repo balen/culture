@@ -38,8 +38,7 @@ using `http://localhost:5100`
 
 ## Native Rails
 
-Required: `direnv` or something that loads `.envrc`
-
+0. `source .envrc`
 1. (psql) `create user culture with password '********' createdb;`
 2. `RAILS_ENV=test bundle exec rake db:create`
 3. `RAILS_ENV=test bundle exec rake db:schema:load`
