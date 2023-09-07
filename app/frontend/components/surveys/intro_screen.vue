@@ -24,11 +24,11 @@
       </p> -->
     </b-col>
   </b-row>
-  <b-row class="mt-4">
-    <b-col sm="9">
-      If you have a respondent identifier please enter here before continuing
-    </b-col>
-    <b-col sm="3">
+  <div class="d-flex mt-4">
+    <div class="mr-3">
+      If you have a respondent identifier please enter here before continuing:
+    </div>
+    <div>
       <b-form-input 
         v-model="respondent_id" 
         type="text" 
@@ -41,8 +41,8 @@
       </div>
 
       <!-- <b-alert :show="error.visible" variant="danger">{{ error.text }}</b-alert> -->
-    </b-col>
-  </b-row>
+    </div>
+  </div>
   <b-row class="mt-4">
     <b-col>
       <b-button variant="success" @click="onNext">NEXT</b-button>
