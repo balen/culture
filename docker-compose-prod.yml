@@ -1,0 +1,43 @@
+#
+#
+#
+version: "3.7"
+
+volumes:
+  pgdata:
+    external: true
+
+services:
+  postgres:
+    container_name: culture-postgres
+    image: postgres:15-alpine
+    restart: always
+    env_file:
+      - "/opt/culture/etc/culture.env"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    container_name: culture-web
+    command: "/opt/culture/script/start.sh"
+    image: ghcr.io/balen/culture:latest
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - /var/log/culture/web:/opt/culture/log
+      - type: tmpfs
+        target: /app/tmp
+    environment:
+      - PGID=1005
+      - PUID=1001
+      - RAILS_ENV=production
+      - NODE_ENV=production
+    env_file:
+      - "/opt/culture/etc/culture.env"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    restart: always
