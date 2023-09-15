@@ -40,7 +40,7 @@ export const router = createRouter({
       beforeEnter: Tr.routeMiddleware,
       children: [
         {
-          path: 'login',
+          path: 'admin',
           component: LoginScreen,
           children: loginRoutes,
           meta: { guest: true },

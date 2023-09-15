@@ -7,9 +7,6 @@
           <b-navbar-nav class="ml-auto">
             <LanguageSwitcher class="mr-3" />
             <b-nav-text class="mr-3" v-if="loggedIn">Logged in as: {{ currentUser.email ? currentUser.email : '' }}</b-nav-text>
-            <b-nav-form v-if="!loggedIn">
-              <b-button size="sm" @click="login" variant="primary">login</b-button>
-            </b-nav-form>
             <b-nav-form v-if="loggedIn">
               <b-button size="sm" @click="logout" variant="primary">Logout</b-button>
             </b-nav-form>
@@ -45,9 +42,6 @@ export default {
     }
   },
   methods: {
-    login() {
-      this.$router.push(`/${Tr.getPersistedLocale()}/login`)
-    },
     logout() {
       this.signOut().then(() => {
         this.fetchSession({ force: true }).then(
