@@ -39,14 +39,23 @@ using `http://localhost:5100`
 
 ## Native Rails
 
-0. `source .envrc`
+`source .envrc`
+
+### Setup
+
 1. (psql) `create user culture with password '********' createdb;`
 2. `RAILS_ENV=test bundle exec rake db:create`
 3. `RAILS_ENV=test bundle exec rake db:schema:load`
 4. `RAILS_ENV=test bundle exec rake survey:init_or_update` # load survey data
 5. `RAILS_ENV=test bundle exec rake views:recreate` # (re)create the views
 6. `RAILS_ENV=test bundle exec rake db:seed` # create seeed data
-7. `RAILS_ENV=test bundle exec rake spec` # run spec
 
+### Testing
 
+`RAILS_ENV=test bundle exec rake spec` # run spec
 
+### Dev
+
+`bin/rails s`
+
+Open your browser to `http://localhost:3000/en/admin` and login as test@test.com, password 111111
