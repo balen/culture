@@ -4,23 +4,20 @@
   <b-row>
     <b-col>
       <p>
-        Here's your respondent identifier:
+        {{ $t('survey.respondent_here') }}<br>
+        <b>{{ $t('survey.respondent_once') }}</b>
         <span class="respondent-id mr-2 ml-2">{{ respondent.respondent_id }}</span>
-        <button @click="copy" class="btn btn-primary btn-sm">Copy to Clipboard</button>
-        <span class="text-success ml-2" v-if="copySuccess">Copied!</span> 
+        <button @click="copy" class="btn btn-primary btn-sm">{{ $t('survey.respondent_copy') }}</button>
+        <span class="text-success ml-2" v-if="copySuccess">{{ $t('survey.respondent_copied') }}</span> 
       </p>
       <p>
         You have answered X questions ...
-        <!-- It is only displayed once, and now. Write it down or copy it and paste it in a secure note. 
-        It must remain confidential and not be shared with anyone else. 
-        This identifier allows you to keep track of changes over time.
-        The graph with your scores will show the history of the scores. -->
       </p>
     </b-col>
   </b-row>
   <b-row class="mt-4">
     <b-col>
-      <b-button variant="success" @click="onNext">Results</b-button>
+      <b-button variant="success" @click="onNext">{{ $t('results') }}</b-button>
     </b-col>
   </b-row>
 </div>
