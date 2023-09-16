@@ -9,11 +9,11 @@
   ></likert>
   <div class="mt-2 d-flex justify-content-between">
     <div class="d-flex justify-content-start">
-      <b-button v-if="current_question > 0" class="ml-5" variant="secondary" @click="prevQuestion">Previous</b-button>
+      <b-button v-if="current_question > 0" class="ml-5" variant="secondary" @click="prevQuestion">{{ $t('previous') }}</b-button>
     </div>
     <div class="d-flex justify-content-end">
-      <b-button v-if="current_question < (number_questions - 1)" class="mr-5" variant="primary" @click="nextQuestion">Next</b-button>
-      <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">Submit</b-button>
+      <b-button v-if="current_question < (number_questions - 1)" class="mr-5" variant="primary" @click="nextQuestion">{{ $t('next') }}</b-button>
+      <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">{{ $t('submit') }}</b-button>
     </div>
   </div>
 </div>

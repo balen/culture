@@ -4,7 +4,25 @@
     "fr": "Francais",
     "pt_BR": "Portugaise"
   },
+  "survey": {
+    "intro_random": "Les 15 questions aléatoires suivantes vous aideront à évaluer la culture de votre lieu de travail.",
+    "intro_enough": "Après avoir répondu à un nombre suffisant de questions, les scores seront affichés, accompagnés d'explications.",
+    "intro_purpose": "Cela vous permettra de comprendre ce qui peut être fait pour améliorer les aspects de votre culture d'entreprise qui ont des scores.",
+    "intro_anonymous": "Ce sondage est anonyme. Même les développeurs de l'application ne peuvent savoir qui y répond.",
+    "intro_team": "Note: dans les questions suivantes, lorsqu'une \"équipe\" est évoquée, pensez aux personnes avec lesquelles vous interagissez le plus pour accomplir vos tâches.",
+    "intro_NA": "Si une question ne s'applique pas, passez à la suivante.",
+    "intro_identifier": "Si vous avez un identifiant de répondant, entrez-le ici avant de continuer:",
+    "intro_idfield": "Votre identifiant de répondant",
+    "respondent_here": "Voici votre identifiant personnel. Cet identifiant vous permet de suivre les changements dans le temps. Le graphe montrera vos scores avec leur historique.",
+    "respondent_once": "L'identifiant est seulement affiché une fois, et maintenant. Recopiez-le à la main ou copiez le dans une note confidentielle. Il ne doit être partagé avec personne.",
+    "respondent_copy": "Copier dans le presse-papier",
+    "respondent_copied": "Copié!"
+  },
+  "next": "Suivant",
+  "previous": "Précédent",
+  "submit": "Envoyer",
+  "results": "Résultats",
   "message": {
-    "hello": "{msg} tout le monde"
+    "hello": "{msg} monde"
   }
 }

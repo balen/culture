@@ -5,34 +5,28 @@
     <b-col>
       <!-- <p>{{ $t('message.hello', { msg: 'hello' }) }}</p> -->
       <p>
-      The following 15 random questions will help assess your workplace culture.
-      After enough questions have been answered, scores will be displayed, with explanations.
-      This will allow you to understand what can be done to improve aspects of your workplace culture that have scores.
+      {{ $t('survey.intro_random') }}<br>
+      {{ $t('survey.intro_enough') }}<br>
+      {{ $t('survey.intro_purpose') }}
       </p>
       <p>
-      This survey is anonymous. No-one can know who answers, not even the developers of this application.
+        {{ $t('survey.intro_anonymous') }}
       </p>
       <p>
-      Note: in the following questions, where a "team" is mentioned, 
-      think of the people you interact with the most to perform your tasks.
-      If a question does not apply, simply click Next."
+        {{ $t('survey.intro_team') }}<br>
+        {{ $t('survey.intro_NA') }}
       </p>
-      <!-- <p>
-      You will have the ability to use a respondent identifier to track changes over time.
-      You need to complete 15 questions to get a respondent identifier.
-      After that you can answer more questions and not need to hit "Submit" to have your answer recorded
-      </p> -->
     </b-col>
   </b-row>
   <div class="d-flex mt-4">
     <div class="mr-3">
-      If you have a respondent identifier please enter here before continuing:
+      <b>{{ $t('survey.intro_identifier') }}</b>
     </div>
     <div>
       <b-form-input 
         v-model="respondent_id" 
         type="text" 
-        placeholder="Enter your respondent identifier"
+        :placeholder="$t('survey.intro_idfield')"
         :state="valid"
         debounce="500"
       ></b-form-input>
@@ -45,7 +39,7 @@
   </div>
   <b-row class="mt-4">
     <b-col>
-      <b-button variant="success" @click="onNext">NEXT</b-button>
+      <b-button variant="success" @click="onNext">{{ $t('next') }}</b-button>
     </b-col>
   </b-row>
 </div>
