@@ -7,12 +7,9 @@ class SurveysController < ResourceController
   DEFAULT_SORTBY = 'surveys.updated_at'.freeze
   DEFAULT_ORDER = 'desc'.freeze
 
-  skip_before_action :authenticate_user!, only: [:start]
+  skip_before_action :authenticate_user!, only: [:start, :find]
 
   # To start a survey
-  # Create a survey respondent with a access code
-  # 
-
   def start
     # verify the access code
     org = OrganizationSurvey.find_by access_code: params[:access_code]
@@ -35,25 +32,14 @@ class SurveysController < ResourceController
       content_type: 'application/json'
   end
 
-  def take_survey
+  # Find a survey by the access code
+  def find
     org = OrganizationSurvey.find_by access_code: params[:access_code]
-    svc = SurveyService.getService(survey: org.survey)
-    # find or create the respondent based on the id passed in
-    # if not found then create a new responent with a random id
-    questions = svc.randomQuestions
+    raise "No such Organization" unless org
 
-    options = {
-        include: [
-          :'answers',
-          :'likert_setting',
-          :'likert_setting.likert_categories'
-        ],
-        params: {
-          domain: "#{request.base_url}"
-        }
-      }
-    render json: Survey::QuestionSerializer.new(questions, options).serializable_hash(),
-      content_type: 'application/json'
+    survey = org.survey
+
+    render_object(survey)
   end
 
   def serializer_includes

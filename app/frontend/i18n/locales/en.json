@@ -16,7 +16,12 @@
     "respondent_here": "Here's your respondent identifier. This identifier allows you to keep track of changes over time. The graph with your scores will show the history of the scores.",
     "respondent_once": "This identifier is only displayed once, and now. Write it down or copy it and paste it in a secure note. It must remain confidential and not be shared with anyone else.",
     "respondent_copy": "Copy to clipboard",
-    "respondent_copied": "Copied!"
+    "respondent_copied": "Copied!",
+    "access_code": "Survey Code"
+  },
+  "dashboard": {
+    "intro_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "survey_code_text": "Please enter a survey code:"
   },
   "next": "Next",
   "previous": "Previous",
