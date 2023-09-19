@@ -1,6 +1,7 @@
 <!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
   <div class="row">
+    FCK
     <div class="col" v-if="loggedIn">
       <organization-manage></organization-manage>
     </div>

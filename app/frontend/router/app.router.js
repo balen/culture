@@ -90,14 +90,20 @@ export const router = createRouter({
             if (from.meta.intro) {
               return true
             } else {
-              return false
+              return {
+                path: `/${Tr.getPersistedLocale()}`,
+              }
             }
           },
         },
         {
           path: '',
           component: Dashboard
-          // redirect: '/dashboard'
+        },
+        { 
+          path: '/:pathMatch(.*)*', 
+          name: 'NotFound', 
+          component: Dashboard 
         }
       ]
     }
@@ -116,14 +122,12 @@ router.beforeEach((to, from, next) => {
           query: { redirect: to.fullPath }
         })
       } else {
-        // console.debug("sending to /dashboard");
         next({
           path: '/dashboard',
           query: { redirect: to.fullPath }
         })
       }
     }).catch((error) => {
-      console.error(error)
       next();
     })
   } else {
