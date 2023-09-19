@@ -9,7 +9,8 @@ import {
   DUPLICATE_SURVEY,
   DUPLICATE_QUESTION,
   NEW_RESPONSE,
-  START_SUBMISSION
+  START_SUBMISSION,
+  FIND_SURVEY
 } from './survey.actions';
 import {
   surveyModel,
@@ -191,6 +192,9 @@ export const surveyStore = {
     },
     [START_SUBMISSION]({ dispatch }, { model, access_code }) {
       return dispatch('jv/get', `${surveyEndpoints[surveyModel]}/start/${access_code}`)
+    },
+    [FIND_SURVEY]({ dispatch }, { model, access_code }) {
+      return dispatch('jv/get', `${surveyEndpoints[surveyModel]}/find/${access_code}`)
     },
     [NEW_SUBMISSION]({ dispatch, state }, { surveyId, organizationSurveyId, questions }) {
       let relationships = {
