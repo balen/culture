@@ -1,7 +1,7 @@
 # Copyright (c) 2023 Henry Balen. All Rights Reserved.
 # frozen_string_literal: true
 class OrganizationSurvey::ResultsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:my_results]
 
   def index
     calc = ScoreCalculator.new
