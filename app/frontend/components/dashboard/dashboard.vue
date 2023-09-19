@@ -36,7 +36,7 @@
 <script>
 import modelMixin from '@/mixins/model.mixin';
 import modelUtilsMixin from '@/mixins/model_utils.mixin'
-import { userSessionMixin } from '@/mixins/user_session.mixin';
+import userSessionMixin from "@/mixins/user_session.mixin"
 import OrganizationManage from '@/components/organizations/organization_manage.vue';
 
 import { mapActions } from 'vuex';
@@ -45,13 +45,13 @@ import Tr from "@/i18n/translation"
 
 export default {
   name: "Dashboard",
-  mixins: [userSessionMixin],
   components: {
     OrganizationManage
   },
   mixins: [
     modelMixin,
-    modelUtilsMixin
+    modelUtilsMixin,
+    userSessionMixin
   ],
   data() {
     return {
