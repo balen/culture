@@ -73,7 +73,7 @@ export const router = createRouter({
           path: 'intro/:access_code',
           component: IntroScreen,
           props: true,
-          meta: { guest: true }
+          meta: { guest: true, intro: true }
         },
         {
           path: 'thankyou/:access_code',
@@ -85,12 +85,25 @@ export const router = createRouter({
           path: 'survey/submit/:access_code',
           component: SurveySubmissionScreen,
           props: true,
-          meta: { guest: true }
+          meta: { guest: true },
+          beforeEnter: (to, from) => {
+            if (from.meta.intro) {
+              return true
+            } else {
+              return {
+                path: `/${Tr.getPersistedLocale()}`,
+              }
+            }
+          },
         },
         {
           path: '',
           component: Dashboard
-          // redirect: '/dashboard'
+        },
+        { 
+          path: '/:pathMatch(.*)*', 
+          name: 'NotFound', 
+          component: Dashboard 
         }
       ]
     }
@@ -109,14 +122,12 @@ router.beforeEach((to, from, next) => {
           query: { redirect: to.fullPath }
         })
       } else {
-        // console.debug("sending to /dashboard");
         next({
           path: '/dashboard',
           query: { redirect: to.fullPath }
         })
       }
     }).catch((error) => {
-      console.error(error)
       next();
     })
   } else {
