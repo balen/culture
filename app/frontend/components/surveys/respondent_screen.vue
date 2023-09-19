@@ -48,8 +48,7 @@ export default {
       currentRespondent: CURRENT_RESPONDENT,
     }),
     onNext: function () {
-      // TODO: we show the results screen
-      // this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
+      // We show the results screen
       this.$router.push(`/${Tr.getPersistedLocale()}/myresults/${this.access_code}`);
     },
     copy() {

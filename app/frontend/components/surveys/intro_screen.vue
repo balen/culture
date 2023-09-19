@@ -89,7 +89,7 @@ export default {
               // survey/submit/:access_code
               this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
             } else {
-              // if id is null report and error
+              // if id is null report an error
               // this.$router.push(`/${Tr.getPersistedLocale()}/new_respondent/${this.access_code}`);
               this.error.text = "Respondent ID not found"
               this.error.visible = true
@@ -98,6 +98,7 @@ export default {
           }
         )
       } else {
+        // TODO: clear respondent ... 
         // Go to the new respondent screen
         this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
         // this.$router.push(`/${Tr.getPersistedLocale()}/new_respondent/${this.access_code}`);

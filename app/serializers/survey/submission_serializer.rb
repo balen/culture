@@ -2,7 +2,7 @@ class Survey::SubmissionSerializer
   include JSONAPI::Serializer
 
   attributes :id, :lock_version, :survey_id,
-             :organization_survey_id, :submission_state,
+             :organization_survey_id, :submission_state, :survey_respondent_id,
              :created_at, :updated_at
 
   has_many :responses,

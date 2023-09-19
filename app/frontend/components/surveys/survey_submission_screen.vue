@@ -123,6 +123,7 @@ export default {
     }
   },
   mounted() {
+    // Check from ...
     this.$nextTick(() => {
       if (this.access_code) {
         // fetch the survey based in access code
