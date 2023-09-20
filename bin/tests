@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+RAILS_ENV=test bundle exec rake db:drop
+RAILS_ENV=test bundle exec rake db:create
+RAILS_ENV=test bundle exec rake db:schema:load
+RAILS_ENV=test bundle exec rake views:recreate
+RAILS_ENV=test bundle exec rake survey:init_or_update
+RAILS_ENV=test bundle exec rake db:seed
+
+RAILS_ENV=test bundle exec rake spec

@@ -51,3 +51,5 @@ spec/example.txt
 
 /node_modules
 .vscode/settings.json
+
+/spec/examples.txt
