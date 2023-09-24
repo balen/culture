@@ -15,11 +15,13 @@
         <div class="w-50">
           <b-form-input 
             v-model="access_code" 
+            id="access-code"
             type="text" 
             :placeholder="$t('survey.access_code')"
             autofocus="true"
             :state="valid"
             debounce="500"
+            @keyup.enter="onNext"
           ></b-form-input>
           <div class="invalid-feedback">
             {{ error.text }}

@@ -40,6 +40,10 @@ group :staging, :development, :test do
   gem 'factory_bot_rails'
 end
 
+group :development, :test do
+  gem "cypress-rails"
+end
+
 group :test do
   # gem 'database_cleaner', group: :test
   gem 'database_cleaner-active_record'
