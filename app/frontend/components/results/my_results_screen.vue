@@ -7,6 +7,7 @@
           bg-variant="primary" text-variant="white"
           title="Psychological Safety"
           class="text-center score-card"
+          data-cy="ps-results-card"
         >
           <b-card-text>
             {{ results.ps.total }}
@@ -21,6 +22,7 @@
           bg-variant="primary" text-variant="white"
           title="Total Motivation"
           class="text-center score-card"
+          data-cy="tm-results-card"
         >
           <b-card-text>
             {{ results.tm.total }}
@@ -35,6 +37,7 @@
           bg-variant="primary" text-variant="white"
           title="Growth Mindset"
           class="text-center score-card"
+          data-cy="gm-results-card"
         >
           <b-card-text>
             {{ results.gm.total }}

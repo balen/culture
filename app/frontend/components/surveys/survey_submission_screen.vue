@@ -9,11 +9,11 @@
   ></likert>
   <div class="mt-2 d-flex justify-content-between">
     <div class="d-flex justify-content-start">
-      <b-button v-if="current_question > 0" class="ml-5" variant="secondary" @click="prevQuestion">{{ $t('previous') }}</b-button>
+      <b-button v-if="current_question > 0" data-cy="likert-button-prev" class="ml-5" variant="secondary" @click="prevQuestion">{{ $t('previous') }}</b-button>
     </div>
     <div class="d-flex justify-content-end">
-      <b-button v-if="current_question < (number_questions - 1)" class="mr-5" variant="primary" @click="nextQuestion">{{ $t('next') }}</b-button>
-      <b-button v-if="current_question == (number_questions - 1)" class="mr-5" variant="success" @click="submitResponses">{{ $t('submit') }}</b-button>
+      <b-button v-if="current_question < (number_questions - 1)" data-cy="likert-button-next" class="mr-5" variant="primary" @click="nextQuestion">{{ $t('next') }}</b-button>
+      <b-button v-if="current_question == (number_questions - 1)" data-cy="likert-button-next" class="mr-5" variant="success" @click="submitResponses">{{ $t('submit') }}</b-button>
     </div>
   </div>
 </div>
@@ -22,7 +22,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { START_SUBMISSION, NEW_SUBMISSION } from '@/store/survey/survey.actions';
-import Likert from './likert.vue'
+import Likert from '@/components/surveys/likert.vue'
 import modelMixin from '@/mixins/model.mixin';
 import submissionMixin from './submission.mixin';
 import modelUtilsMixin from '@/mixins/model_utils.mixin'

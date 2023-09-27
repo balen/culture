@@ -17,7 +17,7 @@
   </b-row>
   <b-row class="mt-4">
     <b-col>
-      <b-button variant="success" @click="onNext">{{ $t('results') }}</b-button>
+      <b-button variant="success" data-cy="button-see-results" @click="onNext">{{ $t('results') }}</b-button>
     </b-col>
   </b-row>
 </div>

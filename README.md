@@ -14,6 +14,7 @@ First create a local environment file in the project directory call `.envrc`. It
     export VITE_SUPPORTED_LOCALES=en,fr,pt_BR
     export VITE_DEFAULT_LOCALE=fr
     export VITE_FALLBACK_LOCALE=en
+    export CYPRESS_RAILS_PORT=5100
 
 Set your DB password and long random strings for the DEVISE_SECRET and SECRET_KEY_BASE.
 
@@ -52,7 +53,13 @@ using `http://localhost:5100`
 
 ### Testing
 
-`RAILS_ENV=test bundle exec rake spec` # run spec
+`bin/tests` # setup and run the spec tests
+
+To run the cypress tests, first make sure that CYPRESS_RAILS_PORT has been set to 5100 (see above)
+
+`rake cypress:open`
+
+The test scripts are in cypress/e2e
 
 ### Dev
 
