@@ -1,7 +1,7 @@
 # Copyright (c) 2023 Henry Balen. All Rights Reserved.
 # frozen_string_literal: true
 class OrganizationSurvey::ResultsController < ApplicationController
-  before_action :authenticate_user!, except: [:my_results]
+  before_action :authenticate_user!, except: [:my_results, :my_count]
 
   def index
     calc = ScoreCalculator.new
@@ -31,6 +31,23 @@ class OrganizationSurvey::ResultsController < ApplicationController
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :GM)
       }
     }
+
+    render json: results,
+        adapter: :json,
+        content_type: 'application/json'
+  end
+
+  def my_count
+    survey_respondent_id = get_current_respondent_id
+    raise "no current respondent" if survey_respondent_id.nil?
+
+    org_survey = OrganizationSurvey.find_by(access_code: params[:organization_survey_id])
+
+    answered_question_count = View::ResponseView.select(:question_id).distinct.where(
+          "access_code = ? and survey_respondent_id = ?", org_survey.access_code, survey_respondent_id
+        ).count
+
+    results = { count: answered_question_count }
 
     render json: results,
         adapter: :json,

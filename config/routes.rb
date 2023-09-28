@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     # get 'submissions/flat', to: 'organization_survey/submissions#flat'
     get 'results', to: 'organization_survey/results#index'
     get 'my_results', to: 'organization_survey/results#my_results'
+    get 'my_count', to: 'organization_survey/results#my_count'
   end
 
   resources :organizations, path: 'organization' do
