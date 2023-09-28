@@ -17,6 +17,7 @@
     "respondent_once": "This identifier is only displayed once, and now. Write it down or copy it and paste it in a secure note. It must remain confidential and not be shared with anyone else.",
     "respondent_copy": "Copy to clipboard",
     "respondent_copied": "Copied!",
+    "respondent_answered": "You have answered no questions. | You have answered 1 question. | You have answered {count} questions.",
     "access_code": "Survey Code"
   },
   "dashboard": {

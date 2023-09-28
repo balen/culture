@@ -1,17 +1,17 @@
 <!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
-<div v-if="respondent != null">
+<div v-if="respondent != null" class="center-text container">
   <b-row>
     <b-col>
       <p>
         {{ $t('survey.respondent_here') }}<br>
         <b>{{ $t('survey.respondent_once') }}</b>
-        <span class="respondent-id mr-2 ml-2">{{ respondent.respondent_id }}</span>
+        <span class="respondent-id mr-2 ml-2" ref="copybox">{{ respondent.respondent_id }}</span>
         <button @click="copy" class="btn btn-primary btn-sm">{{ $t('survey.respondent_copy') }}</button>
         <span class="text-success ml-2" v-if="copySuccess">{{ $t('survey.respondent_copied') }}</span> 
       </p>
-      <p>
-        You have answered X questions ...
+      <p v-if="count">
+        {{ $t('survey.respondent_answered', count) }}
       </p>
     </b-col>
   </b-row>
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { http } from "@/utils/http";
+
 import modelMixin from '@/mixins/model.mixin';
 import { mapActions } from 'vuex';
 import { CURRENT_RESPONDENT } from "@/store/respondent.store";
@@ -37,7 +39,8 @@ export default {
   data() {
     return {
       respondent: null,
-      copySuccess: false
+      copySuccess: false,
+      count: null
     }
   },
   mixins: [
@@ -63,6 +66,13 @@ export default {
     this.currentRespondent().then(
       (respondent) => {
         this.respondent = respondent
+
+        http.get(`/organization_survey/${this.access_code}/my_count`
+        ).then(
+          (response) => {
+            this.count = response.data.count
+          }
+        )
       }
     )
   }
@@ -73,4 +83,13 @@ export default {
 .respondent-id {
   color: darkgreen;
 }
+
+.center-text {
+  width: 75%;
+  margin-top: 50px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 0px;
+}
+
 </style>

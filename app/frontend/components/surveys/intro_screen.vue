@@ -29,6 +29,7 @@
         :placeholder="$t('survey.intro_idfield')"
         :state="valid"
         debounce="500"
+        @keyup.enter="onNext"
         data-cy="respondent-id"
       ></b-form-input>
       <div class="invalid-feedback" data-cy="invalid-respondent-id">
