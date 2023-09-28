@@ -29,8 +29,9 @@
         :placeholder="$t('survey.intro_idfield')"
         :state="valid"
         debounce="500"
+        data-cy="respondent-id"
       ></b-form-input>
-      <div class="invalid-feedback">
+      <div class="invalid-feedback" data-cy="invalid-respondent-id">
         {{ error.text }}
       </div>
 
@@ -39,7 +40,7 @@
   </div>
   <b-row class="mt-4">
     <b-col>
-      <b-button variant="success" @click="onNext">{{ $t('next') }}</b-button>
+      <b-button variant="success" @click="onNext" data-cy="start-survey-button">{{ $t('next') }}</b-button>
     </b-col>
   </b-row>
 </div>

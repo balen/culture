@@ -3,7 +3,7 @@
   <div>
     <ul class="likert">
       <li  v-for="(likert_category) in settings.likert_categories" :key="likert_category.id" :id="likert_category.id" >
-        <input type="radio" name="likert" :value="likert_category.value" v-model="selectedValue">
+        <input type="radio" name="likert" :value="likert_category.value" v-model="selectedValue" :data-cy="'likert-' + likert_category.value">
         <label v-if="likert_category.value == 1">{{ settings.left_label }}</label>
         <label v-else-if="likert_category.value == 7">{{ settings.right_label }}</label>
         <label v-else>{{ likert_category.label }}</label>
