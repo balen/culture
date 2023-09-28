@@ -18,6 +18,10 @@
     "respondent_copy": "Copier dans le presse-papier",
     "respondent_copied": "Copié!"
   },
+  "launchpad": {
+    "intro_text": "Bienvenue sur AnonymousSurveyTool. Vous serez en mesure de fournir des points de données pour révéler la culture de votre organisation.",
+    "survey_code_text": "Veuillez saisir un code d'enquête:"
+  },
   "next": "Suivant",
   "previous": "Précédent",
   "submit": "Envoyer",

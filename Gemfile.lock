@@ -105,7 +105,7 @@ GEM
       i18n (>= 1.8.11, < 2)
     fast_excel (0.4.1)
       ffi (> 1.9, < 2)
-    ffi (1.15.5)
+    ffi (1.16.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -155,7 +155,7 @@ GEM
       net-protocol
     net-protocol (0.2.1)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0)
       net-protocol
     nilify_blanks (1.4.0)
       activerecord (>= 4.0.0)
@@ -255,7 +255,7 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
-    rubocop (1.56.3)
+    rubocop (1.56.4)
       base64 (~> 0.1.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -280,7 +280,7 @@ GEM
     unicode-display_width (2.4.2)
     vite_plugin_legacy (3.0.2)
       vite_ruby (~> 3.0, >= 3.0.4)
-    vite_rails (3.0.15)
+    vite_rails (3.0.16)
       railties (>= 5.1, < 8)
       vite_ruby (~> 3.0, >= 3.2.2)
     vite_ruby (3.3.4)
@@ -292,7 +292,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.11)
+    zeitwerk (2.6.12)
 
 PLATFORMS
   x86_64-darwin-21

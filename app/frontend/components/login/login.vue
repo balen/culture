@@ -121,7 +121,7 @@ export default {
                     if (this.prevRoute) {
                       this.$router.push(this.prevRoute)
                     } else {
-                      this.$router.push(`/${Tr.getPersistedLocale()}/dashboard`)
+                      this.$router.push(`/${Tr.getPersistedLocale()}/launchpad`)
                     }
                   }
                 )

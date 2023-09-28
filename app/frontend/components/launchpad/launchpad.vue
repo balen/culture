@@ -6,10 +6,10 @@
     </div>
     <div v-else class="intro-text container">
       <div class="d-flex mt-4">
-        {{ $t('dashboard.intro_text') }}
+        {{ $t('launchpad.intro_text') }}
       </div>
       <div class="d-flex mt-2 mb-2">
-        {{ $t('dashboard.survey_code_text') }}
+        {{ $t('launchpad.survey_code_text') }}
       </div>
       <div class="d-flex">
         <div class="w-50">
@@ -46,7 +46,7 @@ import { FIND_SURVEY } from '@/store/survey/survey.actions';
 import Tr from "@/i18n/translation"
 
 export default {
-  name: "Dashboard",
+  name: "Launchpad",
   components: {
     OrganizationManage
   },

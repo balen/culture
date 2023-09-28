@@ -2,7 +2,7 @@ describe('The Home Page', () => {
   it('start survey', () => {
     cy.visit('/en')
 
-    // Enter the survey code
+    // Enter the survey code (from "launchpad")
     cy.get('#access-code').type(`ABCD{enter}`)
 
     // From intro screen click next and go to first question

@@ -27,8 +27,8 @@ const loginRoutes = [
   { path: '', component: Login, name: "login" },
 ]
 
-// dashboard
-import Dashboard from '@/components/dashboard/dashboard.vue';
+// Launchpad
+import Launchpad from '@/components/launchpad/launchpad.vue';
 
 export const router = createRouter({
   // Provide the history implementation to use. We are using the hash history for simplicity here.
@@ -57,8 +57,8 @@ export const router = createRouter({
           props: true
         },
         {
-          path: 'dashboard',
-          component: Dashboard,
+          path: 'launchpad',
+          component: Launchpad,
           meta: {
             // requiresAuth: true
           }
@@ -98,12 +98,12 @@ export const router = createRouter({
         },
         {
           path: '',
-          component: Dashboard
+          component: Launchpad
         },
         { 
           path: '/:pathMatch(.*)*', 
           name: 'NotFound', 
-          component: Dashboard 
+          component: Launchpad 
         }
       ]
     }
@@ -123,7 +123,7 @@ router.beforeEach((to, from, next) => {
         })
       } else {
         next({
-          path: '/dashboard',
+          path: '/launchpad',
           query: { redirect: to.fullPath }
         })
       }
