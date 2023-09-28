@@ -56,6 +56,17 @@ using `http://localhost:5100`
 
 ### Dev
 
-`bin/rails s`
+Use `bin/dev` instead of `rails s` for hot module reload
+`bin/dev`
 
-Open your browser to `http://localhost:3000/en/admin` and login as test@test.com, password 111111
+Open your browser to `http://localhost:5100/en/admin` and login as test@test.com, password 111111
+
+## Deployment
+
+In GitHub, click on [Releases](https://github.com/balen/culture/releases), "Draft a new release", choose/create a tag, enter a title and description, click "Publish Release"
+
+`cd /opt/culture/app`
+`sudo ./redeploy.sh`
+
+Watching the logs:
+`sudo docker logs --follow culture-web`
