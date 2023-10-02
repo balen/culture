@@ -16,11 +16,13 @@ class SurveysController < ResourceController
     raise "No such Organization" unless org
     svc = SurveyService.getService(survey: org.survey)
 
+    # if we have access code and a current respondent
+    #  then we know what questions they have been asked and
+    #  use that to weight the "random" questions
     questions = svc.randomQuestions
 
     options = {
         include: [
-          :'answers',
           :'likert_setting',
           :'likert_setting.likert_categories'
         ],
@@ -46,7 +48,6 @@ class SurveysController < ResourceController
     [
       :groups,
       :'groups.questions',
-      :'groups.questions.answers',
       :'groups.questions.likert_setting',
       :'groups.questions.likert_setting.likert_categories'
     ]
@@ -57,7 +58,6 @@ class SurveysController < ResourceController
       {
         groups: {
           questions: [
-            :answers,
             {
               likert_setting: :likert_categories
             }

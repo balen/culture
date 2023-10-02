@@ -15,14 +15,4 @@ class Survey::QuestionSerializer
                 "#{params[:domain]}/likert_setting/#{object.likert_setting.id}"
               }
             }
-
-  has_many :answers, serializer: Survey::AnswerSerializer,
-            links: {
-              self: -> (object, params) {
-                "#{params[:domain]}/question/#{object.id}"
-              },
-              related: -> (object, params) {
-                "#{params[:domain]}/question/#{object.id}/answers"
-              }
-            }
 end

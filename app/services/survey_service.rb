@@ -3,6 +3,7 @@ class SurveyService
 
   # Return unique number questions in a random order
   def randomQuestions(number: 15)
+    # TODO: change so that we get questions that have not been answered first
     pool = @survey.questions.to_a
     results = []
 

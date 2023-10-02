@@ -6,7 +6,6 @@ class Survey::Group::QuestionsController < ResourceController
 
   def includes
     [
-      :answers,
       { likert_setting: :likert_categories }
     ]
   end
@@ -38,7 +37,6 @@ class Survey::Group::QuestionsController < ResourceController
       regex
       group
       group_id
-      answers_attributes
       linked_field
     ]
   end

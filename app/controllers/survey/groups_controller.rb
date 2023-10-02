@@ -6,16 +6,7 @@ class Survey::GroupsController < ResourceController
 
   def serializer_includes
     [
-      :questions,
-      :'questions.answers'
-    ]
-  end
-
-  def includes
-    [
-      {
-        questions: :answers
-      }
+      :questions
     ]
   end
 

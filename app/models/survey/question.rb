@@ -20,23 +20,11 @@ class Survey::Question < ApplicationRecord
           inverse_of: :question,
           dependent: :destroy
 
-  has_many :answers,
-          class_name: 'Survey::Answer',
-          foreign_key: 'question_id',
-          inverse_of: :question,
-          dependent: :destroy
-  accepts_nested_attributes_for :answers, allow_destroy: true
-
   has_many :responses, dependent: :destroy, class_name: 'Survey::Response', foreign_key: 'question_id'
 
   validates_inclusion_of :question_type, in:
     [
-      :textfield, :textbox,
-      :singlechoice, :multiplechoice,
-      :dropdown,
-      :boolean, # true or false
-      :likert
-      # score 1 to 5 with labels at each end
+       :likert
     ]
   
   has_one :likert_setting,
