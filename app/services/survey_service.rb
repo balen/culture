@@ -15,6 +15,18 @@ class SurveyService
     results
   end
 
+  def deterministicQuestions
+    results = []
+
+    # Take the first five from each group
+    ["PS", "TM", "GM"].each do |code|
+      group = @survey.groups.where(short_code: code).first
+      results.concat group.questions.first(5)
+    end
+
+    results
+  end
+
   def self.getService(survey:)
     SurveyService.new(survey)
   end

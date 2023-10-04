@@ -19,7 +19,11 @@ class SurveysController < ResourceController
     # if we have access code and a current respondent
     #  then we know what questions they have been asked and
     #  use that to weight the "random" questions
-    questions = svc.randomQuestions
+    questions = if Rails.env.test?
+                  svc.deterministicQuestions
+                else
+                  svc.randomQuestions
+                end
 
     options = {
         include: [
