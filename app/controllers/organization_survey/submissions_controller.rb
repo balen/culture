@@ -5,8 +5,6 @@ class OrganizationSurvey::SubmissionsController < ResourceController
   MODEL_CLASS = 'Survey::Submission'.freeze
   POLICY_CLASS = 'Survey::SubmissionPolicy'.freeze
   POLICY_SCOPE_CLASS = 'Survey::SubmissionPolicy::Scope'.freeze
-  # TODO: where is this?
-  # XLS_SERIALIZER_CLASS = 'Survey::SubmissionXlsSerializer'.freeze
   DEFAULT_SORTBY = 'survey_submissions.updated_at'
 
   skip_before_action :authenticate_user!, only: [:create, :update]

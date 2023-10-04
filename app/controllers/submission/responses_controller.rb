@@ -9,11 +9,6 @@ class Submission::ResponsesController < ResourceController
   POLICY_SCOPE_CLASS = 'Submission::ResponsePolicy::Scope'.freeze
 
   skip_before_action :authenticate_user!, except: [:index]
-  # before_action :record_question, only: [:create]
-
-  # Note the question that was asked ...
-  # def record_question
-  # end
 
   def before_save
     # Do not allow a save if there is no response

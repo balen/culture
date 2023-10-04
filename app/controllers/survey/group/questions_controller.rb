@@ -40,8 +40,4 @@ class Survey::Group::QuestionsController < ResourceController
       linked_field
     ]
   end
-
-  # def object_destroy_method
-  #   :soft_delete
-  # end
 end
