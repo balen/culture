@@ -1,13 +1,13 @@
-describe('The Home Page', () => {
-  it('start survey', () => {
+describe('Surveys', () => {
+  it('should offer survey', () => {
+
     cy.visit('/en')
 
     // Enter the survey code (from "launchpad")
     cy.get('#access-code').type(`ABCD{enter}`)
 
     // From intro screen click next and go to first question
-    cy.get('[data-cy="start-survey-button"]').contains('Next')
-    cy.get('[data-cy="start-survey-button"]').click()
+    cy.get('[data-cy="start-survey-button"]').contains('Next').click()
 
     // Answer each of the questions (15 of them)
     for (let i = 0; i < 15; i++) { 
@@ -18,8 +18,22 @@ describe('The Home Page', () => {
     // View the results
     cy.get('[data-cy="button-see-results"]').click()
 
-    cy.get('[data-cy="ps-results-card"]').should('have.class', 'card')
-    cy.get('[data-cy="tm-results-card"]').should('have.class', 'card')
-    cy.get('[data-cy="gm-results-card"]').should('have.class', 'card')
+    const psResultsCard = cy.get('[data-cy="ps-results-card"]').as('psResultsCard');
+
+    cy.get('@psResultsCard').should('have.class', 'card');
+    cy.get('@psResultsCard').find('.card-title').should('contain', 'Psychological Safety');
+    cy.get('@psResultsCard').find('.card-text').should('contain', '40.8');
+
+    const tmResultsCard = cy.get('[data-cy="tm-results-card"]').as('tmResultsCard');
+
+    cy.get('@tmResultsCard').should('have.class', 'card');
+    cy.get('@tmResultsCard').find('.card-title').should('contain', 'Total Motivation');
+    cy.get('@tmResultsCard').find('.card-text').should('contain', '-6.67');
+
+    const gmResultsCard = cy.get('[data-cy="gm-results-card"]').as('gmResultsCard');
+
+    cy.get('@gmResultsCard').should('have.class', 'card');
+    cy.get('@gmResultsCard').find('.card-title').should('contain', 'Growth Mindset');
+    cy.get('@gmResultsCard').find('.card-text').should('contain', '35.7');
   })
 })
