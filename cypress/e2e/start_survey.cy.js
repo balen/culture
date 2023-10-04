@@ -11,7 +11,7 @@ describe('The Home Page', () => {
 
     // Answer each of the questions (15 of them)
     for (let i = 0; i < 15; i++) { 
-      cy.get('[data-cy="likert-3"]').click()
+      cy.get('[data-cy="likert-4"]').click()
       cy.get('[data-cy="likert-button-next"]').click()      
     }
 

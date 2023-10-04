@@ -12,35 +12,6 @@ class Survey::Response < ApplicationRecord
 
   before_save :set_response_text
 
-  def self.create_response(question:, submission:, value:, check_update_linked: false)
-    json_val = empty_json
-    case question.question_type
-         when :textfield
-           json_val[:text] = value
-         when :textbox
-           json_val[:text] = value
-         when :singlechoice
-           json_val[:answers] = value
-         when :multiplechoice
-           json_val[:answers] = value
-         when :dropdown
-           json_val[:answers] = value
-         when :boolean
-           json_val[:answers] = value
-         else
-           json_val = nil
-         end
-
-    if json_val
-      Survey::Response.create!(
-        question: question,
-        submission: submission,
-        response: json_val,
-        check_update_linked: check_update_linked
-      )
-    end
-  end
-
   #
   # Extract the values from all the entries and save a plain text
   # version that can be used for searchin the responses in a "report"
@@ -73,14 +44,5 @@ class Survey::Response < ApplicationRecord
         h[k] = v
       end
     end
-  end
-
-  private
-
-  def self.empty_json
-    {
-      text: "",
-      answers: []
-    }
   end
 end

@@ -77,9 +77,6 @@ export const store = createStore({
     ...organizationSurveyStore.getters,
     ...respondentStore.getters
   },
-  plugins: [
-    ...surveyStore.plugins
-  ],
   mutations: {
     [SELECT](state, { model, itemOrId }) {
       state.selected[model] = getId(itemOrId);

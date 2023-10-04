@@ -3,7 +3,6 @@ import toastMixin from '@/mixins/toast.mixin';
 import { SAVE, SELECT, SELECTED, FETCH_SELECTED, DELETE, UNSELECT, PATCH_FIELDS } from '@/store/model.store';
 import { SURVEY_SAVE_ERROR, SURVEY_SAVE_ERROR_DELETE, SURVEY_SAVE_SUCCESS, SURVEY_SAVE_SUCCESS_DELETE } from '@/constants/strings'
 import { surveyModel as model } from '@/store/survey';
-import { GET_CACHED_INDEX, GET_CACHED_GROUPS, GET_CACHED_QUESTIONS, GET_CACHED_ANSWERS } from '@/store/survey/survey.store';
 
 export const surveyMixin = {
   mixins: [toastMixin],
@@ -16,12 +15,6 @@ export const surveyMixin = {
     }
   },
   methods: {
-    ...mapGetters({
-      getCachedIndex: GET_CACHED_INDEX,
-      getCachedPages: GET_CACHED_GROUPS,
-      getCachedQuestions: GET_CACHED_QUESTIONS,
-      getCachedAnswers: GET_CACHED_ANSWERS
-    }),
     ...mapActions({
       patch: PATCH_FIELDS
     }),
