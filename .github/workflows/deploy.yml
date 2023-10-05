@@ -122,6 +122,10 @@ jobs:
         run: |
           docker run -d --name="test-database" --hostname "postgres" -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e "POSTGRES_PASSWORD=test" postgres:latest
           docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e "POSTGRES_PASSWORD=test" $CONTAINER_TEST_REPOSITORY /bin/sh -c "bundle exec rake db:create db:schema:load; bundle exec rake survey:init_or_update; rake views:recreate; bundle exec rake db:seed; bundle exec rspec"
+      - name: Run cypress tests
+        run: |
+          docker run -d --name="test-database" --hostname "postgres" -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e "POSTGRES_PASSWORD=test" postgres:latest
+          docker run --network "container:test-database" -e RAILS_ENV=test -e DEVISE_SECRET=${{ env.DEVISE_SECRET }} -e "POSTGRES_PASSWORD=test" $CONTAINER_TEST_REPOSITORY /bin/sh -c "bundle exec rake db:create db:schema:load; bundle exec rake survey:init_or_update; rake views:recreate; bundle exec rake db:seed; bundle exec cypress:run"
       # The docker pull does not work
       - name: Run security tests
         if: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/security-') }}
