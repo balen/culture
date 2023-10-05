@@ -10,7 +10,8 @@
           data-cy="ps-results-card"
         >
           <b-card-text>
-            {{ results.ps.total }}
+            {{ results.ps.range.min }} to
+            {{ results.ps.range.max }}
           </b-card-text>
         </b-card>
         <div>
@@ -25,9 +26,10 @@
           data-cy="tm-results-card"
         >
           <b-card-text>
-            {{ results.tm.total }}
+            {{ results.tm.range.min }} to
+            {{ results.tm.range.max }}
           </b-card-text>
-        </b-card>
+      </b-card>
         <div>
           <Bar :data="tmData" :options="options" :style="barStyle"/>
         </div>
@@ -40,9 +42,10 @@
           data-cy="gm-results-card"
         >
           <b-card-text>
-            {{ results.gm.total }}
+            {{ results.gm.range.min }} to
+            {{ results.gm.range.max }}
           </b-card-text>
-        </b-card>
+      </b-card>
         <div>
           <Bar :data="gmData" :options="options" :style="barStyle"/>
         </div>

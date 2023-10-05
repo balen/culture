@@ -8,26 +8,34 @@ class OrganizationSurvey::ResultsController < ApplicationController
     org_survey = OrganizationSurvey.find params[:organization_survey_id]
 
     ps_results = calc.psychological_safety(organization_id: org_survey.organization_id, access_code: org_survey.access_code)
+    ps_range = calc.range(group_short_code: :PS, scores: ps_results)
+
     tm_results =  calc.total_motivation(organization_id: org_survey.organization_id, access_code: org_survey.access_code)
+    tm_range = calc.range(group_short_code: :TM, scores: tm_results)
+
     gm_results =  calc.growth_mindset(organization_id: org_survey.organization_id, access_code: org_survey.access_code)
+    gm_range = calc.range(group_short_code: :GM, scores: gm_results)
 
     results = {
       ps: {
         questions: ScoreCalculator::WEIGHTS[:PS].map{|k,v| k},
         total: calc.total(scores: ps_results),
         scores: ps_results,
+        range: ps_range,
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :PS)
       },
       tm: {
         questions: ScoreCalculator::WEIGHTS[:TM].map{|k,v| k},
         total: calc.total(scores: tm_results),
         scores: tm_results,
+        range: tm_range,
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :TM)
       },
       gm: {
         questions: ScoreCalculator::WEIGHTS[:GM].map{|k,v| k},
         total: calc.total(scores: gm_results),
         scores: gm_results,
+        range: gm_range,
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :GM)
       }
     }
@@ -63,26 +71,32 @@ class OrganizationSurvey::ResultsController < ApplicationController
     org_survey = OrganizationSurvey.find_by(access_code: params[:organization_survey_id])
 
     ps_results = calc.psychological_safety(organization_id: org_survey.organization_id, access_code: org_survey.access_code, survey_respondent_id: survey_respondent_id)
+    ps_range = calc.range(group_short_code: :PS, scores: ps_results)
     tm_results =  calc.total_motivation(organization_id: org_survey.organization_id, access_code: org_survey.access_code, survey_respondent_id: survey_respondent_id)
+    tm_range = calc.range(group_short_code: :TM, scores: tm_results)
     gm_results =  calc.growth_mindset(organization_id: org_survey.organization_id, access_code: org_survey.access_code, survey_respondent_id: survey_respondent_id)
+    gm_range = calc.range(group_short_code: :GM, scores: gm_results)
 
     results = {
       ps: {
         questions: ScoreCalculator::WEIGHTS[:PS].map{|k,v| k},
         total: calc.total(scores: ps_results),
         scores: ps_results,
+        range: ps_range,
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :PS, survey_respondent_id: survey_respondent_id)
       },
       tm: {
         questions: ScoreCalculator::WEIGHTS[:TM].map{|k,v| k},
         total: calc.total(scores: tm_results),
         scores: tm_results,
+        range: tm_range,
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :TM, survey_respondent_id: survey_respondent_id)
       },
       gm: {
         questions: ScoreCalculator::WEIGHTS[:GM].map{|k,v| k},
         total: calc.total(scores: gm_results),
         scores: gm_results,
+        range: gm_range,
         summary: View::ResponseView.summary(organization_id: org_survey.organization_id, access_code: org_survey.access_code, group_short_code: :GM, survey_respondent_id: survey_respondent_id)
       }
     }
