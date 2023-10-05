@@ -18,30 +18,45 @@ RSpec.describe ScoreCalculator, type: :service do
       Survey::Question.find_by short_code: short_code
     end
 
-    it '2 responses' do
+    def setup_responses(responses)
+      # Create submission, questions etc
       survey_submission = create(:survey_submission, survey: survey, organization_survey: organization_survey)
-      create(:survey_response, submission: survey_submission, question: question("PS02"), response: { 'value' => '5' })
-      create(:survey_response, submission: survey_submission, question: question("GM01"), response: { 'value' => '6' })
+      responses.each do |question, value|
+        create(:survey_response, 
+          submission: survey_submission,
+          question: question,
+          response: { value: value }  
+        )
+      end
+    end
+
+    it 'handles 2 responses' do
+      setup_responses(
+        question("PS02") => 5,
+        question("GM01") => 6
+      )
 
       expect(Survey::Response.count).to eq(2)
     end
 
-    it '6 responses' do
-      survey_submission = create(:survey_submission, survey: survey, organization_survey: organization_survey)
-      create(:survey_response, submission: survey_submission, question: question("PS01"), response: { 'value' => '5' })
-      create(:survey_response, submission: survey_submission, question: question("PS02"), response: { 'value' => '5' })
-      create(:survey_response, submission: survey_submission, question: question("PS03"), response: { 'value' => '5' })
-      create(:survey_response, submission: survey_submission, question: question("GM01"), response: { 'value' => '6' })
-      create(:survey_response, submission: survey_submission, question: question("GM02"), response: { 'value' => '6' })
-      create(:survey_response, submission: survey_submission, question: question("GM03"), response: { 'value' => '6' })
+    it 'handles 6 responses' do
+      setup_responses(
+        question("PS01") => 5,
+        question("PS02") => 5,
+        question("PS03") => 5,
+        question("GM01") => 6,
+        question("GM02") => 6,
+        question("GM03") => 6
+      )
 
       expect(Survey::Response.count).to eq(6)
     end
 
     it 'calculates scores correctly' do
-      survey_submission = create(:survey_submission, survey: survey, organization_survey: organization_survey)
-      create(:survey_response, submission: survey_submission, question: question("PS02"), response: { 'value' => '5' })
-      create(:survey_response, submission: survey_submission, question: question("GM01"), response: { 'value' => '6' })
+      setup_responses(
+        question("PS02") => 5,
+        question("GM01") => 6
+      )
 
       calc = described_class.new
 
