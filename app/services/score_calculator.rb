@@ -2,13 +2,13 @@ class ScoreCalculator
   # These weights are derived from the sample spreadsheet
   WEIGHTS = {
     PS: {
-      PS01: { invert: true, weight: Rational(100, 49)},
-      PS02: { invert: false, weight: Rational(100, 49)},
-      PS03: { invert: true, weight: Rational(100, 49)},
-      PS04: { invert: false, weight: Rational(100, 49)},
-      PS05: { invert: true, weight: Rational(100, 49)},
-      PS06: { invert: false, weight: Rational(100, 49)},
-      PS07: { invert: false, weight: Rational(100, 49)}
+      PS01: { invert: true, weight: Rational(100, 42)},
+      PS02: { invert: false, weight: Rational(100, 42)},
+      PS03: { invert: true, weight: Rational(100, 42)},
+      PS04: { invert: false, weight: Rational(100, 42)},
+      PS05: { invert: true, weight: Rational(100, 42)},
+      PS06: { invert: false, weight: Rational(100, 42)},
+      PS07: { invert: false, weight: Rational(100, 42)}
     },
     TM: {
       # Goes from -100 to +100
@@ -20,14 +20,14 @@ class ScoreCalculator
       TM06: { invert: false, weight: -10.0}
     },
     GM: {
-      GM01: { invert: true, weight: Rational(100, 56)},
-      GM02: { invert: true, weight: Rational(100, 56)},
-      GM03: { invert: true, weight: Rational(100, 56)},
-      GM04: { invert: true, weight: Rational(100, 56)},
-      GM05: { invert: false, weight: Rational(100, 56)},
-      GM06: { invert: false, weight: Rational(100, 56)},
-      GM07: { invert: false, weight: Rational(100, 56)},
-      GM08: { invert: false, weight: Rational(100, 56)}
+      GM01: { invert: true, weight: Rational(100, 48)},
+      GM02: { invert: true, weight: Rational(100, 48)},
+      GM03: { invert: true, weight: Rational(100, 48)},
+      GM04: { invert: true, weight: Rational(100, 48)},
+      GM05: { invert: false, weight: Rational(100, 48)},
+      GM06: { invert: false, weight: Rational(100, 48)},
+      GM07: { invert: false, weight: Rational(100, 48)},
+      GM08: { invert: false, weight: Rational(100, 48)}
     }
   }
 
@@ -36,7 +36,7 @@ class ScoreCalculator
 
   # we get the avareage for each question - based on the number of responses
   def total(scores:)
-    scores.map{|s, v| v }.reduce(:+).to_f.round(2)
+    scores.map{|s, v| v }.reduce(:+).to_f.round(1)
   end
 
   def psychological_safety(organization_id:, access_code:, survey_respondent_id: nil)
@@ -90,11 +90,15 @@ class ScoreCalculator
       responses.each do |response|
         scores[response.short_code] ||= 0
         counts[response.short_code] ||= 0
+        raw_score = response.response_as_text.to_i
+        
+        # Invert the score if needed
         if WEIGHTS[group_short_code][response.short_code.to_sym][:invert]
-          scores[response.short_code] += (8 - response.response_as_text.to_i) * WEIGHTS[group_short_code][response.short_code.to_sym][:weight]
-        else
-          scores[response.short_code] += response.response_as_text.to_i * WEIGHTS[group_short_code][response.short_code.to_sym][:weight]
+          raw_score = 8 - raw_score
         end
+        
+        # Apply the weight
+        scores[response.short_code] += (raw_score - 1) * WEIGHTS[group_short_code][response.short_code.to_sym][:weight]
         counts[response.short_code] += 1
       end
     end
