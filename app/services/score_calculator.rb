@@ -31,12 +31,20 @@ class ScoreCalculator
     }
   }
 
-  # calc = ScoreCalculator.new
-  # calc.psychological_safety(organization_id: "47b8292c-3266-483a-b5fb-bb21d239d6c4", access_code: "ABCD")
-
   # we get the avareage for each question - based on the number of responses
   def total(scores:)
     scores.map{|s, v| v }.reduce(:+).to_f.round(2)
+  end
+
+  def range(group_short_code:, scores:)
+    score = total(scores: scores)
+    excluded = scores.map{|s, v| s.to_sym}
+    min = min(group_short_code: group_short_code, exclude: excluded)
+    {
+      # if min is - and score is - then we keep min
+      min: (min < 0 && score < 0) ? min : min + score,
+      max: max(group_short_code: group_short_code, exclude: excluded) + score
+    }
   end
 
   def psychological_safety(organization_id:, access_code:, survey_respondent_id: nil)
@@ -51,28 +59,36 @@ class ScoreCalculator
     individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :GM, survey_respondent_id: survey_respondent_id)
   end
 
-  def min(group_short_code:)
+  def min(group_short_code:, exclude: [])
     min = 0.0
     WEIGHTS[group_short_code].each do |k, q|
+      next if exclude.include? k
+
       if q[:weight] < 0
         min += 7 * q[:weight]
       else
         min += q[:weight]
       end
     end
-    min
+    # Rails.logger.debug "**** MIN FOR #{group_short_code} is #{min}"
+    min.to_f.round(2)
   end
 
-  def max(group_short_code:)
+  def max(group_short_code:, exclude: [])
     max = 0.0
     WEIGHTS[group_short_code].each do |k, q|
+      next if exclude.include? k
+      # Rails.logger.debug "CALC for #{k}"
+
       if q[:weight] < 0
         max += q[:weight]
       else
         max += 7 * q[:weight]
       end
     end
-    max
+    # Rails.logger.debug "**** #{group_short_code} exclude #{exclude}"
+    # Rails.logger.debug "**** MAX FOR #{group_short_code} is #{max}"
+    max.to_f.round(2)
   end
 
   # need dimension of the question
