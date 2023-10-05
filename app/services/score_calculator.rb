@@ -67,10 +67,11 @@ class ScoreCalculator
       if q[:weight] < 0
         min += 7 * q[:weight]
       else
-        min += q[:weight]
+        # Most got from 0 to 6 except TM which is 1 to 7 so also take that into account
+        min += (group_short_code == :TM) ? q[:weight] : 0
       end
     end
-    # Rails.logger.debug "**** MIN FOR #{group_short_code} is #{min}"
+
     min.to_f.round(2)
   end
 
@@ -78,16 +79,15 @@ class ScoreCalculator
     max = 0.0
     WEIGHTS[group_short_code].each do |k, q|
       next if exclude.include? k
-      # Rails.logger.debug "CALC for #{k}"
 
       if q[:weight] < 0
         max += q[:weight]
       else
-        max += 7 * q[:weight]
+        # Most got from 0 to 6 except TM which is 1 to 7 so also take that into account
+        max += (group_short_code == :TM) ? 7 * q[:weight] : 6 * q[:weight]
       end
     end
-    # Rails.logger.debug "**** #{group_short_code} exclude #{exclude}"
-    # Rails.logger.debug "**** MAX FOR #{group_short_code} is #{max}"
+
     max.to_f.round(2)
   end
 
@@ -109,12 +109,15 @@ class ScoreCalculator
         raw_score = response.response_as_text.to_i
         
         # Invert the score if needed
+        # Most got from 0 to 6 except TM which is 1 to 7 so also take that into account
         if WEIGHTS[group_short_code][response.short_code.to_sym][:invert]
-          raw_score = 8 - raw_score
+          raw_score = (group_short_code == :TM) ? 8 - raw_score : 7 - raw_score
+        else
+          raw_score = (group_short_code == :TM) ? raw_score : raw_score - 1
         end
         
         # Apply the weight
-        scores[response.short_code] += (raw_score - 1) * WEIGHTS[group_short_code][response.short_code.to_sym][:weight]
+        scores[response.short_code] += raw_score * WEIGHTS[group_short_code][response.short_code.to_sym][:weight]
         counts[response.short_code] += 1
       end
     end

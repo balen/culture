@@ -90,7 +90,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("PS07") => 7
       )
       calc = described_class.new
-      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
+      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")
       ps_total = calc.total(scores: ps_scores)
 
       expect(ps_total).to eq(100)
