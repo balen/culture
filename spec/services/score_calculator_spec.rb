@@ -2,49 +2,50 @@ require 'rails_helper'
 
 RSpec.describe ScoreCalculator, type: :service do
   describe '.calculate_scores' do
-    let(:survey) { create(:survey) }
-    let(:survey_group_ps) { create(:survey_group, short_code: "PS", survey: survey) }
-    let(:survey_group_gm) { create(:survey_group, short_code: "GM", survey: survey) }
+    def survey
+      Survey.first
+    end
 
-    let(:question_ps) { 
-      create(:survey_question, 
-        short_code: "PS02", 
-        question_type: 'likert', 
-        question: 'Members of this team are able to bring up problems and tough issues',
-        group: survey_group_ps
-      ) 
-    }
-    let(:question_gm) { 
-      create(:survey_question, 
-        short_code: "GM01",
-        question_type: 'likert',
-        question: 'I don’t think I personally can do much to increase my intelligence.',
-        group: survey_group_gm
-      ) 
-    }
+    def organization
+      Organization.first
+    end
 
-    let(:organization) { create(:organization)}
-    let(:organization_survey) { 
-      create(:organization_survey,
-        survey: survey,
-        organization: organization,
-        access_code: "1234"
-      )
-    }
+    def organization_survey
+      OrganizationSurvey.first
+    end
 
-    let(:survey_submission) { create(:survey_submission, survey: survey, organization_survey: organization_survey) }
-    let(:response_1) { create(:survey_response, submission: survey_submission, question: question_ps, response: { 'value' => '5' }) }
-    let(:response_2) { create(:survey_response, submission: survey_submission, question: question_gm, response: { 'value' => '6' }) }
+    def question(short_code)
+      Survey::Question.find_by short_code: short_code
+    end
 
-    before do
-      response_1
-      response_2
+    it '2 responses' do
+      survey_submission = create(:survey_submission, survey: survey, organization_survey: organization_survey)
+      create(:survey_response, submission: survey_submission, question: question("PS02"), response: { 'value' => '5' })
+      create(:survey_response, submission: survey_submission, question: question("GM01"), response: { 'value' => '6' })
+
+      expect(Survey::Response.count).to eq(2)
+    end
+
+    it '6 responses' do
+      survey_submission = create(:survey_submission, survey: survey, organization_survey: organization_survey)
+      create(:survey_response, submission: survey_submission, question: question("PS01"), response: { 'value' => '5' })
+      create(:survey_response, submission: survey_submission, question: question("PS02"), response: { 'value' => '5' })
+      create(:survey_response, submission: survey_submission, question: question("PS03"), response: { 'value' => '5' })
+      create(:survey_response, submission: survey_submission, question: question("GM01"), response: { 'value' => '6' })
+      create(:survey_response, submission: survey_submission, question: question("GM02"), response: { 'value' => '6' })
+      create(:survey_response, submission: survey_submission, question: question("GM03"), response: { 'value' => '6' })
+
+      expect(Survey::Response.count).to eq(6)
     end
 
     it 'calculates scores correctly' do
+      survey_submission = create(:survey_submission, survey: survey, organization_survey: organization_survey)
+      create(:survey_response, submission: survey_submission, question: question("PS02"), response: { 'value' => '5' })
+      create(:survey_response, submission: survey_submission, question: question("GM01"), response: { 'value' => '6' })
+
       calc = described_class.new
 
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "1234")   
+      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")   
       expect(gm_scores).to eq(
         {
           # GM01 is inverted
@@ -52,7 +53,7 @@ RSpec.describe ScoreCalculator, type: :service do
         }
       )
 
-      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "1234")   
+      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
       expect(ps_scores).to eq(
         {
           "PS02" => (5 * Rational(100, 49)).to_f.round(2)
