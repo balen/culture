@@ -28,6 +28,7 @@ gem 'ransack'
 gem 'routing-filter'
 gem "vite_rails", "~> 3.0"
 gem 'vite_plugin_legacy'
+gem 'with_advisory_lock'
 
 group :staging, :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
