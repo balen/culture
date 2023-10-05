@@ -30,6 +30,15 @@ RSpec.describe ScoreCalculator, type: :service do
       end
     end
 
+    it 'calculates PS range for no answers' do
+      calc = described_class.new
+      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
+      ps_range = calc.range(group_short_code: :PS, scores: ps_scores)
+
+      expect(ps_range[:min]).to eq(0)
+      expect(ps_range[:max]).to eq(100)
+    end
+
     it 'handles 2 responses' do
       setup_responses(
         question("PS02") => 5,
@@ -81,7 +90,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("PS07") => 7
       )
       calc = described_class.new
-      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
+      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")
       ps_total = calc.total(scores: ps_scores)
 
       expect(ps_total).to eq(100)
