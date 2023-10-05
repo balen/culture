@@ -30,15 +30,6 @@ RSpec.describe ScoreCalculator, type: :service do
       end
     end
 
-    it 'calculates PS range for no answers' do
-      calc = described_class.new
-      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
-      ps_range = calc.range(group_short_code: :PS, scores: ps_scores)
-
-      expect(ps_range[:min]).to eq(0)
-      expect(ps_range[:max]).to eq(100)
-    end
-
     it 'handles 2 responses' do
       setup_responses(
         question("PS02") => 5,
@@ -64,7 +55,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("PS07") => 1
       )
       calc = described_class.new
-      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
+      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")
       ps_total = calc.total(scores: ps_scores)
 
       expect(ps_total).to eq(0)
@@ -77,7 +68,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("PS07") => 4
       )
       calc = described_class.new
-      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")   
+      ps_scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")
       ps_total = calc.total(scores: ps_scores)
 
       expect(ps_total).to eq(50)
@@ -103,7 +94,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("GM07") => 1, question("GM08") => 1
       )
       calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")   
+      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
       gm_total = calc.total(scores: gm_scores)
 
       expect(gm_total).to eq(0)
@@ -116,7 +107,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("GM07") => 4, question("GM08") => 4
       )
       calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")   
+      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
       gm_total = calc.total(scores: gm_scores)
 
       expect(gm_total).to eq(50)
@@ -129,7 +120,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("GM07") => 7, question("GM08") => 7
       )
       calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")   
+      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
       gm_total = calc.total(scores: gm_scores)
 
       expect(gm_total).to eq(100)
@@ -141,7 +132,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("TM04") => 7, question("TM05") => 7, question("TM06") => 7
       )
       calc = described_class.new
-      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")   
+      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
       tm_total = calc.total(scores: tm_scores)
 
       expect(tm_total).to eq(-100)
@@ -153,7 +144,7 @@ RSpec.describe ScoreCalculator, type: :service do
         question("TM04") => 4, question("TM05") => 4, question("TM06") => 4
       )
       calc = described_class.new
-      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")   
+      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
       tm_total = calc.total(scores: tm_scores)
 
       expect(tm_total).to eq(0)
@@ -165,10 +156,51 @@ RSpec.describe ScoreCalculator, type: :service do
         question("TM04") => 1, question("TM05") => 1, question("TM06") => 1
       )
       calc = described_class.new
-      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")   
+      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
       tm_total = calc.total(scores: tm_scores)
 
       expect(tm_total).to eq(100)
     end
+
+    it 'calculates PS range for no answers' do
+      calc = described_class.new
+      scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")
+      range = calc.range(group_short_code: :PS, scores: scores)
+
+      expect(range[:min]).to eq(0)
+      expect(range[:max]).to eq(100)
+    end
+
+    it 'calculates GM range for no answers' do
+      calc = described_class.new
+      scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+      range = calc.range(group_short_code: :GM, scores: scores)
+
+      expect(range[:min]).to eq(0)
+      expect(range[:max]).to eq(100)
+    end
+
+    it 'calculates GM range with half the answers' do
+      setup_responses(
+        question("GM01") => 4, question("GM02") => 4,
+        question("GM05") => 4, question("GM06") => 4
+      )
+      calc = described_class.new
+      scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+      range = calc.range(group_short_code: :GM, scores: scores)
+
+      expect(range[:min]).to eq(25)
+      expect(range[:max]).to eq(75)
+    end
+
+    it 'calculates TM range for no answers' do
+      calc = described_class.new
+      scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
+      range = calc.range(group_short_code: :TM, scores: scores)
+
+      expect(range[:min]).to eq(-100)
+      expect(range[:max]).to eq(100)
+    end
+
   end
 end
