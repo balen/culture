@@ -292,6 +292,8 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    with_advisory_lock (4.6.0)
+      activerecord (>= 4.2)
     zeitwerk (2.6.12)
 
 PLATFORMS
@@ -328,6 +330,7 @@ DEPENDENCIES
   tzinfo-data
   vite_plugin_legacy
   vite_rails (~> 3.0)
+  with_advisory_lock
 
 RUBY VERSION
    ruby 3.1.2p20

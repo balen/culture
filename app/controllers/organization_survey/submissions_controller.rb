@@ -54,11 +54,19 @@ class OrganizationSurvey::SubmissionsController < ResourceController
     survey_respondent_id = get_current_respondent_id
     if survey_respondent_id.nil?
       # create a respondent
-      respondent = Survey::Respondent.create(
-        respondent_id: SecureRandom.alphanumeric(8)
-      )
-      set_current_respondent_id(respondent_id: respondent.id)
-      @object.survey_respondent_id = respondent.id
+      Survey::Respondent.with_advisory_lock("Survey_Respondent_lock", timeout_seconds: 60) do
+        respondent_id = SecureRandom.alphanumeric(8)
+        # if id is used try a different one
+        while !Survey::Respondent.find_by(respondent_id: respondent_id).nil? do
+          respondent_id = SecureRandom.alphanumeric(8)
+        end
+  
+        respondent = Survey::Respondent.create(
+          respondent_id: respondent_id
+        )
+        set_current_respondent_id(respondent_id: respondent.id)
+        @object.survey_respondent_id = respondent.id
+      end
     else
       @object.survey_respondent_id = survey_respondent_id
     end
