@@ -1,8 +1,9 @@
 <template>
   <div class="mb-3">
-    <!-- RESULTS HERE {{ id }} -->
+    <div v-if="results">
+    </div>
     <div class="d-flex justify-content-center mt-1 " v-if="results">
-      <div class="mr-2">
+      <div class="mr-2 col-4">
         <b-card
           bg-variant="primary" text-variant="white"
           title="Psychological Safety"
@@ -13,10 +14,10 @@
           </b-card-text>
         </b-card>
         <div>
-          <Bar :data="psData" :options="options" :style="barStyle"/>
+          <v-chart class="chart" :option="psOptions" :style="barStyle" autoresize width="auto" />
         </div>
       </div>
-      <div class="mr-2">
+      <div class="mr-2 col-4">
         <b-card
           bg-variant="primary" text-variant="white"
           title="Total Motivation"
@@ -27,10 +28,10 @@
           </b-card-text>
         </b-card>
         <div>
-          <Bar :data="tmData" :options="options" :style="barStyle"/>
+          <v-chart class="chart" :option="tmOptions" :style="barStyle" autoresize width="auto" />
         </div>
       </div>
-      <div class="mr-2">
+      <div class="mr-2 col-4">
         <b-card
           bg-variant="primary" text-variant="white"
           title="Growth Mindset"
@@ -41,7 +42,7 @@
           </b-card-text>
         </b-card>
         <div>
-          <Bar :data="gmData" :options="options" :style="barStyle"/>
+          <v-chart class="chart" :option="gmOptions" :style="barStyle" autoresize width="auto" />
         </div>
       </div>
     </div>
@@ -49,132 +50,182 @@
 </template>
 
 <script>
-import {
-  Chart as ChartJS,
-  Colors,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  ScatterController
-} from 'chart.js';
 import { http } from "@/utils/http";
-import { Bar } from 'vue-chartjs'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, ScatterController,
-                 Title, Tooltip, Legend, Colors)
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { BarChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from 'echarts/components';
+import VChart, { THEME_KEY } from 'vue-echarts';
+use([
+  CanvasRenderer,
+  BarChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+]);
+
+import * as echarts from 'echarts';
 
 export default {
   name: "ResultsScreen",
   props: ['id'],
   data: () => ({
-    results: null,
-    options: {
-      responsive: false,
-      scales: {
-        x: {
-          border: {
-            display: true
-          },
-          grid: {
-            drawOnChartArea: false,
-            drawTicks: true,
-          }
-        },
-        countScale: {
-          position: 'left',
-          suggestedMin: 0,
-          suggestedMax: 15,
-          grid: {
-            drawTicks: true,
-            drawOnChartArea: false,
-          }
-        },
-        scoreScale: {
-          position: 'right',
-          suggestedMin: 0,
-          suggestedMax: 100,
-          grid: {
-            drawTicks: true,
-            drawOnChartArea: false,
-          }
-        }
-      }
-    }
+    results: null
   }),
   components: {
-    Bar
+    VChart
+  },
+  provide: {
+    [THEME_KEY]: "light"
   },
   mixins: [
   ],
   computed: {
     barStyle() {
       return {
-        height: "200px"
+        height: "300px"
       }
     },
-    psData() {
+    psOptions() {
       return {
-        labels: this.labels('ps'),
-        datasets: [
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'cross' }
+        },
+        xAxis: {
+          axisTick: {
+            alignWithLabel: true
+          },
+          axisLabel: {
+            rotate: 45
+          },
+          type: 'category',
+          data: this.labels('ps')
+        },
+        yAxis: [
           {
-            yAxisID: 'countScale',
-            label: 'Number of Responses',
-            data: this.dataFor('ps')
+            type: 'value',
+            name: 'count',
+            position: 'right'
           },
           {
-            yAxisID: 'scoreScale',
-            type: 'scatter',
-            label: 'Score',
-            data: this.scoresFor('ps'),
-            order: 2
+            max: 100,
+            type: 'value',
+            name: 'score',
+            position: 'left'
           }
-        ]
-      }      
-    },
-    tmData() {
-      return {
-        labels: this.labels('tm'),
-        datasets: [
+        ],
+        series: [
           {
-            yAxisID: 'countScale',
+            data: this.dataFor('ps'),
             type: 'bar',
-            label: 'Number of Responses',
-            data: this.dataFor('tm'),
-            order: 1
+            yAxisIndex: 0
           },
           {
-            yAxisID: 'scoreScale',
+            symbolSize: 10,
+            data: this.scoresFor('ps'),
             type: 'scatter',
-            label: 'Score',
+            yAxisIndex: 1
+          },
+        ]
+      }
+    },
+    tmOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'cross' }
+        },
+        xAxis: {
+          axisTick: {
+            alignWithLabel: true
+          },
+          axisLabel: {
+            rotate: 45
+            // align: 'center'
+          },
+          type: 'category',
+          data: this.labels('tm')
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: 'count',
+            position: 'right'
+          },
+          {
+            max: 100,
+            min: -100,
+            type: 'value',
+            name: 'score',
+            position: 'left'
+          }
+        ],
+        series: [
+          {
+            data: this.dataFor('tm'),
+            type: 'bar',
+            yAxisIndex: 0
+          },
+          {
+            symbolSize: 10,
             data: this.scoresFor('tm'),
-            order: 2
+            type: 'scatter',
+            yAxisIndex: 1
+          },
+        ]
+      }
+    },
+    gmOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: { type: 'cross' }
+        },
+        xAxis: {
+          axisTick: {
+            alignWithLabel: true
+          },
+          axisLabel: {
+            rotate: 45
+            // align: 'center'
+          },
+          type: 'category',
+          data: this.labels('gm')
+        },
+        yAxis: [
+          {
+            type: 'value',
+            name: 'count',
+            position: 'right'
+          },
+          {
+            max: 100,
+            type: 'value',
+            name: 'score',
+            position: 'left'
+          }
+        ],
+        series: [
+          {
+            data: this.dataFor('gm'),
+            type: 'bar',
+            yAxisIndex: 0
+          },
+          {
+            symbolSize: 10,
+            data: this.scoresFor('gm'),
+            type: 'scatter',
+            yAxisIndex: 1
           }
         ]
       }
     },
-    gmData() {
-      return {
-        labels: this.labels('gm'),
-        datasets: [
-          {
-            yAxisID: 'countScale',
-            label: 'Number of Responses',
-            data: this.dataFor('gm')
-          },
-          {
-            yAxisID: 'scoreScale',
-            type: 'scatter',
-            label: 'Score',
-            data: this.scoresFor('gm'),
-            order: 2
-          }
-        ]
-      }
-    }
   },
   methods: {
     labels(group) {
@@ -198,9 +249,9 @@ export default {
       this.results[group].questions.forEach(
         (idx) => {
           if (this.results[group].scores[idx]) {
-            dataset = dataset.concat(this.results[group].scores[idx])
+            dataset = dataset.concat([[idx, this.results[group].scores[idx]]])
           } else {
-            dataset = dataset.concat(null)
+            dataset = dataset.concat([[idx, null]])
           }
         }
       )

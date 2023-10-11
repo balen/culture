@@ -7,11 +7,9 @@
           bg-variant="primary" text-variant="white"
           title="Psychological Safety"
           class="text-center score-card"
-          data-cy="ps-results-card"
         >
           <b-card-text>
-            {{ results.ps.range.min }} to
-            {{ results.ps.range.max }}
+            {{ results.ps.total }}
           </b-card-text>
         </b-card>
         <div>
@@ -23,13 +21,11 @@
           bg-variant="primary" text-variant="white"
           title="Total Motivation"
           class="text-center score-card"
-          data-cy="tm-results-card"
         >
           <b-card-text>
-            {{ results.tm.range.min }} to
-            {{ results.tm.range.max }}
+            {{ results.tm.total }}
           </b-card-text>
-      </b-card>
+        </b-card>
         <div>
           <Bar :data="tmData" :options="options" :style="barStyle"/>
         </div>
@@ -39,13 +35,11 @@
           bg-variant="primary" text-variant="white"
           title="Growth Mindset"
           class="text-center score-card"
-          data-cy="gm-results-card"
         >
           <b-card-text>
-            {{ results.gm.range.min }} to
-            {{ results.gm.range.max }}
+            {{ results.gm.total }}
           </b-card-text>
-      </b-card>
+        </b-card>
         <div>
           <Bar :data="gmData" :options="options" :style="barStyle"/>
         </div>
@@ -74,7 +68,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, ScatterCo
                  Title, Tooltip, Legend, Colors)
 
 export default {
-  name: "MyResultsScreen",
+  name: "ResultsScreen",
   props: ['id'],
   data: () => ({
     results: null,
@@ -90,20 +84,19 @@ export default {
             drawTicks: true,
           }
         },
-        // countScale: {
-        //   position: 'left',
-        //   suggestedMin: 0,
-        //   suggestedMax: 15,
-        //   grid: {
-        //     drawTicks: true,
-        //     drawOnChartArea: false,
-        //   }
-        // },
-        scoreScale: {
+        countScale: {
           position: 'left',
-          min: -10,
-          // suggestedMin: -1,
-          suggestedMax: 10,
+          suggestedMin: 0,
+          suggestedMax: 15,
+          grid: {
+            drawTicks: true,
+            drawOnChartArea: false,
+          }
+        },
+        scoreScale: {
+          position: 'right',
+          suggestedMin: 0,
+          suggestedMax: 100,
           grid: {
             drawTicks: true,
             drawOnChartArea: false,
@@ -127,11 +120,11 @@ export default {
       return {
         labels: this.labels('ps'),
         datasets: [
-          // {
-          //   yAxisID: 'countScale',
-          //   label: 'Number of Responses',
-          //   data: this.dataFor('ps')
-          // },
+          {
+            yAxisID: 'countScale',
+            label: 'Number of Responses',
+            data: this.dataFor('ps')
+          },
           {
             yAxisID: 'scoreScale',
             type: 'scatter',
@@ -146,13 +139,13 @@ export default {
       return {
         labels: this.labels('tm'),
         datasets: [
-          // {
-          //   yAxisID: 'countScale',
-          //   type: 'bar',
-          //   label: 'Number of Responses',
-          //   data: this.dataFor('tm'),
-          //   order: 1
-          // },
+          {
+            yAxisID: 'countScale',
+            type: 'bar',
+            label: 'Number of Responses',
+            data: this.dataFor('tm'),
+            order: 1
+          },
           {
             yAxisID: 'scoreScale',
             type: 'scatter',
@@ -167,11 +160,11 @@ export default {
       return {
         labels: this.labels('gm'),
         datasets: [
-          // {
-          //   yAxisID: 'countScale',
-          //   label: 'Number of Responses',
-          //   data: this.dataFor('gm')
-          // },
+          {
+            yAxisID: 'countScale',
+            label: 'Number of Responses',
+            data: this.dataFor('gm')
+          },
           {
             yAxisID: 'scoreScale',
             type: 'scatter',
@@ -218,7 +211,7 @@ export default {
     this.$nextTick(
       () => {
         if (this.id) {
-          http.get(`/organization_survey/${this.id}/my_results`
+          http.get(`/organization_survey/${this.id}/results`
           ).then(
             (response) => {
               this.results = response.data
