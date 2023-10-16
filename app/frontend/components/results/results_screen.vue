@@ -96,11 +96,7 @@ export default {
       let dataset = []
       this.results[group].questions.forEach(
         (idx) => {
-          if (this.results[group].scores[idx]) {
-            dataset = dataset.concat([[idx, this.results[group].scores[idx]]])
-          } else {
-            dataset = dataset.concat([[idx, null]])
-          }
+          dataset = dataset.concat([[idx, this.results[group].scores[idx]]])
         }
       )
       return dataset;
