@@ -14,7 +14,11 @@
           </b-card-text>
         </b-card>
         <div>
-          <v-chart class="chart" :option="psOptions" :style="barStyle" autoresize width="auto" />
+          <score-chart
+            :labels="labels('ps')"
+            :bar_data="dataFor('ps')"
+            :score_data="scoresFor('ps')"
+          ></score-chart>
         </div>
       </div>
       <div class="mr-2 col-4">
@@ -28,7 +32,12 @@
           </b-card-text>
         </b-card>
         <div>
-          <v-chart class="chart" :option="tmOptions" :style="barStyle" autoresize width="auto" />
+          <score-chart
+            :labels="labels('tm')"
+            :bar_data="dataFor('tm')"
+            :score_data="scoresFor('tm')"
+            :score_min="-100"
+          ></score-chart>
         </div>
       </div>
       <div class="mr-2 col-4">
@@ -42,7 +51,11 @@
           </b-card-text>
         </b-card>
         <div>
-          <v-chart class="chart" :option="gmOptions" :style="barStyle" autoresize width="auto" />
+          <score-chart
+            :labels="labels('gm')"
+            :bar_data="dataFor('gm')"
+            :score_data="scoresFor('gm')"
+          ></score-chart>
         </div>
       </div>
     </div>
@@ -51,25 +64,7 @@
 
 <script>
 import { http } from "@/utils/http";
-
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart } from 'echarts/charts';
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-} from 'echarts/components';
-import VChart, { THEME_KEY } from 'vue-echarts';
-use([
-  CanvasRenderer,
-  BarChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent
-]);
-
-import * as echarts from 'echarts';
+import ScoreChart from './score_chart.vue';
 
 export default {
   name: "ResultsScreen",
@@ -78,154 +73,7 @@ export default {
     results: null
   }),
   components: {
-    VChart
-  },
-  provide: {
-    [THEME_KEY]: "light"
-  },
-  mixins: [
-  ],
-  computed: {
-    barStyle() {
-      return {
-        height: "300px"
-      }
-    },
-    psOptions() {
-      return {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'cross' }
-        },
-        xAxis: {
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLabel: {
-            rotate: 45
-          },
-          type: 'category',
-          data: this.labels('ps')
-        },
-        yAxis: [
-          {
-            type: 'value',
-            name: 'count',
-            position: 'right'
-          },
-          {
-            max: 100,
-            type: 'value',
-            name: 'score',
-            position: 'left'
-          }
-        ],
-        series: [
-          {
-            data: this.dataFor('ps'),
-            type: 'bar',
-            yAxisIndex: 0
-          },
-          {
-            symbolSize: 10,
-            data: this.scoresFor('ps'),
-            type: 'scatter',
-            yAxisIndex: 1
-          },
-        ]
-      }
-    },
-    tmOptions() {
-      return {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'cross' }
-        },
-        xAxis: {
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLabel: {
-            rotate: 45
-            // align: 'center'
-          },
-          type: 'category',
-          data: this.labels('tm')
-        },
-        yAxis: [
-          {
-            type: 'value',
-            name: 'count',
-            position: 'right'
-          },
-          {
-            max: 100,
-            min: -100,
-            type: 'value',
-            name: 'score',
-            position: 'left'
-          }
-        ],
-        series: [
-          {
-            data: this.dataFor('tm'),
-            type: 'bar',
-            yAxisIndex: 0
-          },
-          {
-            symbolSize: 10,
-            data: this.scoresFor('tm'),
-            type: 'scatter',
-            yAxisIndex: 1
-          },
-        ]
-      }
-    },
-    gmOptions() {
-      return {
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: { type: 'cross' }
-        },
-        xAxis: {
-          axisTick: {
-            alignWithLabel: true
-          },
-          axisLabel: {
-            rotate: 45
-            // align: 'center'
-          },
-          type: 'category',
-          data: this.labels('gm')
-        },
-        yAxis: [
-          {
-            type: 'value',
-            name: 'count',
-            position: 'right'
-          },
-          {
-            max: 100,
-            type: 'value',
-            name: 'score',
-            position: 'left'
-          }
-        ],
-        series: [
-          {
-            data: this.dataFor('gm'),
-            type: 'bar',
-            yAxisIndex: 0
-          },
-          {
-            symbolSize: 10,
-            data: this.scoresFor('gm'),
-            type: 'scatter',
-            yAxisIndex: 1
-          }
-        ]
-      }
-    },
+    ScoreChart
   },
   methods: {
     labels(group) {

@@ -11,8 +11,8 @@ import ForgotPassword from '@/components/login/forgot_password.vue'
 import Login from '@/components/login/login.vue';
 import NewPassword from '@/components/login/new_password.vue';
 
-import ResuitsScreen from '@/components/results/results_screen.vue';
-import MyResuitsScreen from '@/components/results/my_results_screen.vue';
+import ResultsScreen from '@/components/results/results_screen.vue';
+import MyResultsScreen from '@/components/results/my_results_screen.vue';
 
 import SurveySubmissionScreen from '@/components/surveys/survey_submission_screen.vue'
 import SurveyThankYou from '@/components/surveys/survey_thank_you.vue';
@@ -48,12 +48,12 @@ export const router = createRouter({
         },
         {
           path: 'results/:id',
-          component: ResuitsScreen,
+          component: ResultsScreen,
           props: true
         },
         {
           path: 'myresults/:id',
-          component: MyResuitsScreen,
+          component: MyResultsScreen,
           props: true
         },
         {
