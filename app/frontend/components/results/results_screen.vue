@@ -1,8 +1,9 @@
 <template>
   <div class="mb-3">
-    <!-- RESULTS HERE {{ id }} -->
+    <div v-if="results">
+    </div>
     <div class="d-flex justify-content-center mt-1 " v-if="results">
-      <div class="mr-2">
+      <div class="mr-2 col-4">
         <b-card
           bg-variant="primary" text-variant="white"
           title="Psychological Safety"
@@ -13,10 +14,14 @@
           </b-card-text>
         </b-card>
         <div>
-          <Bar :data="psData" :options="options" :style="barStyle"/>
+          <score-chart
+            :labels="labels('ps')"
+            :bar_data="dataFor('ps')"
+            :score_data="scoresFor('ps')"
+          ></score-chart>
         </div>
       </div>
-      <div class="mr-2">
+      <div class="mr-2 col-4">
         <b-card
           bg-variant="primary" text-variant="white"
           title="Total Motivation"
@@ -27,10 +32,15 @@
           </b-card-text>
         </b-card>
         <div>
-          <Bar :data="tmData" :options="options" :style="barStyle"/>
+          <score-chart
+            :labels="labels('tm')"
+            :bar_data="dataFor('tm')"
+            :score_data="scoresFor('tm')"
+            :score_min="-100"
+          ></score-chart>
         </div>
       </div>
-      <div class="mr-2">
+      <div class="mr-2 col-4">
         <b-card
           bg-variant="primary" text-variant="white"
           title="Growth Mindset"
@@ -41,7 +51,11 @@
           </b-card-text>
         </b-card>
         <div>
-          <Bar :data="gmData" :options="options" :style="barStyle"/>
+          <score-chart
+            :labels="labels('gm')"
+            :bar_data="dataFor('gm')"
+            :score_data="scoresFor('gm')"
+          ></score-chart>
         </div>
       </div>
     </div>
@@ -49,132 +63,17 @@
 </template>
 
 <script>
-import {
-  Chart as ChartJS,
-  Colors,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  ScatterController
-} from 'chart.js';
 import { http } from "@/utils/http";
-import { Bar } from 'vue-chartjs'
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, ScatterController,
-                 Title, Tooltip, Legend, Colors)
+import ScoreChart from './score_chart.vue';
 
 export default {
   name: "ResultsScreen",
   props: ['id'],
   data: () => ({
-    results: null,
-    options: {
-      responsive: false,
-      scales: {
-        x: {
-          border: {
-            display: true
-          },
-          grid: {
-            drawOnChartArea: false,
-            drawTicks: true,
-          }
-        },
-        countScale: {
-          position: 'left',
-          suggestedMin: 0,
-          suggestedMax: 15,
-          grid: {
-            drawTicks: true,
-            drawOnChartArea: false,
-          }
-        },
-        scoreScale: {
-          position: 'right',
-          suggestedMin: 0,
-          suggestedMax: 100,
-          grid: {
-            drawTicks: true,
-            drawOnChartArea: false,
-          }
-        }
-      }
-    }
+    results: null
   }),
   components: {
-    Bar
-  },
-  mixins: [
-  ],
-  computed: {
-    barStyle() {
-      return {
-        height: "200px"
-      }
-    },
-    psData() {
-      return {
-        labels: this.labels('ps'),
-        datasets: [
-          {
-            yAxisID: 'countScale',
-            label: 'Number of Responses',
-            data: this.dataFor('ps')
-          },
-          {
-            yAxisID: 'scoreScale',
-            type: 'scatter',
-            label: 'Score',
-            data: this.scoresFor('ps'),
-            order: 2
-          }
-        ]
-      }      
-    },
-    tmData() {
-      return {
-        labels: this.labels('tm'),
-        datasets: [
-          {
-            yAxisID: 'countScale',
-            type: 'bar',
-            label: 'Number of Responses',
-            data: this.dataFor('tm'),
-            order: 1
-          },
-          {
-            yAxisID: 'scoreScale',
-            type: 'scatter',
-            label: 'Score',
-            data: this.scoresFor('tm'),
-            order: 2
-          }
-        ]
-      }
-    },
-    gmData() {
-      return {
-        labels: this.labels('gm'),
-        datasets: [
-          {
-            yAxisID: 'countScale',
-            label: 'Number of Responses',
-            data: this.dataFor('gm')
-          },
-          {
-            yAxisID: 'scoreScale',
-            type: 'scatter',
-            label: 'Score',
-            data: this.scoresFor('gm'),
-            order: 2
-          }
-        ]
-      }
-    }
+    ScoreChart
   },
   methods: {
     labels(group) {
@@ -198,9 +97,9 @@ export default {
       this.results[group].questions.forEach(
         (idx) => {
           if (this.results[group].scores[idx]) {
-            dataset = dataset.concat(this.results[group].scores[idx])
+            dataset = dataset.concat([[idx, this.results[group].scores[idx]]])
           } else {
-            dataset = dataset.concat(null)
+            dataset = dataset.concat([[idx, null]])
           }
         }
       )
