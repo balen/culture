@@ -40,10 +40,13 @@ class ScoreCalculator
     score = total(scores: scores)
     excluded = scores.map{|s, v| s.to_sym}
     min = min(group_short_code: group_short_code, exclude: excluded)
+    min = (min < 0 && score < 0) ? min : (min + score).round(2)
+    max = (max(group_short_code: group_short_code, exclude: excluded) + score).round(2)
     {
       # if min is - and score is - then we keep min
-      min: (min < 0 && score < 0) ? min : (min + score).round(2),
-      max: (max(group_short_code: group_short_code, exclude: excluded) + score).round(2)
+      min: min,
+      max: max,
+      width: (max - min).round(2)
     }
   end
 
