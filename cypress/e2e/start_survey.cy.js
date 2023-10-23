@@ -20,21 +20,22 @@ describe('Surveys', () => {
 
     const psResultsCard = cy.get('[data-cy="ps-results-card"]').as('psResultsCard');
 
+    // Only one graph is shown now
     cy.get('@psResultsCard').should('have.class', 'card');
     cy.get('@psResultsCard').find('.card-title').should('contain', 'Psychological Safety');
     // These need to change now that we have ranges
     cy.get('@psResultsCard').find('.card-text').should('contain', '35.7');
 
-    const tmResultsCard = cy.get('[data-cy="tm-results-card"]').as('tmResultsCard');
+    // const tmResultsCard = cy.get('[data-cy="tm-results-card"]').as('tmResultsCard');
 
-    cy.get('@tmResultsCard').should('have.class', 'card');
-    cy.get('@tmResultsCard').find('.card-title').should('contain', 'Total Motivation');
-    cy.get('@tmResultsCard').find('.card-text').should('contain', '-30');
+    // cy.get('@tmResultsCard').should('have.class', 'card');
+    // cy.get('@tmResultsCard').find('.card-title').should('contain', 'Total Motivation');
+    // cy.get('@tmResultsCard').find('.card-text').should('contain', '-30');
 
-    const gmResultsCard = cy.get('[data-cy="gm-results-card"]').as('gmResultsCard');
+    // const gmResultsCard = cy.get('[data-cy="gm-results-card"]').as('gmResultsCard');
 
-    cy.get('@gmResultsCard').should('have.class', 'card');
-    cy.get('@gmResultsCard').find('.card-title').should('contain', 'Growth Mindset');
-    cy.get('@gmResultsCard').find('.card-text').should('contain', '31.3');
+    // cy.get('@gmResultsCard').should('have.class', 'card');
+    // cy.get('@gmResultsCard').find('.card-title').should('contain', 'Growth Mindset');
+    // cy.get('@gmResultsCard').find('.card-text').should('contain', '31.3');
   })
 })
