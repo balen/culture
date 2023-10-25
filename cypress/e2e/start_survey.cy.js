@@ -7,7 +7,7 @@ describe('Surveys', () => {
     cy.get('#access-code').type(`ABCD{enter}`)
 
     // From intro screen click next and go to first question
-    cy.get('[data-cy="start-survey-button"]').contains('Next').click()
+    cy.get('[data-cy="start-survey-button"]').contains('Start').click()
 
     // Answer each of the questions (15 of them)
     for (let i = 0; i < 15; i++) { 

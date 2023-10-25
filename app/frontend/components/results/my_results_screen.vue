@@ -18,6 +18,7 @@
           <score-chart
             :labels="labels()"
             :score_data="scoresFor()"
+            :score_min="min"
           ></score-chart>
         </div>
       </div>
@@ -46,6 +47,15 @@ export default {
   components: {
     ScoreChart,
     SurveyStartButton
+  },
+  computed: {
+    min() {
+      if (this.results.short_code == 'TM') {
+        return -100
+      } else {
+        return 0
+      }
+    }
   },
   methods: {
     labels() {
