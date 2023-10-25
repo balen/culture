@@ -5,7 +5,9 @@
       @click="onNext"
       data-cy="start-survey-button"
       :disabled="disabled"
-    >{{ $t('next') }}</b-button>
+    >
+      <slot>{{ $t('survey.start') }}</slot>
+    </b-button>
   </div>
 </template>
 
@@ -28,6 +30,7 @@ export default {
   ],
   methods: {
     onNext: function () {
+      console.debug("*** GO TO", `/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`)
       this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
     }
   }

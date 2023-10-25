@@ -54,7 +54,8 @@ export const router = createRouter({
         {
           path: 'myresults/:id',
           component: MyResultsScreen,
-          props: true
+          props: true,
+          meta: { intro: true }
         },
         {
           path: 'launchpad',

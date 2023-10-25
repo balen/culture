@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-3">
+  <div class="mb-3" v-if="results">
     <!-- RESULTS HERE {{ id }} -->
-    <div class="d-flex justify-content-center mt-1 " v-if="results">
+    <div class="d-flex justify-content-center mt-1 ">
       <div class="mr-2">
         <b-card
           bg-variant="primary" text-variant="white"
@@ -22,21 +22,30 @@
         </div>
       </div>
     </div>
-  </div>
+    <div class="d-flex justify-content-center mt-1 ">
+      <div class="mr-2">
+        <survey-start-button
+          :access_code="id"
+        >{{ $t('survey.answer_more') }}</survey-start-button>
+      </div>
+    </div>
+    </div>
 </template>
 
 <script>
 import { http } from "@/utils/http";
 import ScoreChart from './score_chart.vue';
+import SurveyStartButton from "@/components/surveys/survey_start_button.vue"
 
 export default {
   name: "MyResultsScreen",
-  props: ['id'],
+  props: ['id', 'access_code'],
   data: () => ({
     results: null
   }),
   components: {
-    ScoreChart
+    ScoreChart,
+    SurveyStartButton
   },
   methods: {
     labels() {
