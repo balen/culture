@@ -18,7 +18,9 @@
     "respondent_copy": "Copy to clipboard",
     "respondent_copied": "Copied!",
     "respondent_answered": "You have answered no questions. | You have answered 1 question. | You have answered {count} questions.",
-    "access_code": "Survey Code"
+    "access_code": "Survey Code",
+    "start": "Start Survey",
+    "answer_more": "Give more answers"
   },
   "launchpad": {
     "intro_text": "Welcome to AnonymousSurveyTool. You will be able to contribute data points to reveal your organization's culture.",

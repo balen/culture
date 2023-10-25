@@ -123,6 +123,7 @@ export default {
     }
   },
   mounted() {
+    console.debug("*** START SUB WIDTH", this.access_code)
     // Check from ...
     this.$nextTick(() => {
       if (this.access_code) {

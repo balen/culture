@@ -3,7 +3,6 @@
 <div>
   <b-row>
     <b-col>
-      <!-- <p>{{ $t('message.hello', { msg: 'hello' }) }}</p> -->
       <p>
       {{ $t('survey.intro_random') }}<br>
       {{ $t('survey.intro_enough') }}<br>
@@ -35,13 +34,16 @@
       <div class="invalid-feedback" data-cy="invalid-respondent-id">
         {{ error.text }}
       </div>
-
-      <!-- <b-alert :show="error.visible" variant="danger">{{ error.text }}</b-alert> -->
     </div>
   </div>
   <b-row class="mt-4">
     <b-col>
-      <b-button variant="success" @click="onNext" data-cy="start-survey-button">{{ $t('next') }}</b-button>
+      <survey-start-button
+        :access_code="access_code"
+        :respondent_id="respondent_id"
+        :state="valid"
+        :disabled="valid == false"
+      ></survey-start-button>
     </b-col>
   </b-row>
 </div>
@@ -50,7 +52,7 @@
 <script>
 import modelMixin from '@/mixins/model.mixin';
 import modelUtilsMixin from '@/mixins/model_utils.mixin'
-import Tr from "@/i18n/translation"
+import SurveyStartButton from "./survey_start_button.vue"
 
 export default {
   name: "IntroScreen",
@@ -61,6 +63,7 @@ export default {
     modelMixin,
     modelUtilsMixin
   ],
+  components: { SurveyStartButton },
   data() {
     return {
       valid: null,
@@ -76,36 +79,24 @@ export default {
       if (n != o) {
         this.error.visible = false
         this.valid = true
+
+        if (n) {
+          // disable and then enable button
+          this.valid = false
+          this.fetch_model_by_id('respondent', n).then(
+            respondent => {
+              if (respondent.id) {
+                this.valid = true
+              } else {
+                this.error.text = "Respondent ID not found"
+                this.error.visible = true
+                this.valid = false
+              }
+            }
+          )
+        }          
       }
     }
-  },
-  methods: {
-    onNext: function() {
-      // if we have a respondent id we check it and go to the survey
-      // Otherwise we got to a page to gen the respondent id and then go to the survey
-      if (this.respondent_id) {
-        this.fetch_model_by_id('respondent', this.respondent_id).then(
-          respondent => {
-            if (respondent.id) {
-              // got to the survey
-              // survey/submit/:access_code
-              this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
-            } else {
-              // if id is null report an error
-              // this.$router.push(`/${Tr.getPersistedLocale()}/new_respondent/${this.access_code}`);
-              this.error.text = "Respondent ID not found"
-              this.error.visible = true
-              this.valid = false
-            }
-          }
-        )
-      } else {
-        // TODO: clear respondent ... 
-        // Go to the new respondent screen
-        this.$router.push(`/${Tr.getPersistedLocale()}/survey/submit/${this.access_code}`);
-        // this.$router.push(`/${Tr.getPersistedLocale()}/new_respondent/${this.access_code}`);
-      }
-    }    
   }
 }
 </script>
