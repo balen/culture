@@ -87,6 +87,42 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(ps_total).to eq(100)
     end
 
+    it 'calculates lowest TM' do
+      setup_responses(
+        question("TM01") => 1, question("TM02") => 1, question("TM03") => 1,
+        question("TM04") => 7, question("TM05") => 7, question("TM06") => 7
+      )
+      calc = described_class.new
+      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
+      tm_total = calc.total(scores: tm_scores)
+
+      expect(tm_total).to eq(-100)
+    end
+
+    it 'calculates average TM' do
+      setup_responses(
+        question("TM01") => 4, question("TM02") => 4, question("TM03") => 4,
+        question("TM04") => 4, question("TM05") => 4, question("TM06") => 4
+      )
+      calc = described_class.new
+      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
+      tm_total = calc.total(scores: tm_scores)
+
+      expect(tm_total).to eq(0)
+    end
+
+    it 'calculates highest TM' do
+      setup_responses(
+        question("TM01") => 7, question("TM02") => 7, question("TM03") => 7,
+        question("TM04") => 1, question("TM05") => 1, question("TM06") => 1
+      )
+      calc = described_class.new
+      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
+      tm_total = calc.total(scores: tm_scores)
+
+      expect(tm_total).to eq(100)
+    end
+
     it 'calculates lowest GM' do
       setup_responses(
         question("GM01") => 7, question("GM02") => 7, question("GM03") => 7,
@@ -126,48 +162,21 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(gm_total).to eq(100)
     end
 
-    it 'calculates lowest TM' do
-      setup_responses(
-        question("TM01") => 1, question("TM02") => 1, question("TM03") => 1,
-        question("TM04") => 7, question("TM05") => 7, question("TM06") => 7
-      )
-      calc = described_class.new
-      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
-      tm_total = calc.total(scores: tm_scores)
-
-      expect(tm_total).to eq(-100)
-    end
-
-    it 'calculates average TM' do
-      setup_responses(
-        question("TM01") => 4, question("TM02") => 4, question("TM03") => 4,
-        question("TM04") => 4, question("TM05") => 4, question("TM06") => 4
-      )
-      calc = described_class.new
-      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
-      tm_total = calc.total(scores: tm_scores)
-
-      expect(tm_total).to eq(0)
-    end
-
-    it 'calculates highest TM' do
-      setup_responses(
-        question("TM01") => 7, question("TM02") => 7, question("TM03") => 7,
-        question("TM04") => 1, question("TM05") => 1, question("TM06") => 1
-      )
-      calc = described_class.new
-      tm_scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
-      tm_total = calc.total(scores: tm_scores)
-
-      expect(tm_total).to eq(100)
-    end
-
     it 'calculates PS range for no answers' do
       calc = described_class.new
       scores = calc.psychological_safety(organization_id: organization.id, access_code: "ABCD")
       range = calc.range(group_short_code: :PS, scores: scores)
 
       expect(range[:min]).to eq(0)
+      expect(range[:max]).to eq(100)
+    end
+
+    it 'calculates TM range for no answers' do
+      calc = described_class.new
+      scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
+      range = calc.range(group_short_code: :TM, scores: scores)
+
+      expect(range[:min]).to eq(-100)
       expect(range[:max]).to eq(100)
     end
 
@@ -191,15 +200,6 @@ RSpec.describe ScoreCalculator, type: :service do
 
       expect(range[:min]).to eq(25)
       expect(range[:max]).to eq(75)
-    end
-
-    it 'calculates TM range for no answers' do
-      calc = described_class.new
-      scores = calc.total_motivation(organization_id: organization.id, access_code: "ABCD")
-      range = calc.range(group_short_code: :TM, scores: scores)
-
-      expect(range[:min]).to eq(-100)
-      expect(range[:max]).to eq(100)
     end
 
   end
