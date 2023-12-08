@@ -2,13 +2,13 @@ class ScoreCalculator
   # These weights are derived from the sample spreadsheet
   WEIGHTS = {
     PS: {
-      PS01: { invert: true, weight: Rational(100, 42)},
-      PS02: { invert: false, weight: Rational(100, 42)},
-      PS03: { invert: true, weight: Rational(100, 42)},
-      PS04: { invert: false, weight: Rational(100, 42)},
-      PS05: { invert: true, weight: Rational(100, 42)},
-      PS06: { invert: false, weight: Rational(100, 42)},
-      PS07: { invert: false, weight: Rational(100, 42)}
+      PS01: { invert: true, weight: Rational(100, 7 * 6)},
+      PS02: { invert: false, weight: Rational(100, 7 * 6)},
+      PS03: { invert: true, weight: Rational(100, 7 * 6)},
+      PS04: { invert: false, weight: Rational(100, 7 * 6)},
+      PS05: { invert: true, weight: Rational(100, 7 * 6)},
+      PS06: { invert: false, weight: Rational(100, 7 * 6)},
+      PS07: { invert: false, weight: Rational(100, 7 * 6)}
     },
     TM: {
       # Goes from -100 to +100
@@ -20,14 +20,14 @@ class ScoreCalculator
       TM06: { invert: false, weight: -10.0}
     },
     GM: {
-      GM01: { invert: true, weight: Rational(100, 48)},
-      GM02: { invert: true, weight: Rational(100, 48)},
-      GM03: { invert: true, weight: Rational(100, 48)},
-      GM04: { invert: true, weight: Rational(100, 48)},
-      GM05: { invert: false, weight: Rational(100, 48)},
-      GM06: { invert: false, weight: Rational(100, 48)},
-      GM07: { invert: false, weight: Rational(100, 48)},
-      GM08: { invert: false, weight: Rational(100, 48)}
+      GM01: { invert: true, weight: Rational(100, 8 * 6)},
+      GM02: { invert: true, weight: Rational(100, 8 * 6)},
+      GM03: { invert: true, weight: Rational(100, 8 * 6)},
+      GM04: { invert: true, weight: Rational(100, 8 * 6)},
+      GM05: { invert: false, weight: Rational(100, 8 * 6)},
+      GM06: { invert: false, weight: Rational(100, 8 * 6)},
+      GM07: { invert: false, weight: Rational(100, 8 * 6)},
+      GM08: { invert: false, weight: Rational(100, 8 * 6)}
     }
   }
 
@@ -56,6 +56,10 @@ class ScoreCalculator
 
   def total_motivation(organization_id:, access_code:, survey_respondent_id: nil)
     individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :TM, survey_respondent_id: survey_respondent_id)
+  end
+
+  def team_trust(organization_id:, access_code:, survey_respondent_id: nil)
+    individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :TT, survey_respondent_id: survey_respondent_id)
   end
 
   def growth_mindset(organization_id:, access_code:, survey_respondent_id: nil)
