@@ -58,10 +58,6 @@ class ScoreCalculator
     individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :TM, survey_respondent_id: survey_respondent_id)
   end
 
-  def team_trust(organization_id:, access_code:, survey_respondent_id: nil)
-    individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :TT, survey_respondent_id: survey_respondent_id)
-  end
-
   def growth_mindset(organization_id:, access_code:, survey_respondent_id: nil)
     individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :GM, survey_respondent_id: survey_respondent_id)
   end
