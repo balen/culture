@@ -123,6 +123,114 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(tm_total).to eq(100)
     end
 
+    it 'calculates lowest P2T' do
+      setup_responses(
+        question("P2T1") => 1, question("P2T2") => 1, question("P2T3") => 1,
+        question("P2T4") => 1, question("P2T5") => 1, question("P2T6") => 1
+      )
+      calc = described_class.new
+      p2t_scores = calc.propensity_to_trust(organization_id: organization.id, access_code: "ABCD")
+      p2t_total = calc.total(scores: p2t_scores)
+
+      expect(p2t_total).to eq(0)
+    end
+
+    it 'calculates average P2T' do
+      setup_responses(
+        question("P2T1") => 4, question("P2T2") => 4, question("P2T3") => 4,
+        question("P2T4") => 4, question("P2T5") => 4, question("P2T6") => 4
+      )
+      calc = described_class.new
+      p2t_scores = calc.propensity_to_trust(organization_id: organization.id, access_code: "ABCD")
+      p2t_total = calc.total(scores: p2t_scores)
+
+      expect(p2t_total).to eq(50) # or the expected average score
+    end
+
+    it 'calculates highest P2T' do
+      setup_responses(
+        question("P2T1") => 7, question("P2T2") => 7, question("P2T3") => 7,
+        question("P2T4") => 7, question("P2T5") => 7, question("P2T6") => 7
+      )
+      calc = described_class.new
+      p2t_scores = calc.propensity_to_trust(organization_id: organization.id, access_code: "ABCD")
+      p2t_total = calc.total(scores: p2t_scores)
+
+      expect(p2t_total).to eq(100) # or the expected highest score
+    end
+
+    it 'calculates lowest PTW' do
+      setup_responses(
+        question("PTW1") => 1, question("PTW2") => 1, question("PTW3") => 1,
+        question("PTW4") => 7, question("PTW5") => 7, question("PTW6") => 1
+      )
+      calc = described_class.new
+      ptw_scores = calc.perceived_trustworthiness(organization_id: organization.id, access_code: "ABCD")
+      ptw_total = calc.total(scores: ptw_scores)
+
+      expect(ptw_total).to eq(0)
+    end
+
+    it 'calculates average PTW' do
+      setup_responses(
+        question("PTW1") => 4, question("PTW2") => 4, question("PTW3") => 4,
+        question("PTW4") => 4, question("PTW5") => 4, question("PTW6") => 4
+      )
+      calc = described_class.new
+      ptw_scores = calc.perceived_trustworthiness(organization_id: organization.id, access_code: "ABCD")
+      ptw_total = calc.total(scores: ptw_scores)
+
+      expect(ptw_total).to eq(50)
+    end
+
+    it 'calculates highest PTW' do
+      setup_responses(
+        question("PTW1") => 7, question("PTW2") => 7, question("PTW3") => 7,
+        question("PTW4") => 1, question("PTW5") => 1, question("PTW6") => 7
+      )
+      calc = described_class.new
+      ptw_scores = calc.perceived_trustworthiness(organization_id: organization.id, access_code: "ABCD")
+      ptw_total = calc.total(scores: ptw_scores)
+
+      expect(ptw_total).to eq(100)
+    end
+
+    it 'calculates lowest CB' do
+      setup_responses(
+        question("CB01") => 1, question("CB02") => 1, question("CB03") => 1,
+        question("CB04") => 7, question("CB05") => 7, question("CB06") => 1
+      )
+      calc = described_class.new
+      cb_scores = calc.cooperative_behaviours(organization_id: organization.id, access_code: "ABCD")
+      cb_total = calc.total(scores: cb_scores)
+
+      expect(cb_total).to eq(0)
+    end
+
+    it 'calculates average CB' do
+      setup_responses(
+        question("CB01") => 4, question("CB02") => 4, question("CB03") => 4,
+        question("CB04") => 4, question("CB05") => 4, question("CB06") => 4
+      )
+      calc = described_class.new
+      cb_scores = calc.cooperative_behaviours(organization_id: organization.id, access_code: "ABCD")
+      cb_total = calc.total(scores: cb_scores)
+
+      expect(cb_total).to eq(50)
+    end
+
+    it 'calculates highest CB' do
+      setup_responses(
+        question("CB01") => 7, question("CB02") => 7, question("CB03") => 7,
+        question("CB04") => 1, question("CB05") => 1, question("CB06") => 7
+      )
+      calc = described_class.new
+      cb_scores = calc.cooperative_behaviours(organization_id: organization.id, access_code: "ABCD")
+      cb_total = calc.total(scores: cb_scores)
+
+      expect(cb_total).to eq(100)
+    end
+
     it 'calculates lowest GM' do
       setup_responses(
         question("GM01") => 7, question("GM02") => 7, question("GM03") => 7,

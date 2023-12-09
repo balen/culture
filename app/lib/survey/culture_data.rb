@@ -83,6 +83,39 @@ class Survey::CultureData
     name_pt_br: "Motivação total",
   }
 
+  SEED_P2T_GROUP = {
+    id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
+    short_code: "P2T",
+    name_en: "Propensity to Trust",
+    name_fr: "Propension à la confiance",
+    name_pt_br: "Propensão a confiar"
+  }
+  SEED_PTW_GROUP = {
+    id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
+    short_code: "PTW",
+    name_en: "Perceived Trustworthiness",
+    name_fr: "Perception de fiabilité",
+    name_pt_br: "Percepção de confiabilidade"
+  }
+  SEED_CB_GROUP = {
+    id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
+    short_code: "CB",
+    name_en: "Cooperative Behaviours",
+    name_fr: "Comportements coopératifs",
+    name_pt_br: "Comportamentos cooperativos"
+  }
+#  SEED_MB_GROUP = {
+#    id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+#    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
+#    short_code: "MB",
+#    name_en: "Monitoring Behaviours",
+#    name_fr: "Comportements de surveillance",
+#    name_pt_br: "Monitoramento de comportamentos"
+#  }
+
   SEED_GM_GROUP = {    
     id: "fa2d2b55-2c45-4c8c-b2a0-039883c86d80",
     survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
@@ -99,7 +132,7 @@ class Survey::CultureData
       short_code: "PS01",
       question_en: "If you make a mistake on this team, it is often held against you",
       question_fr: "Si vous commettez une erreur dans cette équipe, elle sera souvent retenue contre vous",
-      question_pt_br: "Se você comete um erro neste time, isso será frequentemente jogado contra você.",
+      question_pt_br: "Se você comete um erro neste time, isso será frequentemente jogado contra você",
       question_type: :likert
     },
     {
@@ -191,7 +224,7 @@ class Survey::CultureData
       id: "273d31d5-9200-449f-9880-39c9a46e578b",
       group_id: "c57ffd76-bd0b-4b27-9294-3393cd8600e7",
       short_code: "TM04",
-      question_en: "I continue to work at my current job because if I didn’t, I would disappoint myself or people I care about",
+      question_en: "I continue to work at my current job because if I didn't, I would disappoint myself or people I care about",
       question_fr: "Je continue de travailler ici car si je le quittais, je me décevrais ou je décevrais des personnes qui me sont chères",
       question_pt_br: "Eu continuo a trabalhar aqui porque caso contrário, eu desapontaria a mim ou pessoas que valorizo",
       question_type: :likert
@@ -200,7 +233,7 @@ class Survey::CultureData
       id: "8b993a19-a266-450c-b19b-cdd6795792b0",
       group_id: "c57ffd76-bd0b-4b27-9294-3393cd8600e7",
       short_code: "TM05",
-      question_en: "I continue to work at my current job because without this job, I would be worried I couldn’t meet my financial objectives",
+      question_en: "I continue to work at my current job because without this job, I would be worried I couldn't meet my financial objectives",
       question_fr: "Je continue à travailler ici car sans ce travail, je serais inquiet pour mes objectifs financiers",
       question_pt_br: "Eu continuo a trabalhar aqui pois sem este trabalho, eu não atenderia meus objetivos financeiros",
       question_type: :likert
@@ -215,16 +248,215 @@ class Survey::CultureData
       question_type: :likert
     }
   ]
+  
+  SEED_P2T_QUESTIONS = [
+    {
+      id: "5d217c4e-281b-44dd-b04d-c5609d01b502",
+      group_id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+      short_code: "P2T1",
+      question_en: "Most people in this team do not hesitate to help a person in need",
+      question_fr: "La plupart des membres de cette équipe n'hésitent pas à aider une personne dans le besoin",
+      question_pt_br: "A maioria das pessoas dessa equipe não hesita em ajudar uma pessoa necessitada",
+      question_type: :likert
+    },
+    {
+      id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      group_id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+      short_code: "P2T2",
+      question_en: "In this team most people speak out for what they believe in",
+      question_fr: "Dans cette équipe, la plupart des gens s'expriment pour ce en quoi ils croient",
+      question_pt_br: "Nesta equipe, a maioria das pessoas fala sobre o que acredita",
+      question_type: :likert
+    },
+    {
+      id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+      group_id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+      short_code: "P2T3",
+      question_en: "In this team most people stand behind their convictions",
+      question_fr: "Dans cette équipe, la plupart des gens soutiennent leurs convictions",
+      question_pt_br: "Nesta equipe, a maioria das pessoas mantém suas convicções",
+      question_type: :likert
+    },
+    {
+      id: "9ddd9d93-6364-487b-90b1-f4dcf67425b7",
+      group_id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+      short_code: "P2T4",
+      question_en: "The typical person in this team is sincerely concerned about the problems of others",
+      question_fr: "La personne typique dans cette équipe se soucie sincèrement des problèmes des autres",
+      question_pt_br: "A pessoa típica nesta equipe se preocupa sinceramente com os problemas dos outros",
+      question_type: :likert
+    },
+    {
+      id: "de24accc-8e4a-4ef3-aafe-0c15b505b1c6",
+      group_id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+      short_code: "P2T5",
+      question_en: "Most people will act as 'Good Samaritans' if given the opportunity",
+      question_fr: "La plupart des gens agiront comme des 'bons samaritains' si l'occasion se présente",
+      question_pt_br: "A maioria das pessoas agirá como 'bons samaritanos' se tiverem a oportunidade",
+      question_type: :likert
+    },
+    {
+      id: "acf5716e-e7bf-4cf0-a92d-7e0e39e70e37",
+      group_id: "72acdcff-2324-455a-acd0-7ccc418492a4",
+      short_code: "P2T6",
+      question_en: "People usually tell the truth, even when they know they will be better off by lying",
+      question_fr: "Les gens disent habituellement la vérité, même lorsqu'ils savent qu'ils seraient mieux en mentant",
+      question_pt_br: "As pessoas geralmente dizem a verdade, mesmo quando sabem que se sairiam melhor mentindo",
+      question_type: :likert
+    }
+  ]
+  SEED_PTW_QUESTIONS = [
+    {
+      id: "336e0ff8-fdfd-4e60-9807-f900cb43dc0a",
+      group_id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+      short_code: "PTW1",
+      question_en: "In this team people can rely on each other",
+      question_fr: "Dans cette équipe, les gens peuvent compter les uns sur les autres",
+      question_pt_br: "Nessa equipe, as pessoas podem confiar umas nas outras",
+      question_type: :likert
+    },
+    {
+      id: "879cf988-3d5d-4877-93b4-73bc1ebee066",
+      group_id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+      short_code: "PTW2",
+      question_en: "We have complete confidence in each other’s ability to perform tasks",
+      question_fr: "Nous avons une confiance totale dans la capacité des uns et des autres à accomplir les tâches",
+      question_pt_br: "Temos total confiança na capacidade de cada um de realizar tarefas",
+      question_type: :likert
+    },
+    {
+      id: "c7d03405-c4af-4fa9-b9b8-af6c80164e03",
+      group_id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+      short_code: "PTW3",
+      question_en: "In this team people will keep their word",
+      question_fr: "Dans cette équipe, les gens tiennent leur parole",
+      question_pt_br: "Nesta equipe, as pessoas manterão sua palavra",
+      question_type: :likert
+    },
+    {
+      id: "2a0942cb-e5f8-4cb9-8736-42d8e81296ed",
+      group_id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+      short_code: "PTW4",
+      question_en: "There are some hidden agendas in this team.",
+      question_fr: "Il y a des intentions cachées dans cette équipe",
+      question_pt_br: "Há algumas agendas ocultas nesta equipe",
+      question_type: :likert
+    },
+    {
+      id: "91ffd9ee-a3a6-4c65-97d5-657a49848f74",
+      group_id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+      short_code: "PTW5",
+      question_en: "Some people in this team often try to get out of previous commitments",
+      question_fr: "Certaines personnes de cette équipe essaient souvent de se soustraire à des engagements antérieurs",
+      question_pt_br: "Algumas pessoas desta equipe frequentemente tentam se livrar de compromissos anteriores",
+      question_type: :likert
+    },
+    {
+      id: "47388575-6a39-4814-aac6-6aad71fe3e94",
+      group_id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
+      short_code: "PTW6",
+      question_en: "In this team people look for each other’s interests honestly",
+      question_fr: "Dans cette équipe, les gens cherchent honnêtement à défendre les intérêts des autres",
+      question_pt_br: "Nesta equipe, as pessoas buscam honestamente os interesses umas das outras",
+      question_type: :likert
+    }
+  ]
+  SEED_CB_QUESTIONS = [
+    {
+      id: "f04493c7-0c2b-4b09-b02f-6591291e3b86",
+      group_id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      short_code: "CB01",
+      question_en: "In this team we work in a climate of cooperation",
+      question_fr: "Dans cette équipe, nous travaillons dans un climat de coopération",
+      question_pt_br: "Nesta equipe, trabalhamos em um clima de cooperação",
+      question_type: :likert
+    },
+    {
+      id: "ba16ad72-f720-438c-ab9b-4799694fc058",
+      group_id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      short_code: "CB02",
+      question_en: "In this team we discuss and deal with issues or problems openly",
+      question_fr: "Dans cette équipe, nous discutons et traitons les questions ou les problèmes ouvertement",
+      question_pt_br: "Nesta equipe, discutimos e lidamos com questões ou problemas abertamente",
+      question_type: :likert
+    },
+    {
+      id: "a3b577d9-6822-4449-8bf7-79404c358887",
+      group_id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      short_code: "CB03",
+      question_en: "While taking a decision we take each other’s opinion into consideration",
+      question_fr: "Lorsque nous prenons une décision, nous tenons compte de l'avis de chacun",
+      question_pt_br: "Ao tomarmos uma decisão, levamos em consideração a opinião uns dos outros",
+      question_type: :likert
+    },
+    {
+      id: "1780d640-05ca-40d9-88c5-7e21c468fb77",
+      group_id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      short_code: "CB04",
+      question_en: "Some people hold back relevant information in this team",
+      question_fr: "Dans cette équipe, certaines personnes cachent des informations importantes",
+      question_pt_br: "Algumas pessoas retêm informações relevantes nesta equipe",
+      question_type: :likert
+    },
+    {
+      id: "a1e58529-9d76-4b36-8468-bb3a4496b37c",
+      group_id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      short_code: "CB05",
+      question_en: "In this team people minimize what they tell about themselves",
+      question_fr: "Dans cette équipe, les gens minimisent ce qu'ils disent d'eux-mêmes",
+      question_pt_br: "Nesta equipe, as pessoas minimizam o que dizem sobre si mesmas",
+      question_type: :likert
+    },
+    {
+      id: "3b8fe548-49f5-4010-a747-cbd9fc388194",
+      group_id: "ec30265e-1939-4f6c-a760-7753de0732f9",
+      short_code: "CB06",
+      question_en: "Most people in this team are open to advice and help from others",
+      question_fr: "La plupart des membres de cette équipe sont ouverts aux conseils et à l'aide des autres",
+      question_pt_br: "A maioria das pessoas desta equipe está aberta a conselhos e ajuda de outras pessoas",
+      question_type: :likert
+    }
+  ]
+#  SEED_MB_QUESTIONS = [
+#    {
+#      id: "49e21a43-fc95-4ddd-8468-56d9f15807ea",
+#      group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+#      short_code: "MB01",
+#      question_en: "In this team people watch each other very closely.",
+#      question_fr: "Dans cette équipe, les gens se surveillent de très près.",
+#      question_pt_br: "Nesta equipe, as pessoas observam umas às outras com muita atenção.",
+#      question_type: :likert
+#    },
+#    {
+#      id: "2820b0c6-5e77-42a7-b046-c6eaed9fa66e",
+#      group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+#      short_code: "MB02",
+#      question_en: "In this team people check whether others keep their promises.",
+#      question_fr: "Dans cette équipe, les gens vérifient si les autres tiennent leurs promesses.",
+#      question_pt_br: "Nesta equipe, as pessoas verificam se os outros cumprem suas promessas.",
+#      question_type: :likert
+#    },
+#    {
+#      id: "b6bb1d77-3325-4ed6-875f-2032bed2905b",
+#      group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+#      short_code: "MB03",
+#      question_en: "In this team most people tend to keep each other’s work under surveillance.",
+#      question_fr: "Dans cette équipe, la plupart des personnes ont tendance à surveiller le travail des autres.",
+#      question_pt_br: "Nesta equipe, a maioria das pessoas tende a manter o trabalho umas das outras sob vigilância.",
+#      question_type: :likert
+#    }
+#  ]
+
   SEED_GM_QUESTIONS = [
     {
       id: "cc74c4e0-2840-4eba-b0f1-4b6a4f525f52",
       group_id: "fa2d2b55-2c45-4c8c-b2a0-039883c86d80",
       short_code: "GM01",
-      question_en: "I don’t think I personally can do much to increase my intelligence.",
-      question_fr: "Personnellement, je ne pense pas que je peux faire grand chose pour augmenter mon intelligence.",
-      question_pt_br: "Eu pessoalmente não acredito que possa fazer muito para aumentar minha inteligência",
-      question_type: :likert
-    },
+      question_en: "I don't think I personally can do much to increase my intelligence",
+        question_fr: "Personnellement, je ne pense pas que je peux faire grand chose pour augmenter mon intelligence",
+        question_pt_br: "Eu pessoalmente não acredito que possa fazer muito para aumentar minha inteligência",
+        question_type: :likert
+      },
     {
       id: "6c09f8a1-5357-494c-aaa8-a35e553f2083",
       group_id: "fa2d2b55-2c45-4c8c-b2a0-039883c86d80",
@@ -238,7 +470,7 @@ class Survey::CultureData
       id: "41d5255e-40f2-4027-ae31-91718c95a0ac",
       group_id: "fa2d2b55-2c45-4c8c-b2a0-039883c86d80",
       short_code: "GM03",
-      question_en: "My intelligence is something about me that I personally can’t change very much",
+      question_en: "My intelligence is something about me that I personally can't change very much",
       question_fr: "Mon intelligence est quelque chose en moi que je ne peux pas changer beaucoup",
       question_pt_br: "Minha inteligência é algo sobre mim que eu pessoalmente não consigo mudar muito",
       question_type: :likert
@@ -247,7 +479,7 @@ class Survey::CultureData
       id: "82d14e67-2f71-4e07-9eac-ca5fa3f5a823",
       group_id: "fa2d2b55-2c45-4c8c-b2a0-039883c86d80",
       short_code: "GM04",
-      question_en: "To be honest, I don’t think I can really change how intelligent I am",
+      question_en: "To be honest, I don't think I can really change how intelligent I am",
       question_fr: "Pour être honnête, je ne pense pas que je peux vraiment changer l'efficacité de mon intelligence",
       question_pt_br: "Para ser honesto, eu não sei se posso mudar o meu grau de inteligencia",
       question_type: :likert
@@ -355,6 +587,7 @@ class Survey::CultureData
 
   def self.create_survey
     Survey.create! SEED_SURVEY
+    
     Survey::Group.create! SEED_PS_GROUP
     SEED_PS_QUESTIONS.each do |data|
       q = Survey::Question.create! data
@@ -366,6 +599,27 @@ class Survey::CultureData
       q = Survey::Question.create! data
       add_likert(q)
     end
+
+    Survey::Group.create! SEED_P2T_GROUP
+    SEED_P2T_QUESTIONS.each do |data|
+      q = Survey::Question.create! data
+      add_likert(q)
+    end
+    Survey::Group.create! SEED_PTW_GROUP
+    SEED_PTW_QUESTIONS.each do |data|
+      q = Survey::Question.create! data
+      add_likert(q)
+    end
+    Survey::Group.create! SEED_CB_GROUP
+    SEED_CB_QUESTIONS.each do |data|
+      q = Survey::Question.create! data
+      add_likert(q)
+    end
+#    Survey::Group.create! SEED_MB_GROUP
+#    SEED_MB_QUESTIONS.each do |data|
+#      q = Survey::Question.create! data
+#      add_likert(q)
+#    end
 
     Survey::Group.create! SEED_GM_GROUP
     SEED_GM_QUESTIONS.each do |data|
@@ -391,6 +645,31 @@ class Survey::CultureData
       q = Survey::Question.find data[:id]
       q.update! data
     end
+
+    g = Survey::Group.find SEED_P2T_GROUP[:id]
+    g.update! SEED_P2T_GROUP
+    SEED_P2T_QUESTIONS.each do |data|
+      q = Survey::Question.find data[:id]
+      q.update! data
+    end
+    g = Survey::Group.find SEED_PTW_GROUP[:id]
+    g.update! SEED_PTW_GROUP
+    SEED_PTW_QUESTIONS.each do |data|
+      q = Survey::Question.find data[:id]
+      q.update! data
+    end
+    g = Survey::Group.find SEED_CB_GROUP[:id]
+    g.update! SEED_CB_GROUP
+    SEED_CB_QUESTIONS.each do |data|
+      q = Survey::Question.find data[:id]
+      q.update! data
+    end
+#    g = Survey::Group.find SEED_MB_GROUP[:id]
+#    g.update! SEED_MB_GROUP
+#    SEED_MB_QUESTIONS.each do |data|
+#      q = Survey::Question.find data[:id]
+#      q.update! data
+#    end
 
     g = Survey::Group.find SEED_GM_GROUP[:id]
     g.update! SEED_GM_GROUP
