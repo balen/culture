@@ -19,7 +19,7 @@ class SurveyService
     results = []
 
     # Take the first five from each group
-    ["PS", "TM", "GM"].each do |code|
+    ["PS", "TM", "P2T", "PTW", "CB", "GM"].each do |code|
       group = @survey.groups.where(short_code: code).first
       results.concat group.questions.order(:short_code).first(5)
     end
