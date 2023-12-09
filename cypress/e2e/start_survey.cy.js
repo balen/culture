@@ -1,4 +1,4 @@
-describe('Surveys', () => {
+describe('Start Survey', () => {
   it('should offer survey', () => {
 
     cy.visit('/en')
