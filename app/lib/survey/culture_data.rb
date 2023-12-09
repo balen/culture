@@ -600,18 +600,24 @@ class Survey::CultureData
       add_likert(q)
     end
 
+    puts "--- creating SEED_P2T_GROUP"
     Survey::Group.create! SEED_P2T_GROUP
     SEED_P2T_QUESTIONS.each do |data|
+      puts "--- creating #{data[:question_en]}"
       q = Survey::Question.create! data
       add_likert(q)
     end
+    puts "--- creating SEED_PTW_GROUP"
     Survey::Group.create! SEED_PTW_GROUP
     SEED_PTW_QUESTIONS.each do |data|
+      puts "--- creating #{data[:question_en]}"
       q = Survey::Question.create! data
       add_likert(q)
     end
+    puts "--- creating SEED_DB_GROUP"
     Survey::Group.create! SEED_CB_GROUP
     SEED_CB_QUESTIONS.each do |data|
+      puts "--- creating #{data[:question_en]}"
       q = Survey::Question.create! data
       add_likert(q)
     end
@@ -646,25 +652,38 @@ class Survey::CultureData
       q.update! data
     end
 
-    g = Survey::Group.find SEED_P2T_GROUP[:id]
-    g.update! SEED_P2T_GROUP
-    SEED_P2T_QUESTIONS.each do |data|
-      q = Survey::Question.find data[:id]
-      q.update! data
+    def self.update_survey
+      # Updating SEED_P2T_GROUP
+      g = Survey::Group.find SEED_P2T_GROUP[:id]
+      puts "--- updating SEED_P2T_GROUP"
+      g.update! SEED_P2T_GROUP
+      SEED_P2T_QUESTIONS.each do |data|
+        q = Survey::Question.find data[:id]
+        puts "--- updating #{data[:question_en]}"
+        q.update! data
+      end
+    
+      # Updating SEED_PTW_GROUP
+      g = Survey::Group.find SEED_PTW_GROUP[:id]
+      puts "--- updating SEED_PTW_GROUP"
+      g.update! SEED_PTW_GROUP
+      SEED_PTW_QUESTIONS.each do |data|
+        q = Survey::Question.find data[:id]
+        puts "--- updating #{data[:question_en]}"
+        q.update! data
+      end
+    
+      # Updating SEED_CB_GROUP
+      g = Survey::Group.find SEED_CB_GROUP[:id]
+      puts "--- updating SEED_CB_GROUP"
+      g.update! SEED_CB_GROUP
+      SEED_CB_QUESTIONS.each do |data|
+        q = Survey::Question.find data[:id]
+        puts "--- updating #{data[:question_en]}"
+        q.update! data
+      end
     end
-    g = Survey::Group.find SEED_PTW_GROUP[:id]
-    g.update! SEED_PTW_GROUP
-    SEED_PTW_QUESTIONS.each do |data|
-      q = Survey::Question.find data[:id]
-      q.update! data
-    end
-    g = Survey::Group.find SEED_CB_GROUP[:id]
-    g.update! SEED_CB_GROUP
-    SEED_CB_QUESTIONS.each do |data|
-      q = Survey::Question.find data[:id]
-      q.update! data
-    end
-#    g = Survey::Group.find SEED_MB_GROUP[:id]
+    #    g = Survey::Group.find SEED_MB_GROUP[:id]
 #    g.update! SEED_MB_GROUP
 #    SEED_MB_QUESTIONS.each do |data|
 #      q = Survey::Question.find data[:id]
