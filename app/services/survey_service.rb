@@ -48,13 +48,18 @@ class SurveyService
   def deterministicQuestions(respondent: nil)
     results = []
 
-    # Take the first five from each group
-    ["P2T", "PTW", "CB"].each do |code|
-      group = @survey.groups.where(short_code: code).first
-      results.concat group.questions.order(:short_code).first(5)
+    already_asked_ids = []
+    if respondent
+      already_asked_ids = respondent.submissions.map{|s| s.questions}.reduce(:+).uniq
     end
 
-    results.first(15)
+    pool = if already_asked_ids.size > 0
+          @survey.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a
+        else
+          @survey.questions.to_a
+        end
+
+    pool.first(15)
   end
 
   def self.getService(survey:)
