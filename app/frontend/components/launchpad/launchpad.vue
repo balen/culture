@@ -18,7 +18,7 @@
             id="access-code"
             type="text" 
             :placeholder="$t('survey.access_code')"
-            autofocus="true"
+            :autofocus="true"
             :state="valid"
             debounce="500"
             @keyup.enter="onNext"

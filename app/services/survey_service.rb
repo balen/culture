@@ -11,8 +11,11 @@ class SurveyService
     already_asked_ids = []
     already_asked = []
     if respondent
-      already_asked_ids = respondent.submissions.map{|s| s.questions}.reduce(:+).uniq
-      already_asked = @survey.questions.where("survey_questions.id in (?)", already_asked_ids).to_a
+      questions = respondent.submissions.map{|s| s.questions}
+      if questions.size > 0
+        already_asked_ids = questions.reduce(:+).uniq
+        already_asked = @survey.questions.where("survey_questions.id in (?)", already_asked_ids).to_a
+      end
     end
 
     # pool = @survey.questions.to_a
@@ -50,7 +53,10 @@ class SurveyService
 
     already_asked_ids = []
     if respondent
-      already_asked_ids = respondent.submissions.map{|s| s.questions}.reduce(:+).uniq
+      questions = respondent.submissions.map{|s| s.questions}
+      if questions.size > 0
+        already_asked_ids = questions.reduce(:+).uniq
+      end
     end
 
     pool = if already_asked_ids.size > 0

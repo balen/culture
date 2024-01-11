@@ -48,7 +48,7 @@ export default {
     Likert
   },
   mixins: [
-    modelMixin,
+    // modelMixin,
     modelUtilsMixin,
     submissionMixin
   ],
@@ -139,7 +139,6 @@ export default {
             this.startSubmission({ access_code: this.access_code }).then(
               (questions) => {
                 this.questions = Object.values(questions).filter(obj => (typeof obj.json === 'undefined'));
-                this.number_questions = this.questions.length;
                 // Place holder(s) for responses
                 this.questions.forEach((q) => { 
                   this.responses[q.id] = {
@@ -149,6 +148,8 @@ export default {
                     }
                   }
                 })
+
+                this.number_questions = this.questions.length;
               }
             )
           }

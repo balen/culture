@@ -523,6 +523,8 @@ class Survey::CultureData
   ]
 
   def self.add_likert(question)
+    # or update
+    return if question.likert_setting
     likert = Survey::LikertSetting.create!(
       left_label_en: "Strongly disagree",
       right_label_en: "Strongly agree",
@@ -638,6 +640,7 @@ class Survey::CultureData
     instance = model.find_by id: data[:id]
     if instance
       instance.update! data
+      instance
     else
       model.create! data
     end
@@ -666,7 +669,8 @@ class Survey::CultureData
       SEED_GM_QUESTIONS
     ].each do |questions|
       questions.each do |data|
-        create_or_update(model: Survey::Question, data: data)
+        q = create_or_update(model: Survey::Question, data: data)
+        add_likert(q)
       end
     end
   end

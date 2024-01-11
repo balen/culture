@@ -25,7 +25,6 @@ export default {
     disabled: false
   },
   mixins: [
-    modelMixin,
     modelUtilsMixin
   ],
   methods: {
