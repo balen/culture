@@ -49,10 +49,17 @@ class SurveyService
     groups = @survey.groups
     nbr_groups = groups.count
     per_group = 15 / nbr_groups
-    remainder = 15 / nbr_groups
     pool = []
     groups.each do |group|
       pool.concat group.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a.first(per_group)
+    end
+
+    remainder = 15 - pool.size
+    if remainder > 0
+      already_asked = get_already_asked(ids: already_asked_ids)
+      for i in (pool.size + 1)..15 do
+        pool.concat already_asked.slice!(i,1)
+      end
     end
 
     pool
@@ -71,7 +78,7 @@ class SurveyService
     return [] if ids.nil?
     return [] unless ids.length > 0
 
-    @survey.questions.where("survey_questions.id in (?)", already_asked_ids).to_a
+    @survey.questions.where("survey_questions.id in (?)", ids).to_a
   end
 
   def self.getService(survey:)
