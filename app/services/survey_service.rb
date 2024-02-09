@@ -3,22 +3,11 @@ class SurveyService
 
   # Return unique number questions in a random order
   def randomQuestions(number: 15, respondent: nil)
-    # TODO: change so that we get questions that have not been answered first
-
     # if we have access code and a current respondent
     #  then we know what questions they have been asked and
     #  use that to weight the "random" questions ....
-    already_asked_ids = []
-    already_asked = []
-    if respondent
-      questions = respondent.submissions.map{|s| s.questions}
-      if questions.size > 0
-        already_asked_ids = questions.reduce(:+).uniq
-        already_asked = @survey.questions.where("survey_questions.id in (?)", already_asked_ids).to_a
-      end
-    end
+    already_asked_ids = get_already_asked_ids(respondent: respondent)
 
-    # pool = @survey.questions.to_a
     pool = if already_asked_ids.size > 0
               @survey.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a
             else
@@ -39,33 +28,50 @@ class SurveyService
         results.concat pool.slice!(idx,1)
       end
       # Then get from the rest
-      for i in (pool.size + 1)..number do
-        idx = rand(already_asked.size)
-        results.concat already_asked.slice!(idx,1)
+      if remainder > 0
+        already_asked = get_already_asked(ids: already_asked_ids)
+        for i in (pool.size + 1)..number do
+          idx = rand(already_asked.size)
+          results.concat already_asked.slice!(idx,1)
+        end
       end
     end
 
     results
   end
 
+  # 
   def deterministicQuestions(respondent: nil)
     results = []
+    already_asked_ids = get_already_asked_ids(respondent: respondent)
 
-    already_asked_ids = []
-    if respondent
-      questions = respondent.submissions.map{|s| s.questions}
-      if questions.size > 0
-        already_asked_ids = questions.reduce(:+).uniq
-      end
+    # Go through each group proportion the questions from each accordingly
+    groups = @survey.groups
+    nbr_groups = groups.count
+    per_group = 15 / nbr_groups
+    remainder = 15 / nbr_groups
+    pool = []
+    groups.each do |group|
+      pool.concat group.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a.first(per_group)
     end
 
-    pool = if already_asked_ids.size > 0
-          @survey.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a
-        else
-          @survey.questions.to_a
-        end
+    pool
+  end
 
-    pool.first(15)
+  def get_already_asked_ids(respondent: nil)
+    return [] unless respondent
+
+    questions = respondent.submissions.map{|s| s.questions}
+    return [] unless questions.size > 0
+
+    questions.reduce(:+).uniq
+  end
+
+  def get_already_asked(ids: [])
+    return [] if ids.nil?
+    return [] unless ids.length > 0
+
+    @survey.questions.where("survey_questions.id in (?)", already_asked_ids).to_a
   end
 
   def self.getService(survey:)
