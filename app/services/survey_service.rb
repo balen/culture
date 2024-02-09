@@ -49,9 +49,16 @@ class SurveyService
     groups = @survey.groups
     nbr_groups = groups.count
     per_group = 15 / nbr_groups
+    remainder = 15 % nbr_groups
     pool = []
     groups.each do |group|
-      pool.concat group.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a.first(per_group)
+      amount = per_group + remainder if remainder
+      remainder = 0
+      if already_asked_ids.size > 0
+        pool.concat group.questions.where("survey_questions.id not in (?)", already_asked_ids).to_a.first(amount)
+      else
+        pool.concat group.questions.to_a.first(amount)
+      end
     end
 
     remainder = 15 - pool.size
