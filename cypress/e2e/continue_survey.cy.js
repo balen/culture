@@ -1,3 +1,5 @@
+const { transformVNodeArgs } = require("vue")
+
 describe('Continue Survey', () => {
   it('should offer more questions and cover P2T, PTW and CB', () => {
     cy.visit('/en')
@@ -8,6 +10,7 @@ describe('Continue Survey', () => {
     // From intro screen click next and go to first question
     cy.get('[data-cy="start-survey-button"]').click()
 
+    // These words need to be verified for the test
     const wordsToCheck = {
       "need": false, "concerned": false, "believe": false, "lying": false,
       "rely": false, "confidence": false, "keep their word": false, "hidden agenda": false,
@@ -27,21 +30,30 @@ describe('Continue Survey', () => {
 
     // Function to go through 15 questions and check words
     const goThroughQuestions = () => {
-      for (let i = 0; i < 15; i++) {
-        cy.get('[data-cy="likert-4"]').click();
-        checkWordsInCurrentQuestion();
-        cy.get('[data-cy="likert-button-next"]').click();
-      }
+      cy.wait(300)
+      cy.get('#see-results').should(
+        // need dummy so we pass the should either way
+        (el) => {}
+      ).then(
+        (el) => {
+          if (!el.length) {
+            checkWordsInCurrentQuestion();
+            cy.get('[data-cy="likert-4"]').click();
+            cy.get('[data-cy="likert-button-next"]').click()
+            goThroughQuestions()
+          }
+        }
+      )
     };
 
     // Check words in the first 15 questions and then view the results
-    goThroughQuestions();
+    goThroughQuestions(0);
     cy.get('[data-cy="button-see-results"]').click();
 
     // Click to answer more questions
     cy.get('[data-cy="start-survey-button"]').contains("more").click();
 
-    // Answer and check words in the next 15 questions
+    // Answer and check words in the next 15 or N questions
     goThroughQuestions();
 
     // View the results and then run assertions

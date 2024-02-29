@@ -65,7 +65,7 @@ class SurveyService
     if remainder > 0
       already_asked = get_already_asked(ids: already_asked_ids)
       for i in (pool.size + 1)..15 do
-        pool.concat already_asked.slice!(i,1)
+        pool.concat already_asked.slice!(i,1) if already_asked.slice!(i,1)
       end
     end
 
