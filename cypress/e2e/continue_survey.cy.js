@@ -47,7 +47,7 @@ describe('Continue Survey', () => {
     };
 
     // Check words in the first 15 questions and then view the results
-    goThroughQuestions(0);
+    goThroughQuestions();
     cy.get('[data-cy="button-see-results"]').click();
 
     // Click to answer more questions
