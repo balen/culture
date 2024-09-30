@@ -12,7 +12,8 @@ describe('Continue Survey', () => {
 
     // These words need to be verified for the test
     const wordsToCheck = {
-      "need": false, "concerned": false, "believe": false, "lying": false,
+      "need": false, "concerned": false, "believe": false, "hesitate": false,
+      "can rely": false,
       "rely": false, "confidence": false, "keep their word": false, "hidden agenda": false,
       "climate": false
     };

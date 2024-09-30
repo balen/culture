@@ -16,7 +16,7 @@ namespace :survey do
     Survey.transaction do
       next if Survey.count == 0
 
-      survey = ::Survey::CultureData.update_survey
+      survey = ::Survey::CultureData.create_survey
     end
     puts "--- survey update finished"
   end
@@ -25,11 +25,7 @@ namespace :survey do
   task :init_or_update => :environment do
     puts "--- survey init_or_update started"
     Survey.transaction do
-      if Survey.count == 0
-        survey = ::Survey::CultureData.create_survey
-      else
-        survey = ::Survey::CultureData.update_survey
-      end
+      survey = ::Survey::CultureData.create_survey
     end
     puts "--- survey init_or_update finished"
   end

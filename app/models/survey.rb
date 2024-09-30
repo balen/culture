@@ -4,11 +4,13 @@ class Survey < ApplicationRecord
   # See https://github.com/shioyama/mobility
   extend Mobility
 
-  has_many :groups,
-          class_name: 'Survey::Group',
-          inverse_of: :survey,
-          dependent: :destroy
-  accepts_nested_attributes_for :groups, allow_destroy: true
+  # has_many :groups,
+  #         class_name: 'Survey::Group',
+  #         inverse_of: :survey,
+  #         dependent: :destroy
+  has_and_belongs_to_many :groups, class_name: 'Survey::Group', foreign_key: "survey_id"
+
+  # accepts_nested_attributes_for :groups, allow_destroy: true
 
   has_many :questions, through: :groups, class_name: 'Survey::Question'
   has_many :submissions, class_name: 'Survey::Submission', dependent: :destroy

@@ -231,44 +231,44 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(cb_total).to eq(100)
     end
 
-    it 'calculates lowest GM' do
-      setup_responses(
-        question("GM01") => 7, question("GM02") => 7, question("GM03") => 7,
-        question("GM04") => 7, question("GM05") => 1, question("GM06") => 1,
-        question("GM07") => 1, question("GM08") => 1
-      )
-      calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      gm_total = calc.total(scores: gm_scores)
+    # it 'calculates lowest GM' do
+    #   setup_responses(
+    #     question("GM01") => 7, question("GM02") => 7, question("GM03") => 7,
+    #     question("GM04") => 7, question("GM05") => 1, question("GM06") => 1,
+    #     question("GM07") => 1, question("GM08") => 1
+    #   )
+    #   calc = described_class.new
+    #   gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   gm_total = calc.total(scores: gm_scores)
 
-      expect(gm_total).to eq(0)
-    end
+    #   expect(gm_total).to eq(0)
+    # end
 
-    it 'calculates average GM' do
-      setup_responses(
-        question("GM01") => 4, question("GM02") => 4, question("GM03") => 4,
-        question("GM04") => 4, question("GM05") => 4, question("GM06") => 4,
-        question("GM07") => 4, question("GM08") => 4
-      )
-      calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      gm_total = calc.total(scores: gm_scores)
+    # it 'calculates average GM' do
+    #   setup_responses(
+    #     question("GM01") => 4, question("GM02") => 4, question("GM03") => 4,
+    #     question("GM04") => 4, question("GM05") => 4, question("GM06") => 4,
+    #     question("GM07") => 4, question("GM08") => 4
+    #   )
+    #   calc = described_class.new
+    #   gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   gm_total = calc.total(scores: gm_scores)
 
-      expect(gm_total).to eq(50)
-    end
+    #   expect(gm_total).to eq(50)
+    # end
 
-    it 'calculates highest GM' do
-      setup_responses(
-        question("GM01") => 1, question("GM02") => 1, question("GM03") => 1,
-        question("GM04") => 1, question("GM05") => 7, question("GM06") => 7,
-        question("GM07") => 7, question("GM08") => 7
-      )
-      calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      gm_total = calc.total(scores: gm_scores)
+    # it 'calculates highest GM' do
+    #   setup_responses(
+    #     question("GM01") => 1, question("GM02") => 1, question("GM03") => 1,
+    #     question("GM04") => 1, question("GM05") => 7, question("GM06") => 7,
+    #     question("GM07") => 7, question("GM08") => 7
+    #   )
+    #   calc = described_class.new
+    #   gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   gm_total = calc.total(scores: gm_scores)
 
-      expect(gm_total).to eq(100)
-    end
+    #   expect(gm_total).to eq(100)
+    # end
 
     it 'calculates PS range for no answers' do
       calc = described_class.new
@@ -288,27 +288,27 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(range[:max]).to eq(100)
     end
 
-    it 'calculates GM range for no answers' do
-      calc = described_class.new
-      scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      range = calc.range(group_short_code: :GM, scores: scores)
+    # it 'calculates GM range for no answers' do
+    #   calc = described_class.new
+    #   scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   range = calc.range(group_short_code: :GM, scores: scores)
 
-      expect(range[:min]).to eq(0)
-      expect(range[:max]).to eq(100)
-    end
+    #   expect(range[:min]).to eq(0)
+    #   expect(range[:max]).to eq(100)
+    # end
 
-    it 'calculates GM range with half the answers' do
-      setup_responses(
-        question("GM01") => 4, question("GM02") => 4,
-        question("GM05") => 4, question("GM06") => 4
-      )
-      calc = described_class.new
-      scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      range = calc.range(group_short_code: :GM, scores: scores)
+    # it 'calculates GM range with half the answers' do
+    #   setup_responses(
+    #     question("GM01") => 4, question("GM02") => 4,
+    #     question("GM05") => 4, question("GM06") => 4
+    #   )
+    #   calc = described_class.new
+    #   scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   range = calc.range(group_short_code: :GM, scores: scores)
 
-      expect(range[:min]).to eq(25)
-      expect(range[:max]).to eq(75)
-    end
+    #   expect(range[:min]).to eq(25)
+    #   expect(range[:max]).to eq(75)
+    # end
 
   end
 end

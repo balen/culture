@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_current_respondent_id
-    Rails.logger.debug "********** RES ID IS #{session[:respondent_id]}"
+    # Rails.logger.debug "********** RES ID IS #{session[:respondent_id]}"
     session[:respondent_id]
   end
 

@@ -65,9 +65,15 @@ class Survey::CultureData
     name_pt_br: "Entender melhor minha cultura organizacional",
   }
 
+  SEED_SURVEY2 = {
+    id: "9a4fc3e9-288e-458c-ae42-57f7895991f8",
+    name_en: "Better Understand My Organizational Culture (sans GM)",
+    name_fr: "Mieux Comprendre Ma Culture Organisationnelle (sans GM)",
+    name_pt_br: "Entender melhor minha cultura organizacional (sans GM)"
+  }
+
   SEED_PS_GROUP = {
     id: "e93e88e8-f956-4595-a6f3-251f94d70941",
-    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
     short_code: "PS",
     name_en: "Psychological Safety",
     name_fr: "Sécurité psychologique",
@@ -76,7 +82,6 @@ class Survey::CultureData
 
   SEED_TM_GROUP = {    
     id: "c57ffd76-bd0b-4b27-9294-3393cd8600e7",
-    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
     short_code: "TM",
     name_en: "Total Motivation",
     name_fr: "Motivation totale",
@@ -85,7 +90,6 @@ class Survey::CultureData
 
   SEED_P2T_GROUP = {
     id: "72acdcff-2324-455a-acd0-7ccc418492a4",
-    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
     short_code: "P2T",
     name_en: "Propensity to Trust",
     name_fr: "Propension à la confiance",
@@ -93,7 +97,6 @@ class Survey::CultureData
   }
   SEED_PTW_GROUP = {
     id: "7a1ba9b2-6fd5-49dd-8a66-7b7ff464a286",
-    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
     short_code: "PTW",
     name_en: "Perceived Trustworthiness",
     name_fr: "Perception de fiabilité",
@@ -101,24 +104,21 @@ class Survey::CultureData
   }
   SEED_CB_GROUP = {
     id: "ec30265e-1939-4f6c-a760-7753de0732f9",
-    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
     short_code: "CB",
     name_en: "Cooperative Behaviours",
     name_fr: "Comportements coopératifs",
     name_pt_br: "Comportamentos cooperativos"
   }
-#  SEED_MB_GROUP = {
-#    id: "33fe464c-6797-436b-91dc-5254a0220fbf",
-#    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
-#    short_code: "MB",
-#    name_en: "Monitoring Behaviours",
-#    name_fr: "Comportements de surveillance",
-#    name_pt_br: "Monitoramento de comportamentos"
-#  }
+ SEED_MB_GROUP = {
+   id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+   short_code: "MB",
+   name_en: "Monitoring Behaviours",
+   name_fr: "Comportements de surveillance",
+   name_pt_br: "Monitoramento de comportamentos"
+ }
 
   SEED_GM_GROUP = {    
     id: "fa2d2b55-2c45-4c8c-b2a0-039883c86d80",
-    survey_id: "55d68108-c458-4bbf-b164-4f5c4dc3d7b6",
     short_code: "GM",
     name_en: "Growth Mindset",
     name_fr: "Mentalité de croissance",
@@ -417,35 +417,36 @@ class Survey::CultureData
       question_type: :likert
     }
   ]
-#  SEED_MB_QUESTIONS = [
-#    {
-#      id: "49e21a43-fc95-4ddd-8468-56d9f15807ea",
-#      group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
-#      short_code: "MB01",
-#      question_en: "In this team people watch each other very closely.",
-#      question_fr: "Dans cette équipe, les gens se surveillent de très près.",
-#      question_pt_br: "Nesta equipe, as pessoas observam umas às outras com muita atenção.",
-#      question_type: :likert
-#    },
-#    {
-#      id: "2820b0c6-5e77-42a7-b046-c6eaed9fa66e",
-#      group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
-#      short_code: "MB02",
-#      question_en: "In this team people check whether others keep their promises.",
-#      question_fr: "Dans cette équipe, les gens vérifient si les autres tiennent leurs promesses.",
-#      question_pt_br: "Nesta equipe, as pessoas verificam se os outros cumprem suas promessas.",
-#      question_type: :likert
-#    },
-#    {
-#      id: "b6bb1d77-3325-4ed6-875f-2032bed2905b",
-#      group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
-#      short_code: "MB03",
-#      question_en: "In this team most people tend to keep each other’s work under surveillance.",
-#      question_fr: "Dans cette équipe, la plupart des personnes ont tendance à surveiller le travail des autres.",
-#      question_pt_br: "Nesta equipe, a maioria das pessoas tende a manter o trabalho umas das outras sob vigilância.",
-#      question_type: :likert
-#    }
-#  ]
+
+  SEED_MB_QUESTIONS = [
+   {
+     id: "49e21a43-fc95-4ddd-8468-56d9f15807ea",
+     group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+     short_code: "MB01",
+     question_en: "In this team people watch each other very closely.",
+     question_fr: "Dans cette équipe, les gens se surveillent de très près.",
+     question_pt_br: "Nesta equipe, as pessoas observam umas às outras com muita atenção.",
+     question_type: :likert
+   },
+   {
+     id: "2820b0c6-5e77-42a7-b046-c6eaed9fa66e",
+     group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+     short_code: "MB02",
+     question_en: "In this team people check whether others keep their promises.",
+     question_fr: "Dans cette équipe, les gens vérifient si les autres tiennent leurs promesses.",
+     question_pt_br: "Nesta equipe, as pessoas verificam se os outros cumprem suas promessas.",
+     question_type: :likert
+   },
+   {
+     id: "b6bb1d77-3325-4ed6-875f-2032bed2905b",
+     group_id: "33fe464c-6797-436b-91dc-5254a0220fbf",
+     short_code: "MB03",
+     question_en: "In this team most people tend to keep each other’s work under surveillance.",
+     question_fr: "Dans cette équipe, la plupart des personnes ont tendance à surveiller le travail des autres.",
+     question_pt_br: "Nesta equipe, a maioria das pessoas tende a manter o trabalho umas das outras sob vigilância.",
+     question_type: :likert
+   }
+ ]
 
   SEED_GM_QUESTIONS = [
     {
@@ -587,75 +588,15 @@ class Survey::CultureData
     )
   end
 
-  def self.create_survey
-    Survey.create! SEED_SURVEY
-    
-    Survey::Group.create! SEED_PS_GROUP
-    SEED_PS_QUESTIONS.each do |data|
-      q = Survey::Question.create! data
-      add_likert(q)
-    end
-
-    Survey::Group.create! SEED_TM_GROUP
-    SEED_TM_QUESTIONS.each do |data|
-      q = Survey::Question.create! data
-      add_likert(q)
-    end
-
-    puts "--- creating SEED_P2T_GROUP"
-    Survey::Group.create! SEED_P2T_GROUP
-    SEED_P2T_QUESTIONS.each do |data|
-      puts "--- creating #{data[:question_en]}"
-      q = Survey::Question.create! data
-      add_likert(q)
-    end
-    puts "--- creating SEED_PTW_GROUP"
-    Survey::Group.create! SEED_PTW_GROUP
-    SEED_PTW_QUESTIONS.each do |data|
-      puts "--- creating #{data[:question_en]}"
-      q = Survey::Question.create! data
-      add_likert(q)
-    end
-    puts "--- creating SEED_DB_GROUP"
-    Survey::Group.create! SEED_CB_GROUP
-    SEED_CB_QUESTIONS.each do |data|
-      puts "--- creating #{data[:question_en]}"
-      q = Survey::Question.create! data
-      add_likert(q)
-    end
-#    Survey::Group.create! SEED_MB_GROUP
-#    SEED_MB_QUESTIONS.each do |data|
-#      q = Survey::Question.create! data
-#      add_likert(q)
-#    end
-
-    Survey::Group.create! SEED_GM_GROUP
-    SEED_GM_QUESTIONS.each do |data|
-      q = Survey::Question.create! data
-      add_likert(q)
-    end
-  end
-
-  def self.create_or_update(model:, data:)
-    instance = model.find_by id: data[:id]
-    if instance
-      instance.update! data
-      instance
-    else
-      model.create! data
-    end
-  end
-
-  def self.update_survey
-    create_or_update(model: Survey, data: SEED_SURVEY)
-
+  def self.create_groups
     [
       SEED_PS_GROUP,
       SEED_TM_GROUP,
       SEED_P2T_GROUP,
       SEED_PTW_GROUP,
       SEED_CB_GROUP,
-      SEED_GM_GROUP
+      SEED_GM_GROUP,
+      SEED_MB_GROUP
     ].each do |data|
       create_or_update(model: Survey::Group, data: data)
     end
@@ -666,12 +607,50 @@ class Survey::CultureData
       SEED_P2T_QUESTIONS,
       SEED_PTW_QUESTIONS,
       SEED_CB_QUESTIONS,
-      SEED_GM_QUESTIONS
+      SEED_GM_QUESTIONS,
+      SEED_MB_QUESTIONS
     ].each do |questions|
       questions.each do |data|
         q = create_or_update(model: Survey::Question, data: data)
         add_likert(q)
       end
+    end
+  end
+
+  def self.add_group(survey: , short_code:)
+    group = Survey::Group.find_by short_code: short_code
+    survey.groups << group if group
+  end
+
+  def self.create_survey
+    create_groups
+
+    # survey = Survey.create! SEED_SURVEY
+    survey = create_or_update(model: Survey, data: SEED_SURVEY)
+    add_group(survey: survey, short_code: 'PS')
+    add_group(survey: survey, short_code: 'TM')
+    add_group(survey: survey, short_code: 'P2T')
+    add_group(survey: survey, short_code: 'PTW')
+    add_group(survey: survey, short_code: 'CB')
+    add_group(survey: survey, short_code: 'GM')
+    
+
+    # survey = Survey.create! SEED_SURVEY2
+    survey = create_or_update(model: Survey, data: SEED_SURVEY2)
+    add_group(survey: survey, short_code: 'PS')
+    add_group(survey: survey, short_code: 'TM')
+    add_group(survey: survey, short_code: 'P2T')
+    add_group(survey: survey, short_code: 'PTW')
+    add_group(survey: survey, short_code: 'CB')
+  end
+
+  def self.create_or_update(model:, data:)
+    instance = model.find_by id: data[:id]
+    if instance
+      instance.update! data
+      instance
+    else
+      model.create! data
     end
   end
 end

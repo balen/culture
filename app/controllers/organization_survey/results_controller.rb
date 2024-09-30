@@ -13,7 +13,13 @@
       results = {
         ps: results_for(group_short_code: :PS, org_survey: os),
         tm: results_for(group_short_code: :TM, org_survey: os),
-        gm: results_for(group_short_code: :GM, org_survey: os)
+        gm: results_for(group_short_code: :GM, org_survey: os),
+
+        # mb: results_for(group_short_code: :MB, org_survey: os),
+        p2t: results_for(group_short_code: :P2T, org_survey: os),
+        ptw: results_for(group_short_code: :PTW, org_survey: os),
+        cb: results_for(group_short_code: :CB, org_survey: os)
+
       }
 
       render json: results, adapter: :json, content_type: 'application/json'
