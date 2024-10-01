@@ -13,7 +13,13 @@
       results = {
         ps: results_for(group_short_code: :PS, org_survey: os),
         tm: results_for(group_short_code: :TM, org_survey: os),
-        gm: results_for(group_short_code: :GM, org_survey: os)
+        gm: results_for(group_short_code: :GM, org_survey: os),
+
+        # mb: results_for(group_short_code: :MB, org_survey: os),
+        p2t: results_for(group_short_code: :P2T, org_survey: os),
+        ptw: results_for(group_short_code: :PTW, org_survey: os),
+        cb: results_for(group_short_code: :CB, org_survey: os)
+
       }
 
       render json: results, adapter: :json, content_type: 'application/json'
@@ -44,8 +50,11 @@
       ps = results_for(group_short_code: :PS, org_survey: os, survey_respondent_id: sr_id)
       tm = results_for(group_short_code: :TM, org_survey: os, survey_respondent_id: sr_id)
       gm = results_for(group_short_code: :GM, org_survey: os, survey_respondent_id: sr_id)
+      p2t = results_for(group_short_code: :P2T, org_survey: os, survey_respondent_id: sr_id)
+      ptw = results_for(group_short_code: :PTW, org_survey: os, survey_respondent_id: sr_id)
+      cb = results_for(group_short_code: :CB, org_survey: os, survey_respondent_id: sr_id)
 
-      result = [ps, tm, gm].min_by { |e| e[:range][:width] }
+      result = [ps, tm, gm, p2t, ptw, cb].min_by { |e| e[:range][:width] }
 
       render json: result, adapter: :json, content_type: 'application/json'
     end

@@ -2,13 +2,13 @@ class ScoreCalculator
   # These weights are derived from the sample spreadsheet
   WEIGHTS = {
     PS: {
-      PS01: { invert: true, weight: Rational(100, 42)},
-      PS02: { invert: false, weight: Rational(100, 42)},
-      PS03: { invert: true, weight: Rational(100, 42)},
-      PS04: { invert: false, weight: Rational(100, 42)},
-      PS05: { invert: true, weight: Rational(100, 42)},
-      PS06: { invert: false, weight: Rational(100, 42)},
-      PS07: { invert: false, weight: Rational(100, 42)}
+      PS01: { invert: true, weight: Rational(100, 7 * 6)},
+      PS02: { invert: false, weight: Rational(100, 7 * 6)},
+      PS03: { invert: true, weight: Rational(100, 7 * 6)},
+      PS04: { invert: false, weight: Rational(100, 7 * 6)},
+      PS05: { invert: true, weight: Rational(100, 7 * 6)},
+      PS06: { invert: false, weight: Rational(100, 7 * 6)},
+      PS07: { invert: false, weight: Rational(100, 7 * 6)}
     },
     TM: {
       # Goes from -100 to +100
@@ -19,15 +19,39 @@ class ScoreCalculator
       TM05: { invert: false, weight: -5.0},
       TM06: { invert: false, weight: -10.0}
     },
+    P2T: {
+      P2T1: { invert: false, weight: Rational(100, 6 * 6)},
+      P2T2: { invert: false, weight: Rational(100, 6 * 6)},
+      P2T3: { invert: false, weight: Rational(100, 6 * 6)},
+      P2T4: { invert: false, weight: Rational(100, 6 * 6)},
+      P2T5: { invert: false, weight: Rational(100, 6 * 6)},
+      P2T6: { invert: false, weight: Rational(100, 6 * 6)}
+    },
+    PTW: {
+      PTW1: { invert: false, weight: Rational(100, 6 * 6)},
+      PTW2: { invert: false, weight: Rational(100, 6 * 6)},
+      PTW3: { invert: false, weight: Rational(100, 6 * 6)},
+      PTW4: { invert: true, weight: Rational(100, 6 * 6)},
+      PTW5: { invert: true, weight: Rational(100, 6 * 6)},
+      PTW6: { invert: false, weight: Rational(100, 6 * 6)}
+    },
+    CB: {
+      CB01: { invert: false, weight: Rational(100, 6 * 6)},
+      CB02: { invert: false, weight: Rational(100, 6 * 6)},
+      CB03: { invert: false, weight: Rational(100, 6 * 6)},
+      CB04: { invert: true, weight: Rational(100, 6 * 6)},
+      CB05: { invert: true, weight: Rational(100, 6 * 6)},
+      CB06: { invert: false, weight: Rational(100, 6 * 6)}
+    },
     GM: {
-      GM01: { invert: true, weight: Rational(100, 48)},
-      GM02: { invert: true, weight: Rational(100, 48)},
-      GM03: { invert: true, weight: Rational(100, 48)},
-      GM04: { invert: true, weight: Rational(100, 48)},
-      GM05: { invert: false, weight: Rational(100, 48)},
-      GM06: { invert: false, weight: Rational(100, 48)},
-      GM07: { invert: false, weight: Rational(100, 48)},
-      GM08: { invert: false, weight: Rational(100, 48)}
+      GM01: { invert: true, weight: Rational(100, 8 * 6)},
+      GM02: { invert: true, weight: Rational(100, 8 * 6)},
+      GM03: { invert: true, weight: Rational(100, 8 * 6)},
+      GM04: { invert: true, weight: Rational(100, 8 * 6)},
+      GM05: { invert: false, weight: Rational(100, 8 * 6)},
+      GM06: { invert: false, weight: Rational(100, 8 * 6)},
+      GM07: { invert: false, weight: Rational(100, 8 * 6)},
+      GM08: { invert: false, weight: Rational(100, 8 * 6)}
     }
   }
 
@@ -56,6 +80,18 @@ class ScoreCalculator
 
   def total_motivation(organization_id:, access_code:, survey_respondent_id: nil)
     individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :TM, survey_respondent_id: survey_respondent_id)
+  end
+
+  def propensity_to_trust(organization_id:, access_code:, survey_respondent_id: nil)
+    individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :P2T, survey_respondent_id: survey_respondent_id)
+  end
+
+  def perceived_trustworthiness(organization_id:, access_code:, survey_respondent_id: nil)
+    individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :PTW, survey_respondent_id: survey_respondent_id)
+  end
+
+  def cooperative_behaviours(organization_id:, access_code:, survey_respondent_id: nil)
+    individual_scores(organization_id: organization_id, access_code: access_code, group_short_code: :CB, survey_respondent_id: survey_respondent_id)
   end
 
   def growth_mindset(organization_id:, access_code:, survey_respondent_id: nil)

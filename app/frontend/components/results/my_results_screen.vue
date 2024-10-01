@@ -7,7 +7,7 @@
           bg-variant="primary" text-variant="white"
           :title="results.title"
           class="text-center score-card"
-          data-cy="ps-results-card"
+          data-cy="results-card"
         >
           <b-card-text>
             {{ results.range.min }} to

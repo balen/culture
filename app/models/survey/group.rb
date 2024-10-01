@@ -11,7 +11,7 @@ class Survey::Group < ApplicationRecord
            dependent: :destroy
   accepts_nested_attributes_for :questions, allow_destroy: true
 
-  belongs_to :survey
+  has_and_belongs_to_many :surveys, class_name: "Survey", foreign_key: "group_id"
 
   translates :name
 end

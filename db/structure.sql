@@ -76,99 +76,6 @@ CREATE TABLE public.organizations (
 
 
 --
--- Name: survey_groups; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_groups (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    name jsonb DEFAULT '{}'::jsonb,
-    survey_id uuid NOT NULL,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    short_code character varying(40)
-);
-
-
---
--- Name: survey_questions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_questions (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    question jsonb DEFAULT '{}'::jsonb,
-    question_type character varying DEFAULT 'textfield'::character varying,
-    group_id uuid NOT NULL,
-    deleted_at timestamp(6) without time zone,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    short_code character varying(40)
-);
-
-
---
--- Name: survey_responses; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_responses (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    submission_id uuid NOT NULL,
-    question_id uuid NOT NULL,
-    response jsonb,
-    response_as_text text,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    short_code character varying(40)
-);
-
-
---
--- Name: survey_submissions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.survey_submissions (
-    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
-    name character varying,
-    survey_id uuid NOT NULL,
-    lock_version integer,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    submission_state public.submission_state_enum DEFAULT 'draft'::public.submission_state_enum,
-    organization_survey_id uuid NOT NULL,
-    survey_respondent_id uuid,
-    questions uuid[] DEFAULT '{}'::uuid[]
-);
-
-
---
--- Name: responses_view; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW public.responses_view AS
- SELECT sr.id AS response_id,
-    sr.question_id,
-    sr.response,
-    sr.response_as_text,
-    sq.short_code,
-    o.name AS organization_name,
-    os.organization_id,
-    os.access_code,
-    sq.group_id,
-    sg.short_code AS group_short_code,
-    ss.survey_respondent_id,
-    ss.id AS submission_id
-   FROM (((((public.survey_responses sr
-     JOIN public.survey_questions sq ON ((sq.id = sr.question_id)))
-     JOIN public.survey_groups sg ON ((sg.id = sq.group_id)))
-     JOIN public.survey_submissions ss ON ((ss.id = sr.submission_id)))
-     JOIN public.organization_surveys os ON ((os.id = ss.organization_survey_id)))
-     JOIN public.organizations o ON ((o.id = os.organization_id)))
-  WHERE (sr.response_as_text <> ''::text);
-
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -188,6 +95,31 @@ CREATE TABLE public.survey_answers (
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: survey_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_groups (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name jsonb DEFAULT '{}'::jsonb,
+    survey_id uuid,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    short_code character varying(40)
+);
+
+
+--
+-- Name: survey_groups_surveys; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_groups_surveys (
+    group_id uuid,
+    survey_id uuid
 );
 
 
@@ -237,6 +169,23 @@ CREATE TABLE public.survey_question_variants (
 
 
 --
+-- Name: survey_questions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_questions (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    question jsonb DEFAULT '{}'::jsonb,
+    question_type character varying DEFAULT 'textfield'::character varying,
+    group_id uuid NOT NULL,
+    deleted_at timestamp(6) without time zone,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    short_code character varying(40)
+);
+
+
+--
 -- Name: survey_respondents; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -246,6 +195,41 @@ CREATE TABLE public.survey_respondents (
     lock_version integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: survey_responses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_responses (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    submission_id uuid NOT NULL,
+    question_id uuid NOT NULL,
+    response jsonb,
+    response_as_text text,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    short_code character varying(40)
+);
+
+
+--
+-- Name: survey_submissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.survey_submissions (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    name character varying,
+    survey_id uuid NOT NULL,
+    lock_version integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    submission_state public.submission_state_enum DEFAULT 'draft'::public.submission_state_enum,
+    organization_survey_id uuid NOT NULL,
+    survey_respondent_id uuid,
+    questions uuid[] DEFAULT '{}'::uuid[]
 );
 
 
@@ -408,6 +392,13 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: idx_unique_survey_groups; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_unique_survey_groups ON public.survey_groups_surveys USING btree (group_id, survey_id);
+
+
+--
 -- Name: index_survey_respondents_on_respondent_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -456,6 +447,14 @@ ALTER TABLE ONLY public.survey_responses
 
 ALTER TABLE ONLY public.survey_likert_categories
     ADD CONSTRAINT fk_rails_0131637727 FOREIGN KEY (likert_setting_id) REFERENCES public.survey_likert_settings(id);
+
+
+--
+-- Name: survey_groups_surveys fk_rails_15d9e765e0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.survey_groups_surveys
+    ADD CONSTRAINT fk_rails_15d9e765e0 FOREIGN KEY (survey_id) REFERENCES public.surveys(id);
 
 
 --
@@ -523,6 +522,14 @@ ALTER TABLE ONLY public.survey_likert_settings
 
 
 --
+-- Name: survey_groups_surveys fk_rails_ce2d84f9a8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.survey_groups_surveys
+    ADD CONSTRAINT fk_rails_ce2d84f9a8 FOREIGN KEY (group_id) REFERENCES public.survey_groups(id);
+
+
+--
 -- Name: survey_submissions fk_rails_cff71fb30d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -571,6 +578,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20230508141540'),
 ('20230622195007'),
 ('20230804173221'),
-('20230807144758');
+('20230807144758'),
+('20240926132422'),
+('20240926174509');
 
 

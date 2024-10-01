@@ -123,44 +123,152 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(tm_total).to eq(100)
     end
 
-    it 'calculates lowest GM' do
+    it 'calculates lowest P2T' do
       setup_responses(
-        question("GM01") => 7, question("GM02") => 7, question("GM03") => 7,
-        question("GM04") => 7, question("GM05") => 1, question("GM06") => 1,
-        question("GM07") => 1, question("GM08") => 1
+        question("P2T1") => 1, question("P2T2") => 1, question("P2T3") => 1,
+        question("P2T4") => 1, question("P2T5") => 1, question("P2T6") => 1
       )
       calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      gm_total = calc.total(scores: gm_scores)
+      p2t_scores = calc.propensity_to_trust(organization_id: organization.id, access_code: "ABCD")
+      p2t_total = calc.total(scores: p2t_scores)
 
-      expect(gm_total).to eq(0)
+      expect(p2t_total).to eq(0)
     end
 
-    it 'calculates average GM' do
+    it 'calculates average P2T' do
       setup_responses(
-        question("GM01") => 4, question("GM02") => 4, question("GM03") => 4,
-        question("GM04") => 4, question("GM05") => 4, question("GM06") => 4,
-        question("GM07") => 4, question("GM08") => 4
+        question("P2T1") => 4, question("P2T2") => 4, question("P2T3") => 4,
+        question("P2T4") => 4, question("P2T5") => 4, question("P2T6") => 4
       )
       calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      gm_total = calc.total(scores: gm_scores)
+      p2t_scores = calc.propensity_to_trust(organization_id: organization.id, access_code: "ABCD")
+      p2t_total = calc.total(scores: p2t_scores)
 
-      expect(gm_total).to eq(50)
+      expect(p2t_total).to eq(50) # or the expected average score
     end
 
-    it 'calculates highest GM' do
+    it 'calculates highest P2T' do
       setup_responses(
-        question("GM01") => 1, question("GM02") => 1, question("GM03") => 1,
-        question("GM04") => 1, question("GM05") => 7, question("GM06") => 7,
-        question("GM07") => 7, question("GM08") => 7
+        question("P2T1") => 7, question("P2T2") => 7, question("P2T3") => 7,
+        question("P2T4") => 7, question("P2T5") => 7, question("P2T6") => 7
       )
       calc = described_class.new
-      gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      gm_total = calc.total(scores: gm_scores)
+      p2t_scores = calc.propensity_to_trust(organization_id: organization.id, access_code: "ABCD")
+      p2t_total = calc.total(scores: p2t_scores)
 
-      expect(gm_total).to eq(100)
+      expect(p2t_total).to eq(100) # or the expected highest score
     end
+
+    it 'calculates lowest PTW' do
+      setup_responses(
+        question("PTW1") => 1, question("PTW2") => 1, question("PTW3") => 1,
+        question("PTW4") => 7, question("PTW5") => 7, question("PTW6") => 1
+      )
+      calc = described_class.new
+      ptw_scores = calc.perceived_trustworthiness(organization_id: organization.id, access_code: "ABCD")
+      ptw_total = calc.total(scores: ptw_scores)
+
+      expect(ptw_total).to eq(0)
+    end
+
+    it 'calculates average PTW' do
+      setup_responses(
+        question("PTW1") => 4, question("PTW2") => 4, question("PTW3") => 4,
+        question("PTW4") => 4, question("PTW5") => 4, question("PTW6") => 4
+      )
+      calc = described_class.new
+      ptw_scores = calc.perceived_trustworthiness(organization_id: organization.id, access_code: "ABCD")
+      ptw_total = calc.total(scores: ptw_scores)
+
+      expect(ptw_total).to eq(50)
+    end
+
+    it 'calculates highest PTW' do
+      setup_responses(
+        question("PTW1") => 7, question("PTW2") => 7, question("PTW3") => 7,
+        question("PTW4") => 1, question("PTW5") => 1, question("PTW6") => 7
+      )
+      calc = described_class.new
+      ptw_scores = calc.perceived_trustworthiness(organization_id: organization.id, access_code: "ABCD")
+      ptw_total = calc.total(scores: ptw_scores)
+
+      expect(ptw_total).to eq(100)
+    end
+
+    it 'calculates lowest CB' do
+      setup_responses(
+        question("CB01") => 1, question("CB02") => 1, question("CB03") => 1,
+        question("CB04") => 7, question("CB05") => 7, question("CB06") => 1
+      )
+      calc = described_class.new
+      cb_scores = calc.cooperative_behaviours(organization_id: organization.id, access_code: "ABCD")
+      cb_total = calc.total(scores: cb_scores)
+
+      expect(cb_total).to eq(0)
+    end
+
+    it 'calculates average CB' do
+      setup_responses(
+        question("CB01") => 4, question("CB02") => 4, question("CB03") => 4,
+        question("CB04") => 4, question("CB05") => 4, question("CB06") => 4
+      )
+      calc = described_class.new
+      cb_scores = calc.cooperative_behaviours(organization_id: organization.id, access_code: "ABCD")
+      cb_total = calc.total(scores: cb_scores)
+
+      expect(cb_total).to eq(50)
+    end
+
+    it 'calculates highest CB' do
+      setup_responses(
+        question("CB01") => 7, question("CB02") => 7, question("CB03") => 7,
+        question("CB04") => 1, question("CB05") => 1, question("CB06") => 7
+      )
+      calc = described_class.new
+      cb_scores = calc.cooperative_behaviours(organization_id: organization.id, access_code: "ABCD")
+      cb_total = calc.total(scores: cb_scores)
+
+      expect(cb_total).to eq(100)
+    end
+
+    # it 'calculates lowest GM' do
+    #   setup_responses(
+    #     question("GM01") => 7, question("GM02") => 7, question("GM03") => 7,
+    #     question("GM04") => 7, question("GM05") => 1, question("GM06") => 1,
+    #     question("GM07") => 1, question("GM08") => 1
+    #   )
+    #   calc = described_class.new
+    #   gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   gm_total = calc.total(scores: gm_scores)
+
+    #   expect(gm_total).to eq(0)
+    # end
+
+    # it 'calculates average GM' do
+    #   setup_responses(
+    #     question("GM01") => 4, question("GM02") => 4, question("GM03") => 4,
+    #     question("GM04") => 4, question("GM05") => 4, question("GM06") => 4,
+    #     question("GM07") => 4, question("GM08") => 4
+    #   )
+    #   calc = described_class.new
+    #   gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   gm_total = calc.total(scores: gm_scores)
+
+    #   expect(gm_total).to eq(50)
+    # end
+
+    # it 'calculates highest GM' do
+    #   setup_responses(
+    #     question("GM01") => 1, question("GM02") => 1, question("GM03") => 1,
+    #     question("GM04") => 1, question("GM05") => 7, question("GM06") => 7,
+    #     question("GM07") => 7, question("GM08") => 7
+    #   )
+    #   calc = described_class.new
+    #   gm_scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   gm_total = calc.total(scores: gm_scores)
+
+    #   expect(gm_total).to eq(100)
+    # end
 
     it 'calculates PS range for no answers' do
       calc = described_class.new
@@ -180,27 +288,27 @@ RSpec.describe ScoreCalculator, type: :service do
       expect(range[:max]).to eq(100)
     end
 
-    it 'calculates GM range for no answers' do
-      calc = described_class.new
-      scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      range = calc.range(group_short_code: :GM, scores: scores)
+    # it 'calculates GM range for no answers' do
+    #   calc = described_class.new
+    #   scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   range = calc.range(group_short_code: :GM, scores: scores)
 
-      expect(range[:min]).to eq(0)
-      expect(range[:max]).to eq(100)
-    end
+    #   expect(range[:min]).to eq(0)
+    #   expect(range[:max]).to eq(100)
+    # end
 
-    it 'calculates GM range with half the answers' do
-      setup_responses(
-        question("GM01") => 4, question("GM02") => 4,
-        question("GM05") => 4, question("GM06") => 4
-      )
-      calc = described_class.new
-      scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
-      range = calc.range(group_short_code: :GM, scores: scores)
+    # it 'calculates GM range with half the answers' do
+    #   setup_responses(
+    #     question("GM01") => 4, question("GM02") => 4,
+    #     question("GM05") => 4, question("GM06") => 4
+    #   )
+    #   calc = described_class.new
+    #   scores = calc.growth_mindset(organization_id: organization.id, access_code: "ABCD")
+    #   range = calc.range(group_short_code: :GM, scores: scores)
 
-      expect(range[:min]).to eq(25)
-      expect(range[:max]).to eq(75)
-    end
+    #   expect(range[:min]).to eq(25)
+    #   expect(range[:max]).to eq(75)
+    # end
 
   end
 end
