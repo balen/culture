@@ -44,6 +44,8 @@ class SurveysController < ResourceController
     raise "No such Organization" unless org
 
     survey = org.survey
+    set_current_respondent_id(respondent_id: nil)
+    reset_session
 
     render_object(survey)
   end

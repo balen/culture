@@ -30,7 +30,7 @@ class SurveyService
       # Then get from the rest
       if remainder > 0
         already_asked = get_already_asked(ids: already_asked_ids)
-        for i in (pool.size + 1)..number do
+        for i in 1..remainder do
           idx = rand(already_asked.size)
           results.concat already_asked.slice!(idx,1)
         end

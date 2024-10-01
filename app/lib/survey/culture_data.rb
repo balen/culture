@@ -619,7 +619,9 @@ class Survey::CultureData
 
   def self.add_group(survey: , short_code:)
     group = Survey::Group.find_by short_code: short_code
-    survey.groups << group if group
+    if group
+      survey.groups << group unless survey.groups.exists?(group.id)
+    end
   end
 
   def self.create_survey

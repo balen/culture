@@ -392,6 +392,13 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: idx_unique_survey_groups; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX idx_unique_survey_groups ON public.survey_groups_surveys USING btree (group_id, survey_id);
+
+
+--
 -- Name: index_survey_respondents_on_respondent_id; Type: INDEX; Schema: public; Owner: -
 --
 

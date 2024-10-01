@@ -6,6 +6,7 @@ class HomeController < ApplicationController
     if request.path.include? "/intro/"
       # Rails.logger.debug "******* INDEX #{request.path}"
       set_current_respondent_id(respondent_id: nil)
+      reset_session
     end
   end
 end

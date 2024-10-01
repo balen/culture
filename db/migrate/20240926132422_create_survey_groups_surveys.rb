@@ -7,6 +7,7 @@ class CreateSurveyGroupsSurveys < ActiveRecord::Migration[7.0]
 
     add_foreign_key :survey_groups_surveys, :survey_groups, column: :group_id
     add_foreign_key :survey_groups_surveys, :surveys, column: :survey_id
+    add_index :survey_groups_surveys, [:group_id, :survey_id], unique: true, name: "idx_unique_survey_groups"
 
     # survey_groups
     # t.uuid :survey_id, null: false
