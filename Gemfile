@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.2" # Ruby > 3
+ruby "3.1.4" # Ruby > 3
 gem "rails", "~> 7.0.4", ">= 7.0.4.3" # Rails version
 # gem "sprockets-rails" # Do we need this - TODO: check
 gem "pg", "~> 1.1" # Use postgresql as the database for Active Record

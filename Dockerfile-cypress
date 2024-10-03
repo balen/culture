@@ -1,5 +1,5 @@
 # Dockerfile - for CI tests using cypress
-FROM ruby:3.1.2-slim-buster
+FROM ruby:3.1.4-slim-buster
 
 # Ensure that we work in UTF 8
 ENV LANG C.UTF-8 # ensure that the encoding is UTF8
