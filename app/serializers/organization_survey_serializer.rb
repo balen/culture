@@ -1,7 +1,7 @@
 class OrganizationSurveySerializer
   include JSONAPI::Serializer
 
-  attributes :id, :lock_version, :access_code
+  attributes :id, :lock_version, :access_code, :use_postal_code
 
   attribute :number_submissions do |organization_survey|
     organization_survey.submissions.count

@@ -1,6 +1,6 @@
 <template>
   <div class="detail">
-    <sidebar-vue v-if="selected" model="organization">
+    <sidebar-vue width="60%" v-if="selected" model="organization">
       <template #header>
         <h3>{{ selected.name }}</h3>
         <div class="d-flex justify-content-end">
@@ -15,15 +15,19 @@
         <div class="row mb-5">
           <div class="col-4"><b>Survey</b></div>
           <div class="col-2"><b>Code</b></div>
-          <div class="col-3"><b># Submissions</b></div>
-          <div class="col-3"><b># Submissions</b></div>
+          <div class="col-1"><b>Postal</b></div>
+          <div class="col-2"><b># Subs</b></div>
+          <div class="col-3"><b>Subs</b></div>
         </div>
         <div class="row mb-5" v-for="(survey_info) in this.selected.organization_surveys" :key="survey_info.id" :id="survey_info.id">
           <div class="col-4"><b>{{ survey_info.survey.name }}</b></div>
           <div class="col-2">
             <b-link :to="surveyUrl(survey_info.access_code)" target="_blank">{{ survey_info.access_code }}</b-link>
           </div>
-          <div class="col-3">
+          <div class="col-1">
+            {{ survey_info.use_postal_code }}
+          </div>
+          <div class="col-2">
             {{ survey_info.number_submissions }}
             <icon-button title="View Results" :href="resultsLink(survey_info.id)" icon="eye-fill"></icon-button>
           </div>
@@ -36,6 +40,13 @@
     <modal id="add-access-code" title="Add Survey" @ok="onNew">
       <b-form-group label="Access Code">
         <b-form-input id="survey-access-code" type="text" v-model="newAccessCode"></b-form-input>
+      </b-form-group>
+      <b-form-group label="Use Post Code">
+        <b-form-select
+          v-model="usePostalCode" 
+          :options="postalCodeOptions" 
+        >
+        </b-form-select>
       </b-form-group>
       <b-form-group label="Survey">
         <model-select
@@ -78,7 +89,12 @@ export default {
   ],
   data: () => ({
     newAccessCode: null,
-    survey_id: null
+    survey_id: null,
+    usePostalCode: 'none',
+    postalCodeOptions: [
+      { value: 'none', text: 'None'},
+      { value: 'canada', text: 'Canadian'},
+    ]
   }),
   computed: {
     surveyInfos() {
@@ -138,7 +154,8 @@ export default {
         { 
           access_code: this.newAccessCode,
           survey_id: this.survey_id,
-          organization_id: this.selected.id
+          organization_id: this.selected.id,
+          use_postal_code: this.usePostalCode
         }
       ).then((data) => {
         // console.debug("done");

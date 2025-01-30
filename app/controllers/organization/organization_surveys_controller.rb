@@ -39,6 +39,7 @@ class Organization::OrganizationSurveysController < ResourceController
       organization_id
       id
       access_code
+      use_postal_code
     ]
   end
 end
