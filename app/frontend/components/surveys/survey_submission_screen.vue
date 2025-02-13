@@ -1,22 +1,62 @@
 <!-- Copyright (c) 2023 Henry Balen. All Rights Reserved. -->
 <template>
-<div v-if="number_questions > 0" class="mt-5">
-  <h5>{{ questions[current_question].question }}</h5>
-  <likert
-    :settings="questions[current_question].likert_setting"
-    v-model="responses[questions[current_question].id].response.value"
-    class="mt-5"
-  ></likert>
-  <div class="mt-2 d-flex justify-content-between">
-    <div class="d-flex justify-content-start">
-      <b-button v-if="current_question > 0" data-cy="likert-button-prev" class="ml-5" variant="secondary" @click="prevQuestion">{{ $t('previous') }}</b-button>
-    </div>
-    <div class="d-flex justify-content-end">
-      <b-button v-if="current_question < (number_questions - 1)" data-cy="likert-button-next" class="mr-5" variant="primary" @click="nextQuestion">{{ $t('next') }}</b-button>
-      <b-button v-if="current_question == (number_questions - 1)" data-cy="likert-button-next" class="mr-5" variant="success" @click="submitResponses">{{ $t('submit') }}</b-button>
+  <div v-if="number_questions > 0" class="mt-5">
+    <h5>{{ questions[current_question].question }}</h5>
+    <likert
+      :settings="questions[current_question].likert_setting"
+      v-model="responses[questions[current_question].id].response.value"
+      class="mt-5"
+    ></likert>
+    <div class="mt-2 d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
+        <b-button v-if="current_question > 0" data-cy="likert-button-prev" class="ml-5" variant="secondary" @click="prevQuestion">{{ $t('previous') }}</b-button>
+      </div>
+      <div class="d-flex justify-content-end">
+        <b-button v-if="current_question < (number_questions - 1)" data-cy="likert-button-next" class="mr-5" variant="primary" @click="nextQuestion">{{ $t('next') }}</b-button>
+        <b-button v-if="current_question == (number_questions - 1)" data-cy="likert-button-next" class="mr-5" variant="success" @click="submitResponses">{{ $t('submit') }}</b-button>
+      </div>
     </div>
   </div>
-</div>
+  <div v-else class="mt-5">
+    <b-row>
+      <b-col>
+        <p>
+          {{ $t('survey.intro_canadian_postal_code') }}<br>
+          {{ $t('survey.intro_canadian_postal_code_reason') }}
+        </p>
+      </b-col>
+    </b-row>
+    <div class="d-flex mt-4">
+      <div class="mr-3">
+        <b>{{ $t('survey.postal_canadian_identifier') }}</b>
+      </div>
+      <div>
+        <b-form-input 
+          v-model="postal_code" 
+          type="text" 
+          :placeholder="Pcode"
+          :state="valid"
+          debounce="500"
+          data-cy="postal-code-id"
+        ></b-form-input>
+        <div class="invalid-feedback" data-cy="invalid-respondent-id">
+          <!-- {{ error.text }} -->
+        </div>
+      </div>
+    </div>
+    <b-row class="mt-4">
+      <b-col>
+        <b-button variant="success" 
+          :state="valid"
+          @click="onContinue"
+          data-cy="start-survey-button"
+          :disabled="valid == false"
+        >
+          <slot>CONTINUE</slot>
+        </b-button>
+      </b-col>
+    </b-row>
+    </div>
 </template>
 
 <script>
@@ -42,16 +82,45 @@ export default {
     questions: [],
     current_question: 0,
     number_questions: 0,
-    responses: {}
+    responses: {},
+    use_postal_code: 'none',
+    postal_code: null,
+    valid: null,
+    error: {
+      visible: false,
+      text: "",
+    }
   }),
   components: {
     Likert
   },
   mixins: [
-    // modelMixin,
     modelUtilsMixin,
     submissionMixin
   ],
+  watch: {
+    postal_code(n,o) {
+      if (n != o) {
+        this.error.visible = false
+        this.valid = true
+
+        if (n) {
+          // disable and then enable button
+          this.valid = false
+          // For Canada validate the FSA (forward sortation area)
+          var regex = /^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z]/i;
+          var match = regex.exec(n);
+          if (match) {
+            this.valid = true
+          } else {
+            this.error.text = "Not a valid postal code"
+            this.error.visible = true
+            this.valid = false
+          }
+        }
+      }
+    }
+  },
   methods: {
     ...mapActions({
       startSubmission: START_SUBMISSION,
@@ -95,12 +164,32 @@ export default {
     createSubmission() {
       var org_survey = this.selected_model(organizationSurveyModel);
       return this.newSubmission(
-        { 
+        {
           surveyId: org_survey.survey.id, 
           organizationSurveyId: org_survey.id,
-          questions: this.questions.map(o => o.id)
+          questions: this.questions.map(o => o.id),
+          postal_code: this.postal_code
         }
       );
+    },
+    onContinue() {
+      this.unselect_model(submissionModel);
+      this.startSubmission({ access_code: this.access_code }).then(
+        (questions) => {
+          this.questions = Object.values(questions).filter(obj => (typeof obj.json === 'undefined'));
+          // Place holder(s) for responses
+          this.questions.forEach((q) => { 
+            this.responses[q.id] = {
+              question_id: q.id,
+              response: {
+                value: null
+              }
+            }
+          })
+
+          this.number_questions = this.questions.length;
+        }
+      )
     },
     /*
     1. On first next page create a submission (make it selected) and add a response
@@ -123,7 +212,6 @@ export default {
     }
   },
   mounted() {
-    console.debug("*** START SUB WIDTH", this.access_code)
     // Check from ...
     this.$nextTick(() => {
       if (this.access_code) {
@@ -135,23 +223,26 @@ export default {
             this.unselect_model(submissionModel);
             // Make the survey the selected one
             this.select_model(organizationSurveyModel, Object.values(data)[0].id)
+            this.use_postal_code = Object.values(data)[0].use_postal_code
             // Get the set of questions for the submission
-            this.startSubmission({ access_code: this.access_code }).then(
-              (questions) => {
-                this.questions = Object.values(questions).filter(obj => (typeof obj.json === 'undefined'));
-                // Place holder(s) for responses
-                this.questions.forEach((q) => { 
-                  this.responses[q.id] = {
-                    question_id: q.id,
-                    response: {
-                      value: null
+            if (this.use_postal_code == 'none') {
+              this.startSubmission({ access_code: this.access_code }).then(
+                (questions) => {
+                  this.questions = Object.values(questions).filter(obj => (typeof obj.json === 'undefined'));
+                  // Place holder(s) for responses
+                  this.questions.forEach((q) => { 
+                    this.responses[q.id] = {
+                      question_id: q.id,
+                      response: {
+                        value: null
+                      }
                     }
-                  }
-                })
+                  })
 
-                this.number_questions = this.questions.length;
-              }
-            )
+                  this.number_questions = this.questions.length;
+                }
+              )
+            }
           }
         );
       }

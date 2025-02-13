@@ -88,6 +88,7 @@ class SurveysController < ResourceController
       name_fr
       groups
       groups_attributes
+      postal_code
     ]
   end
 end

@@ -62,7 +62,7 @@ export const surveyStore = {
     [FIND_SURVEY]({ dispatch }, { model, access_code }) {
       return dispatch('jv/get', `${surveyEndpoints[surveyModel]}/find/${access_code}`)
     },
-    [NEW_SUBMISSION]({ dispatch, state }, { surveyId, organizationSurveyId, questions }) {
+    [NEW_SUBMISSION]({ dispatch, state }, { surveyId, organizationSurveyId, questions, postal_code }) {
       let relationships = {
         survey: {
           data: {
@@ -77,7 +77,7 @@ export const surveyStore = {
           }
         }
       };
-      return dispatch(NEW, { model: submissionModel, relationships, selected: true, questions })
+      return dispatch(NEW, { model: submissionModel, relationships, selected: true, questions, postal_code })
     }
   }
 }
