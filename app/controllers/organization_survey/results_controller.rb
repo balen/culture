@@ -47,6 +47,17 @@
 
       os = OrganizationSurvey.find_by(access_code: params[:organization_survey_id])
 
+      if (os.use_postal_code != 'none' && sr_id)
+        submission = Survey::Submission.find_by(survey_respondent_id: sr_id, organization_survey_id: os.id)
+        postal_code = submission.postal_code
+
+        nbr_submissions = Survey::Submission.where(organization_survey_id: os.id, postal_code: postal_code).count
+
+        # Rails.logger.debug("******* SUBS #{nbr_submissions}")
+        # Threshold set arbitary to 10 for now
+        raise "not enough submissions" if  nbr_submissions < 10
+      end
+
       ps = results_for(group_short_code: :PS, org_survey: os, survey_respondent_id: sr_id)
       tm = results_for(group_short_code: :TM, org_survey: os, survey_respondent_id: sr_id)
       gm = results_for(group_short_code: :GM, org_survey: os, survey_respondent_id: sr_id)
@@ -63,12 +74,25 @@
       calc = ScoreCalculator.new
       group = Survey::Group.find_by short_code: group_short_code
 
-      results = calc.individual_scores(
-        organization_id: org_survey.organization_id,
-        access_code: org_survey.access_code,
-        group_short_code: group_short_code,
-        survey_respondent_id: survey_respondent_id
-      )
+      if (org_survey.use_postal_code != 'none' && survey_respondent_id)
+        # if repondent id is null we need to get this from ?
+        submission = Survey::Submission.find_by(survey_respondent_id: survey_respondent_id, organization_survey_id: org_survey.id)
+        postal_code = submission.postal_code
+
+        results = calc.postal_code_scores(
+          organization_id: org_survey.organization_id,
+          access_code: org_survey.access_code,
+          group_short_code: group_short_code,
+          postal_code: postal_code
+        )
+      else
+        results = calc.individual_scores(
+          organization_id: org_survey.organization_id,
+          access_code: org_survey.access_code,
+          group_short_code: group_short_code,
+          survey_respondent_id: survey_respondent_id
+        )
+      end
 
       range = calc.range(group_short_code: group_short_code, scores: results)
 

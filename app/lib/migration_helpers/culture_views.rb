@@ -29,7 +29,8 @@ module MigrationHelpers
           sq.group_id,
           sg.short_code as group_short_code,
           ss.survey_respondent_id,
-          ss.id as submission_id
+          ss.id as submission_id,
+          ss.postal_code
           from survey_responses sr 
           join survey_questions sq  on sq.id = sr.question_id
           join survey_groups sg  on sg.id = sq.group_id
