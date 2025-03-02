@@ -4,6 +4,7 @@
 
 First create a local environment file in the project directory call `.envrc`. It should look similar to this
 
+    #export DB_HOST=postgres
     export DB_PORT=5432
     export POSTGRES_USER=culture
     export POSTGRES_PASSWORD=
@@ -52,6 +53,8 @@ using `http://localhost:5100`
 6. `RAILS_ENV=test bundle exec rake db:seed` # create seeed data
 
 ### Testing
+
+`bin/rake db:migrate` # run migrations if needed
 
 `bin/tests` # setup and run the spec tests
 
