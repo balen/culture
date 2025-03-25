@@ -57,7 +57,7 @@ using `http://localhost:5100`
 
 To run the cypress tests, first make sure that CYPRESS_RAILS_PORT has been set to 5100 (see above)
 
-`RAILS_ENV=test rake cypress:open`
+`RAILS_ENV=test bin/rake cypress:open`
 
 The test scripts are in cypress/e2e
 
