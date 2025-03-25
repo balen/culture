@@ -26,7 +26,7 @@
     "intro_canadian_postal_code_reason": "The culture metrics will be compared with other people in you locale."
   },
   "launchpad": {
-    "intro_text": "Welcome to AnonymousSurveyTool. You will be able to contribute data points to reveal your organization's culture.",
+    "intro_text": "Welcome to AnonymousSurveyTool. You will be able to contribute data points to reveal your locale or organization's culture.",
     "survey_code_text": "Please enter a survey code:"
   },
   "next": "Next",
