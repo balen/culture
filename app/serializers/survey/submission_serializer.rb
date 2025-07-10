@@ -3,7 +3,7 @@ class Survey::SubmissionSerializer
 
   attributes :id, :lock_version, :survey_id,
              :organization_survey_id, :submission_state, :survey_respondent_id,
-             :created_at, :updated_at
+             :created_at, :updated_at, :postal_code
 
   has_many :responses,
             serializer: Survey::ResponseSerializer,

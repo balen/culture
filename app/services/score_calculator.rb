@@ -164,4 +164,33 @@ class ScoreCalculator
     # Provide average for each question answered
     scores.map{|code, value| [code, (value / counts[code]).to_f.round(2) ] }.to_h
   end
+
+  def postal_code_scores(organization_id:, access_code:, group_short_code:, postal_code:)
+    scores = {}
+    counts = {}
+    response_data = View::ResponseView.responses(organization_id: organization_id, access_code: access_code, group_short_code: group_short_code, postal_code: postal_code)
+
+    response_data.each do |submission_id, responses|
+      responses.each do |response|
+        scores[response.short_code] ||= 0
+        counts[response.short_code] ||= 0
+        raw_score = response.response_as_text.to_i
+        
+        # Invert the score if needed
+        # Most got from 0 to 6 except TM which is 1 to 7 so also take that into account
+        if WEIGHTS[group_short_code][response.short_code.to_sym][:invert]
+          raw_score = (group_short_code == :TM) ? 8 - raw_score : 7 - raw_score
+        else
+          raw_score = (group_short_code == :TM) ? raw_score : raw_score - 1
+        end
+        
+        # Apply the weight
+        scores[response.short_code] += raw_score * WEIGHTS[group_short_code][response.short_code.to_sym][:weight]
+        counts[response.short_code] += 1
+      end
+    end
+
+    # Provide average for each question answered
+    scores.map{|code, value| [code, (value / counts[code]).to_f.round(2) ] }.to_h
+  end
 end

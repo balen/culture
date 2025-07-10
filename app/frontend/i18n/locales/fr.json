@@ -16,10 +16,17 @@
     "respondent_here": "Voici votre identifiant personnel. Cet identifiant vous permet de suivre les changements dans le temps. Le graphe montrera vos scores avec leur historique.",
     "respondent_once": "L'identifiant est seulement affiché une fois, et maintenant. Recopiez-le à la main ou copiez le dans une note confidentielle. Il ne doit être partagé avec personne.",
     "respondent_copy": "Copier dans le presse-papier",
-    "respondent_copied": "Copié!"
+    "respondent_copied": "Copié!",
+    "respondent_answered": "Vous n'avez pas fourni de réponses. | Vous avez répondu à une question. | Vous avez répondu à {count} questions.",
+    "access_code": "Code de sondage",
+    "start": "Débuter",
+    "answer_more": "Fournir davantage de réponses",
+    "postal_canadian_identifier": "Entrez les 3 premiers chiffres et lettres de votre code postal:",
+    "intro_canadian_postal_code": "Ce sondage requiert les 3 premiers chiffres et lettres de votre code postal.",
+    "intro_canadian_postal_code_reason": "Les métriques de culture seront comparées à d'autres dans votre région."
   },
   "launchpad": {
-    "intro_text": "Bienvenue sur AnonymousSurveyTool. Vous serez en mesure de fournir des points de données pour révéler la culture de votre organisation.",
+    "intro_text": "Bienvenue à l'outil de sondage anonyme \"AnonymousSurveyTool\" pour révéler la culture de votre région ou organisation.",
     "survey_code_text": "Veuillez saisir un code d'enquête:"
   },
   "next": "Suivant",

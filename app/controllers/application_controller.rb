@@ -80,6 +80,7 @@ class ApplicationController < ActionController::Base
   rescue_from RuntimeError, with: :processing_error
   rescue_from ActiveRecord::RecordInvalid, with: :processing_error
   def processing_error(e)
+    Rails.logger.error "****************"
     Rails.logger.error e.message if Rails.env.development?
     Rails.logger.error e.backtrace.join("\n\t") if Rails.env.development?
 

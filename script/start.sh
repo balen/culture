@@ -46,7 +46,7 @@ else
   bin/rake assets:precompile
 fi
 
-# TODO: check as dev server is bin/dev
+#
 if [[ -z $RAILS_ENV ]] || [[ $RAILS_ENV = "development" ]]; then
   bin/dev
 else

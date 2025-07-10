@@ -204,6 +204,7 @@ class OrganizationSurvey::SubmissionsController < ResourceController
       submission_state
       survey_respondent_id
       questions
+      postal_code
     ]
   end
 end

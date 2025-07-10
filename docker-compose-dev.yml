@@ -57,6 +57,7 @@ services:
       - NODE_ENV=development
       - SMTP_SERVER=mailcatcher
       - SMTP_PORT=1025
+      - VITE_RUBY_HOST=0.0.0.0
     volumes:
       - culture-node-modules:/opt/culture/node_modules
       - .:/opt/culture

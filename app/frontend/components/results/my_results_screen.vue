@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-3" v-if="results">
+  <div class="mb-3" v-if="results && !error">
     <!-- RESULTS HERE {{ id }} -->
     <div class="d-flex justify-content-center mt-1 ">
       <div class="mr-2">
@@ -30,7 +30,10 @@
         >{{ $t('survey.answer_more') }}</survey-start-button>
       </div>
     </div>
-    </div>
+  </div>
+  <div class="mb-3" v-else-if="!results && error">
+    Error: {{ error }}
+  </div>
 </template>
 
 <script>
@@ -42,7 +45,8 @@ export default {
   name: "MyResultsScreen",
   props: ['id', 'access_code'],
   data: () => ({
-    results: null
+    results: null,
+    error: null
   }),
   components: {
     ScoreChart,
@@ -88,10 +92,14 @@ export default {
     this.$nextTick(
       () => {
         if (this.id) {
-          http.get(`/organization_survey/${this.id}/my_results`
-          ).then(
+          http.get(`/organization_survey/${this.id}/my_results`).then(
             (response) => {
               this.results = response.data
+            }
+          ).catch(
+            (error) => {
+              // console.debug("**** ERROR", error.response.data)
+              this.error = error.response.data[0].title
             }
           )
         }
